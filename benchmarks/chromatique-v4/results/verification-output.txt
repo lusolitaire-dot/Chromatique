@@ -1,0 +1,180 @@
+$ /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/analyze.py /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/pilot.json --output /private/tmp/chromatique-final-verification-l3vcq05e/pilot-summary.json
+pilot-sf1600: WDL=[24, 0, 0], score=1.0000, delta=+inf, 95%=[76.21046137093043, '+inf']
+pilot-sf2000: WDL=[18, 1, 5], score=0.7708, delta=210.72361556350802, 95%=[59.88791143567238, 536.1473261479733]
+pilot-sf2400: WDL=[9, 0, 15], score=0.3750, delta=-88.73949984654256, 95%=[-241.74094831232065, 35.4520100413035]
+pilot-sf2800: WDL=[0, 2, 22], score=0.0417, delta=-544.6911344070371, 95%=['-inf', -388.1118836965443]
+pilot-stash: WDL=[16, 1, 7], score=0.6875, delta=136.9690723288825, 95%=[-21.57370637873654, 393.61486170913554]
+pilot-fruit: WDL=[0, 0, 24], score=0.0000, delta=-inf, 95%=['-inf', -76.2104613709304]
+$ /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/analyze.py /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/pilot-refine.json --output /private/tmp/chromatique-final-verification-l3vcq05e/pilot-refine-summary.json
+pilot-sf2200: WDL=[19, 1, 4], score=0.8125, delta=254.72883903486974, 95%=[108.68956472569971, 625.9928276150777]
+$ /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/analyze.py /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/schedule.json --output /private/tmp/chromatique-final-verification-l3vcq05e/summary.json
+main-sf2200: WDL=[280, 18, 102], score=0.7225, delta=166.2299455879562, 95%=[130.59661509839563, 205.45780906954053]
+main-sf2400: WDL=[222, 17, 161], score=0.5763, delta=53.40049087462641, 95%=[20.249552653195014, 87.54830583893595]
+main-sf2600: WDL=[132, 28, 240], score=0.3650, delta=-96.1923443342004, 95%=[-130.5128341294155, -63.614982599660976]
+main-stash: WDL=[246, 44, 110], score=0.6700, delta=123.02434512917561, 95%=[90.17087316854865, 158.14318801073642]
+bridge-sf2200-sf2400: WDL=[56, 17, 127], score=0.3225, delta=-128.9518322300627, 95%=[-182.66315914184673, -80.58726110597915]
+bridge-sf2400-sf2600: WDL=[38, 23, 139], score=0.2475, delta=-193.17252039851735, 95%=[-241.91083185291603, -150.51310134112325]
+bridge-stash-sf2400: WDL=[87, 14, 99], score=0.4700, delta=-20.87120466602865, 95%=[-67.6708299339406, 25.17961386132782]
+slow-sf2400: WDL=[76, 4, 20], score=0.7800, delta=219.86876874730967, 95%=[147.20516712036365, 315.3229592370324]
+$ /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/analyze.py /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/anchor-schedule.json --output /private/tmp/chromatique-final-verification-l3vcq05e/anchor-summary.json
+anchor-sf2400: WDL=[171, 5, 24], score=0.8675, delta=326.42144207603394, 95%=[265.92504544556056, 408.1150051549978]
+anchor-stash: WDL=[161, 20, 19], score=0.8550, delta=308.2392449972791, 95%=[254.76774162133285, 376.85982717406375]
+$ /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/run_matches.py /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/schedule.json
+Already complete: main-sf2200
+Already complete: main-sf2400
+Already complete: main-sf2600
+Already complete: main-stash
+Already complete: bridge-sf2200-sf2400
+Already complete: bridge-sf2400-sf2600
+Already complete: bridge-stash-sf2400
+Already complete: slow-sf2400
+$ /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/run_matches.py /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/anchor-schedule.json
+Already complete: anchor-sf2400
+Already complete: anchor-stash
+$ /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/style.py /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/schedule.json --central-match main-sf2400 --summarize-only
+{
+  "positions": 200,
+  "same_choice": 58,
+  "choice_seconds": 0.25,
+  "judge_nodes_per_search": 200000,
+  "metrics": {
+    "check": {
+      "eligible_pairs": 200,
+      "counts": [
+        7,
+        5
+      ],
+      "rates": [
+        0.035,
+        0.025
+      ],
+      "target_minus_reference": 0.01,
+      "paired_bootstrap95": [
+        -0.015,
+        0.04
+      ],
+      "hoeffding95_difference": [
+        -0.18206455826398416,
+        0.20206455826398417
+      ]
+    },
+    "capture": {
+      "eligible_pairs": 200,
+      "counts": [
+        70,
+        38
+      ],
+      "rates": [
+        0.35,
+        0.19
+      ],
+      "target_minus_reference": 0.16,
+      "paired_bootstrap95": [
+        0.1,
+        0.22
+      ],
+      "hoeffding95_difference": [
+        -0.03206455826398416,
+        0.3520645582639842
+      ]
+    },
+    "quiet": {
+      "eligible_pairs": 200,
+      "counts": [
+        128,
+        161
+      ],
+      "rates": [
+        0.64,
+        0.805
+      ],
+      "target_minus_reference": -0.165,
+      "paired_bootstrap95": [
+        -0.23,
+        -0.105
+      ],
+      "hoeffding95_difference": [
+        -0.3570645582639842,
+        0.027064558263984156
+      ]
+    },
+    "material_offer_proxy": {
+      "eligible_pairs": 200,
+      "counts": [
+        22,
+        18
+      ],
+      "rates": [
+        0.11,
+        0.09
+      ],
+      "target_minus_reference": 0.02,
+      "paired_bootstrap95": [
+        -0.015,
+        0.055
+      ],
+      "hoeffding95_difference": [
+        -0.17206455826398417,
+        0.21206455826398415
+      ]
+    },
+    "low_loss_offer_proxy": {
+      "eligible_pairs": 199,
+      "counts": [
+        13,
+        9
+      ],
+      "rates": [
+        0.06532663316582915,
+        0.04522613065326633
+      ],
+      "target_minus_reference": 0.020100502512562814,
+      "paired_bootstrap95": [
+        -0.010050251256281407,
+        0.05025125628140704
+      ],
+      "hoeffding95_difference": [
+        -0.17244602528780875,
+        0.2126470303129344
+      ]
+    },
+    "loss_ge100cp": {
+      "eligible_pairs": 199,
+      "counts": [
+        23,
+        30
+      ],
+      "rates": [
+        0.11557788944723618,
+        0.1507537688442211
+      ],
+      "target_minus_reference": -0.035175879396984924,
+      "paired_bootstrap95": [
+        -0.09547738693467336,
+        0.02512562814070352
+      ],
+      "hoeffding95_difference": [
+        -0.22772240719735648,
+        0.15737064840338666
+      ]
+    }
+  },
+  "mate_transitions": [
+    {
+      "index": 142,
+      "baseline_mate": 3,
+      "selected_mates": [
+        3,
+        3
+      ]
+    }
+  ],
+  "median_nonnegative_judge_loss_cp": [
+    9,
+    16
+  ],
+  "nonmate_loss_positions_per_engine": [
+    199,
+    199
+  ]
+}

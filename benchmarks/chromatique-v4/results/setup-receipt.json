@@ -1,0 +1,39 @@
+{
+  "source_head": "7d8c7dcf751a74ac451072443602c6645119a374",
+  "started_utc": "2026-10-20T21:29:08.127891+00:00",
+  "command": [
+    "sh",
+    "benchmarks/chromatique-v4/scripts/setup.sh"
+  ],
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "fresh_checkout": "/private/tmp/chromatique-reproduction-_vp_fs90/Chromatique",
+  "log": "/private/tmp/chromatique-reproduction-_vp_fs90/setup.log",
+  "setup_script_sha256": "f80443281291d60ffc3c153c91e701c02fb724f838bf2378c11e5e9f3a14ec73",
+  "returncode": 0,
+  "finished_utc": "2026-10-20T21:30:05.224871+00:00",
+  "log_sha256": "4959de6ff6762a64fa300cc27a394d15787cc4d8c1fe393a575427ff994f90a6",
+  "log_archive": "setup-output.txt.gz",
+  "log_bytes": 59338,
+  "log_archive_sha256": "bd90c7c14c54316cd6695049ea2f1508c21d2a7d32a8e8d5a4730cc3ae451c66",
+  "pinned_sources": {
+    "Stockfish": "03e27488f3d21d8ff4dbf3065603afa21dbd0ef3",
+    "Fastchess": "ebfd64cb7fac80d4822c50b07dca4fe934779d21",
+    "Stash": "7d17ff80eb53b9d4808fd285c7439e641f1c5a3b",
+    "Fruit": "09627df3835f205c92ece013219c7a99ac4a023a"
+  },
+  "fresh_artifact_sha256": {
+    "bin/chromatique-v4": "ea1f52ae113e28902827e8aaf97ec18a79927f0a5e1751e95bd144c9e616d682",
+    "weights/chromatique-v4.native": "d6d70e384036e1101274268a900e42b133772470f56da3895c28ed2e7845ea56",
+    ".benchmark-tools/Stockfish/src/stockfish-17.1": "32d575b22286ca8523b025680ff87b42648a331f957688cf3a5a91daef12ef0a",
+    ".benchmark-tools/fastchess/fastchess": "3d4fb6e03f1a0265c3f6d851b9ee3886ec08e4e68bb415f2d3d144b0308008e6",
+    ".benchmark-tools/Stash/src/stash-bot": "dc7feb68e18bf34188771d441939bb965541aa729981bfec34e38499d41169c1",
+    ".benchmark-tools/Fruit-2.1/src/fruit": "efab255ab55a813e0c4b88b3156fe929d0a01919efdcd0b31533713769e4b696"
+  },
+  "opening_manifest_byte_identical": true,
+  "fresh_engine_source_unchanged": true,
+  "installed_packages": {
+    "numpy": "2.5.4",
+    "python-chess": "1.999",
+    "chess": "1.11.2"
+  }
+}

@@ -1,0 +1,39 @@
+$ /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python -m unittest discover -s benchmarks/chromatique-v4/scripts -p test_archives.py -v
+test_archive_only_checkout_preserves_retained_evidence (test_archives.ArchiveCustody.test_archive_only_checkout_preserves_retained_evidence) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.044s
+
+OK
+$ /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python -m unittest discover -s benchmarks/chromatique-v4/scripts -p test_*.py -v
+test_degenerate_samples_do_not_report_zero_uncertainty (test_analysis.AnalysisContract.test_degenerate_samples_do_not_report_zero_uncertainty) ... ok
+test_logistic_elo_orientation_and_boundaries (test_analysis.AnalysisContract.test_logistic_elo_orientation_and_boundaries) ... ok
+test_replay_scores_target_color_and_rejects_missing_partner (test_analysis.AnalysisContract.test_replay_scores_target_color_and_rejects_missing_partner) ... ok
+test_uncertainty_uses_opening_pairs_not_independent_games (test_analysis.AnalysisContract.test_uncertainty_uses_opening_pairs_not_independent_games) ... ok
+test_archive_only_checkout_preserves_retained_evidence (test_archives.ArchiveCustody.test_archive_only_checkout_preserves_retained_evidence) ... ok
+test_selects_low_and_high_loss_candidates_and_excludes_mate (test_examples.ExampleSelection.test_selects_low_and_high_loss_candidates_and_excludes_mate) ... ok
+test_mate_scores_do_not_become_centipawn_losses (test_style.StyleAccounting.test_mate_scores_do_not_become_centipawn_losses) ... ok
+test_piece_offer_counts_net_concession_and_excludes_equal_trade (test_style.StyleAccounting.test_piece_offer_counts_net_concession_and_excludes_equal_trade) ... ok
+test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.086s
+
+OK
+$ /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python -m unittest discover -s tests -v
+test_01_model_identity_and_byte_identical_export (test_uci.UCIRelease.test_01_model_identity_and_byte_identical_export) ... ok
+test_02_native_reference_parity_120_positions (test_uci.UCIRelease.test_02_native_reference_parity_120_positions) ... ok
+test_03_uci_search_mate_stalemate_and_history (test_uci.UCIRelease.test_03_uci_search_mate_stalemate_and_history) ... /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/lib/python3.14/site-packages/chess/engine.py:65: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+  assert asyncio.iscoroutinefunction(coroutine)
+ok
+test_04_perft_start_and_kiwipete (test_uci.UCIRelease.test_04_perft_start_and_kiwipete) ... ok
+test_05_stop_and_readiness (test_uci.UCIRelease.test_05_stop_and_readiness) ... ok
+test_06_relocated_package_with_spaces (test_uci.UCIRelease.test_06_relocated_package_with_spaces) ... ok
+test_07_missing_model_fails_without_fallback (test_uci.UCIRelease.test_07_missing_model_fails_without_fallback) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.202s
+
+OK
+$ /Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python benchmarks/chromatique-v4/scripts/archive_logs.py --results-dir benchmarks/chromatique-v4/results
+Verified 34 lossless archives; original files retained locally

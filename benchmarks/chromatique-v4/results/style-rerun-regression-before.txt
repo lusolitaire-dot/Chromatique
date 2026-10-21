@@ -1,0 +1,56 @@
+Expected pre-fix failure; no live engines launched by the mocked startup boundary
+UTC: 2026-10-20T15:11:11.629041+00:00
+Git head: eb50c1470029b4eda26ff351e15a1c9ab343f135
+style.py SHA-256: 8911010765c24cfc4c7af3b94e3fb160bb5ef39bc317f712dd081fc6e4143299
+test_style.py SHA-256: d6251e5b73297a9d6acbcf6807e64ed62fc9cf8b06cf501ea96300eb8c39e143
+
+test_mate_scores_do_not_become_centipawn_losses (test_style.StyleAccounting.test_mate_scores_do_not_become_centipawn_losses) ... ok
+test_piece_offer_counts_net_concession_and_excludes_equal_trade (test_style.StyleAccounting.test_piece_offer_counts_net_concession_and_excludes_equal_trade) ... ok
+test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) ... 
+  test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) (existing=('style-probes.jsonl',)) ... FAIL
+  test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) (existing=('style-positions.json',)) ... FAIL
+  test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) (existing=('style-probes.jsonl', 'style-positions.json')) ... FAIL
+
+======================================================================
+FAIL: test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) (existing=('style-probes.jsonl',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/test_style.py", line 26, in test_rejected_rerun_preserves_existing_evidence
+    self.assertEqual({p.name: p.read_bytes() for p in root.iterdir()}, before)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'style-positions.json': b'{\n  "source_match": "s[612 chars]1\n'} != {'style-probes.jsonl': b'original retained evidenc[201 chars]1\n'}
+Diff is 956 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) (existing=('style-positions.json',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/test_style.py", line 25, in test_rejected_rerun_preserves_existing_evidence
+    common_position_probe({"id": "source", "engines": []}, root)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/style.py", line 167, in common_position_probe
+    judge = chess.engine.SimpleEngine.popen_uci(str(ROOT / ".benchmark-tools/Stockfish/src/stockfish-17.1"), env=env)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+AssertionError: Blocked reruns must not launch an engine
+
+======================================================================
+FAIL: test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) (existing=('style-probes.jsonl', 'style-positions.json'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/test_style.py", line 26, in test_rejected_rerun_preserves_existing_evidence
+    self.assertEqual({p.name: p.read_bytes() for p in root.iterdir()}, before)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'sty[17 chars]': b'{\n  "source_match": "source",\n  "select[594 chars]1\n'} != {'sty[17 chars]': b'original retained evidence\n', 'style-pro[240 chars]1\n'}
+Diff is 1016 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.007s
+
+FAILED (failures=3)

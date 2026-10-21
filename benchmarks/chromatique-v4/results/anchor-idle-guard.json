@@ -1,0 +1,16 @@
+{
+  "started_utc": "2026-10-20T16:06:26.992169+00:00",
+  "watched_runner_pid": 56489,
+  "guard_pid": 59422,
+  "command": [
+    "/usr/bin/caffeinate",
+    "-i",
+    "-w",
+    "56489"
+  ],
+  "assertion_verified": true,
+  "verified_utc": "2026-10-20T16:06:27.015849+00:00",
+  "assertion": "pid 59422(caffeinate): [0x000876da00019825] 00:00:00 PreventUserIdleSystemSleep named: \"caffeinate command-line tool\"",
+  "returncode": 0,
+  "finished_utc": "2026-10-20T21:27:11.871745+00:00"
+}

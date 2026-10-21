@@ -1,0 +1,418 @@
+{
+  "matches": [
+    {
+      "wdl": [
+        24,
+        0,
+        0
+      ],
+      "colors_wdl": {
+        "white": [
+          12,
+          0,
+          0
+        ],
+        "black": [
+          12,
+          0,
+          0
+        ]
+      },
+      "opponent": "SF17.1-E1600",
+      "terminations": {
+        "normal": 24
+      },
+      "mean_game_moves": 36.625,
+      "max_game_moves": 62.0,
+      "opening_pairs": 12,
+      "games": 24,
+      "pentanomial": [
+        0,
+        0,
+        0,
+        0,
+        12
+      ],
+      "score": 1.0,
+      "pair_variance": 0.0,
+      "score_se": 0.0,
+      "elo_difference": "+inf",
+      "normal95_score": [
+        0.6079498621501573,
+        1
+      ],
+      "normal95_elo": [
+        76.21046137093043,
+        "+inf"
+      ],
+      "interval_method": "hoeffding_degenerate_fallback",
+      "bootstrap95_score": null,
+      "bootstrap95_elo": null,
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0.6079498621501573,
+        1
+      ],
+      "hoeffding95_elo": [
+        76.21046137093043,
+        "+inf"
+      ],
+      "id": "pilot-sf1600",
+      "target": "Chromatique-v4",
+      "tc": "5+0.05",
+      "panel": "pilot",
+      "pgn_sha256": "bbc965cc0da85ac27c66f0cbc9db8b051412eca05d3608be469dd3a260a4e8d8",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    },
+    {
+      "wdl": [
+        18,
+        1,
+        5
+      ],
+      "colors_wdl": {
+        "white": [
+          8,
+          1,
+          3
+        ],
+        "black": [
+          10,
+          0,
+          2
+        ]
+      },
+      "opponent": "SF17.1-E2000",
+      "terminations": {
+        "normal": 24
+      },
+      "mean_game_moves": 52.770833333333336,
+      "max_game_moves": 118.5,
+      "opening_pairs": 12,
+      "games": 24,
+      "pentanomial": [
+        1,
+        0,
+        3,
+        1,
+        7
+      ],
+      "score": 0.7708333333333334,
+      "pair_variance": 0.10748106060606061,
+      "score_se": 0.09464013445946201,
+      "elo_difference": 210.72361556350802,
+      "normal95_score": [
+        0.5853420783007597,
+        0.9563245883659071
+      ],
+      "normal95_elo": [
+        59.88791143567238,
+        536.1473261479733
+      ],
+      "interval_method": "pair_mean_normal_unbiased_variance",
+      "bootstrap95_score": [
+        0.5833333333333334,
+        0.9375
+      ],
+      "bootstrap95_elo": [
+        58.45121427129523,
+        470.43650362227254
+      ],
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0.37878319548349065,
+        1
+      ],
+      "hoeffding95_elo": [
+        -85.94099671551771,
+        "+inf"
+      ],
+      "id": "pilot-sf2000",
+      "target": "Chromatique-v4",
+      "tc": "5+0.05",
+      "panel": "pilot",
+      "pgn_sha256": "630efecc31fee337391a04a49ce062ddf4e248bf3456b61150268ff061c003d1",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    },
+    {
+      "wdl": [
+        9,
+        0,
+        15
+      ],
+      "colors_wdl": {
+        "white": [
+          3,
+          0,
+          9
+        ],
+        "black": [
+          6,
+          0,
+          6
+        ]
+      },
+      "opponent": "SF17.1-E2400",
+      "terminations": {
+        "normal": 24
+      },
+      "mean_game_moves": 61.979166666666664,
+      "max_game_moves": 122.5,
+      "opening_pairs": 12,
+      "games": 24,
+      "pentanomial": [
+        4,
+        0,
+        7,
+        0,
+        1
+      ],
+      "score": 0.375,
+      "pair_variance": 0.09659090909090909,
+      "score_se": 0.08971757032065918,
+      "elo_difference": -88.73949984654256,
+      "normal95_score": [
+        0.19915679339106834,
+        0.5508432066089317
+      ],
+      "normal95_elo": [
+        -241.74094831232065,
+        35.4520100413035
+      ],
+      "interval_method": "pair_mean_normal_unbiased_variance",
+      "bootstrap95_score": [
+        0.20833333333333334,
+        0.5416666666666666
+      ],
+      "bootstrap95_elo": [
+        -231.91343864672405,
+        29.020266859444664
+      ],
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0,
+        0.7670501378498427
+      ],
+      "hoeffding95_elo": [
+        "-inf",
+        207.02451781272177
+      ],
+      "id": "pilot-sf2400",
+      "target": "Chromatique-v4",
+      "tc": "5+0.05",
+      "panel": "pilot",
+      "pgn_sha256": "243d63200c54e12f0bcf42860c31f16989438bb79511fb3b45669df876a648ae",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    },
+    {
+      "wdl": [
+        0,
+        2,
+        22
+      ],
+      "colors_wdl": {
+        "white": [
+          0,
+          1,
+          11
+        ],
+        "black": [
+          0,
+          1,
+          11
+        ]
+      },
+      "opponent": "SF17.1-E2800",
+      "terminations": {
+        "normal": 24
+      },
+      "mean_game_moves": 68.83333333333333,
+      "max_game_moves": 176.0,
+      "opening_pairs": 12,
+      "games": 24,
+      "pentanomial": [
+        10,
+        2,
+        0,
+        0,
+        0
+      ],
+      "score": 0.041666666666666664,
+      "pair_variance": 0.00946969696969697,
+      "score_se": 0.02809166093596842,
+      "elo_difference": -544.6911344070371,
+      "normal95_score": [
+        0,
+        0.09672531036707552
+      ],
+      "normal95_elo": [
+        "-inf",
+        -388.1118836965443
+      ],
+      "interval_method": "pair_mean_normal_unbiased_variance",
+      "bootstrap95_score": [
+        0.0,
+        0.10416666666666667
+      ],
+      "bootstrap95_elo": [
+        "-inf",
+        -373.7993804974271
+      ],
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0,
+        0.4337168045165094
+      ],
+      "hoeffding95_elo": [
+        "-inf",
+        -46.330969882936074
+      ],
+      "id": "pilot-sf2800",
+      "target": "Chromatique-v4",
+      "tc": "5+0.05",
+      "panel": "pilot",
+      "pgn_sha256": "808b4a5160502ad5c1f18399c2f79de1f7a17a2305fb0042a390da9c77342f4c",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    },
+    {
+      "wdl": [
+        16,
+        1,
+        7
+      ],
+      "colors_wdl": {
+        "white": [
+          8,
+          1,
+          3
+        ],
+        "black": [
+          8,
+          0,
+          4
+        ]
+      },
+      "opponent": "Stash15.3",
+      "terminations": {
+        "normal": 24
+      },
+      "mean_game_moves": 49.0,
+      "max_game_moves": 101.5,
+      "opening_pairs": 12,
+      "games": 24,
+      "pentanomial": [
+        2,
+        0,
+        3,
+        1,
+        6
+      ],
+      "score": 0.6875,
+      "pair_variance": 0.14914772727272727,
+      "score_se": 0.11148532312698059,
+      "elo_difference": 136.9690723288825,
+      "normal95_score": [
+        0.46899278186630766,
+        0.9060072181336923
+      ],
+      "normal95_elo": [
+        -21.57370637873654,
+        393.61486170913554
+      ],
+      "interval_method": "pair_mean_normal_unbiased_variance",
+      "bootstrap95_score": [
+        0.4583333333333333,
+        0.875
+      ],
+      "bootstrap95_elo": [
+        -29.020266859444714,
+        338.0392160057027
+      ],
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0.2954498621501573,
+        1
+      ],
+      "hoeffding95_elo": [
+        -150.971245010874,
+        "+inf"
+      ],
+      "id": "pilot-stash",
+      "target": "Chromatique-v4",
+      "tc": "5+0.05",
+      "panel": "pilot",
+      "pgn_sha256": "abd635cc674d8eca908aac79117538eb5660ea3c79f0c6969f216354e3bbd491",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    },
+    {
+      "wdl": [
+        0,
+        0,
+        24
+      ],
+      "colors_wdl": {
+        "white": [
+          0,
+          0,
+          12
+        ],
+        "black": [
+          0,
+          0,
+          12
+        ]
+      },
+      "opponent": "Fruit2.1",
+      "terminations": {
+        "normal": 24
+      },
+      "mean_game_moves": 54.458333333333336,
+      "max_game_moves": 96.5,
+      "opening_pairs": 12,
+      "games": 24,
+      "pentanomial": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "score": 0.0,
+      "pair_variance": 0.0,
+      "score_se": 0.0,
+      "elo_difference": "-inf",
+      "normal95_score": [
+        0,
+        0.3920501378498427
+      ],
+      "normal95_elo": [
+        "-inf",
+        -76.2104613709304
+      ],
+      "interval_method": "hoeffding_degenerate_fallback",
+      "bootstrap95_score": null,
+      "bootstrap95_elo": null,
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0,
+        0.3920501378498427
+      ],
+      "hoeffding95_elo": [
+        "-inf",
+        -76.2104613709304
+      ],
+      "id": "pilot-fruit",
+      "target": "Chromatique-v4",
+      "tc": "5+0.05",
+      "panel": "pilot",
+      "pgn_sha256": "0d27e71eaa57d60cbaa3a6973ca394c120ed74a31b5b9f68b790ea4b1d685c4c",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    }
+  ]
+}

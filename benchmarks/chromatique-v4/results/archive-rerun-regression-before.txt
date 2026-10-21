@@ -1,0 +1,19 @@
+Expected pre-fix regression failure; UTC 2026-10-20T21:42:46.373667+00:00
+benchmarks/chromatique-v4/scripts/archive_logs.py SHA256 968cf9ec01a0b58e1b886302f7db816401e2b858804bce4e9644fe708e4df712
+benchmarks/chromatique-v4/scripts/test_archives.py SHA256 e5ba03254145983c509cbdfb529e2d8074fe43736f2712db7585b86b1cb33d23
+test_archive_only_checkout_preserves_retained_evidence (test_archives.ArchiveCustody.test_archive_only_checkout_preserves_retained_evidence) ... FAIL
+
+======================================================================
+FAIL: test_archive_only_checkout_preserves_retained_evidence (test_archives.ArchiveCustody.test_archive_only_checkout_preserves_retained_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/test_archives.py", line 30, in test_archive_only_checkout_preserves_retained_evidence
+    self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0 : Verified 0 lossless archives; original files retained locally
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.042s
+
+FAILED (failures=1)

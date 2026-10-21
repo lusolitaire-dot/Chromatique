@@ -65,6 +65,8 @@ The checks cover byte-identical model export, 120 positions of Python/native fea
 
 V4 scored 92/128 complete published solutions and 105/128 correct first moves in the latest local development benchmark at 0.5 seconds per solver move. The puzzles were rated 2202–3011. This is a reused development panel, not an Elo estimate or a final holdout result. The engine's style and overall playing strength remain experimental.
 
+See the [v4 benchmark](benchmarks/chromatique-v4/README.md) for paired UCI matches, confidence intervals, PGNs, style observations, and calibration limits.
+
 ## License
 
 Chromatique is distributed under **GPL-3.0-or-later**, including this Stockfish-derived engine and the bundled Chromatique model. See [LICENSE](LICENSE). The original Stockfish copyright notices and authors are retained; the bundled `src/incbin` helper has its own retained [UNLICENCE](src/incbin/UNLICENCE).

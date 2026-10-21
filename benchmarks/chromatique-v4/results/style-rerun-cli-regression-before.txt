@@ -1,0 +1,46 @@
+Expected pre-fix CLI failure: descriptive outputs written before rerun refusal; no live engines launched
+UTC: 2026-10-20T15:12:55.042029+00:00
+style.py SHA-256: 2f531bd3e07dfd9838df1c198556b937a37832c03337bcbed7f1bc69f84ee2b2
+test_style.py SHA-256: 9fe4ce5b915a65743c0229ee9374945b326f76aa4702be5874b57b2d23197dd4
+
+test_mate_scores_do_not_become_centipawn_losses (test_style.StyleAccounting.test_mate_scores_do_not_become_centipawn_losses) ... ok
+test_piece_offer_counts_net_concession_and_excludes_equal_trade (test_style.StyleAccounting.test_piece_offer_counts_net_concession_and_excludes_equal_trade) ... ok
+test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) ... 
+  test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) (existing=('style-probes.jsonl',)) ... FAIL
+  test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) (existing=('style-positions.json',)) ... FAIL
+  test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) (existing=('style-probes.jsonl', 'style-positions.json')) ... FAIL
+
+======================================================================
+FAIL: test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) (existing=('style-probes.jsonl',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/test_style.py", line 31, in test_rejected_rerun_preserves_existing_evidence
+    self.assertEqual({p.name: p.read_bytes() for p in root.iterdir()}, before)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'mai[449 chars]]}]}', 'game-style.csv': b'match,game,engine,c[973 chars]]\n'} != {'mai[449 chars]]}]}'}
+Diff is 2295 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) (existing=('style-positions.json',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/test_style.py", line 31, in test_rejected_rerun_preserves_existing_evidence
+    self.assertEqual({p.name: p.read_bytes() for p in root.iterdir()}, before)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'mai[451 chars]]}]}', 'game-style.csv': b'match,game,engine,c[973 chars]]\n'} != {'mai[451 chars]]}]}'}
+Diff is 2297 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) (existing=('style-probes.jsonl', 'style-positions.json'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/test_style.py", line 31, in test_rejected_rerun_preserves_existing_evidence
+    self.assertEqual({p.name: p.read_bytes() for p in root.iterdir()}, before)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'mai[506 chars]]}]}', 'game-style.csv': b'match,game,engine,c[973 chars]]\n'} != {'mai[506 chars]]}]}'}
+Diff is 2355 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.014s
+
+FAILED (failures=3)

@@ -1,0 +1,30 @@
+{
+  "source_revision": "a804a97e709f40aa75a00f9d19e84915b7a3a45c",
+  "archive_sha256": "7e1e9dd118b4bb97d8a8b5b8a790c86e21f8509d59a27d2883767d94477be02e",
+  "source_url": "https://raw.githubusercontent.com/official-stockfish/books/a804a97e709f40aa75a00f9d19e84915b7a3a45c/8moves_v3.pgn.zip",
+  "license": "CC0-1.0",
+  "book_games": 34700,
+  "distinct_nonterminal_positions": 34699,
+  "panels": {
+    "pilot": {
+      "count": 50,
+      "sha256": "f851f41134ec82570e4da6a728da723b967125b750c760c953fbc43305cc895d"
+    },
+    "main": {
+      "count": 200,
+      "sha256": "14c6e4f2f095a155f3aec0a1413f5f2106eb96c0c4538de88f6948517c3568bb"
+    },
+    "bridge": {
+      "count": 100,
+      "sha256": "902c02d45ab1f103008cd6a783a1f4b8e08e803f6159d4adb29eb71db586a7ed"
+    },
+    "slow": {
+      "count": 50,
+      "sha256": "1b9be0f911c08827904622412d51e58137c7c70c2afd353b67814a61c2a37d20"
+    },
+    "anchor": {
+      "count": 100,
+      "sha256": "c3d364ce424b8d9684983086cb1b48c7764cf52943eb509ae0e13df374c90bb9"
+    }
+  }
+}

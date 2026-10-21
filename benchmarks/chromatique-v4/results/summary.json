@@ -1,0 +1,575 @@
+{
+  "matches": [
+    {
+      "wdl": [
+        280,
+        18,
+        102
+      ],
+      "colors_wdl": {
+        "white": [
+          135,
+          7,
+          58
+        ],
+        "black": [
+          145,
+          11,
+          44
+        ]
+      },
+      "opponent": "SF17.1-E2200",
+      "terminations": {
+        "normal": 399,
+        "time forfeit": 1
+      },
+      "mean_game_moves": 56.375,
+      "max_game_moves": 201.5,
+      "opening_pairs": 200,
+      "games": 400,
+      "pentanomial": [
+        15,
+        1,
+        72,
+        15,
+        97
+      ],
+      "score": 0.7225,
+      "pair_variance": 0.09597361809045227,
+      "score_se": 0.021905891683569087,
+      "elo_difference": 166.2299455879562,
+      "normal95_score": [
+        0.6795652412509692,
+        0.7654347587490309
+      ],
+      "normal95_elo": [
+        130.59661509839563,
+        205.45780906954053
+      ],
+      "interval_method": "pair_mean_normal_unbiased_variance",
+      "bootstrap95_score": [
+        0.68,
+        0.765
+      ],
+      "bootstrap95_elo": [
+        130.9435737545322,
+        205.03742915275254
+      ],
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0.626467720868008,
+        0.8185322791319921
+      ],
+      "hoeffding95_elo": [
+        89.82822435680556,
+        261.69457035431714
+      ],
+      "id": "main-sf2200",
+      "target": "Chromatique-v4",
+      "tc": "5+0.05",
+      "panel": "main",
+      "pgn_sha256": "d25361aec985cc3474bb1c8ff5c8bf8b927c6fa4020aa3592e8d163ced544b1b",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    },
+    {
+      "wdl": [
+        222,
+        17,
+        161
+      ],
+      "colors_wdl": {
+        "white": [
+          114,
+          7,
+          79
+        ],
+        "black": [
+          108,
+          10,
+          82
+        ]
+      },
+      "opponent": "SF17.1-E2400",
+      "terminations": {
+        "normal": 400
+      },
+      "mean_game_moves": 63.85125,
+      "max_game_moves": 191.5,
+      "opening_pairs": 200,
+      "games": 400,
+      "pentanomial": [
+        32,
+        6,
+        92,
+        9,
+        61
+      ],
+      "score": 0.57625,
+      "pair_variance": 0.11570194723618091,
+      "score_se": 0.024052229339105023,
+      "elo_difference": 53.40049087462641,
+      "normal95_score": [
+        0.5291084967474565,
+        0.6233915032525436
+      ],
+      "normal95_elo": [
+        20.249552653195014,
+        87.54830583893595
+      ],
+      "interval_method": "pair_mean_normal_unbiased_variance",
+      "bootstrap95_score": [
+        0.52875,
+        0.62375
+      ],
+      "bootstrap95_elo": [
+        19.999606867699825,
+        87.81362001181863
+      ],
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0.48021772086800796,
+        0.6722822791319921
+      ],
+      "hoeffding95_elo": [
+        -13.75331473440864,
+        124.82069513995071
+      ],
+      "id": "main-sf2400",
+      "target": "Chromatique-v4",
+      "tc": "5+0.05",
+      "panel": "main",
+      "pgn_sha256": "bb0a8f1314354cebb4dc54c2351a77af8750ab1c37758691b8b2b61c6cab8156",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    },
+    {
+      "wdl": [
+        132,
+        28,
+        240
+      ],
+      "colors_wdl": {
+        "white": [
+          67,
+          14,
+          119
+        ],
+        "black": [
+          65,
+          14,
+          121
+        ]
+      },
+      "opponent": "SF17.1-E2600",
+      "terminations": {
+        "normal": 400
+      },
+      "mean_game_moves": 72.02125,
+      "max_game_moves": 209.5,
+      "opening_pairs": 200,
+      "games": 400,
+      "pentanomial": [
+        70,
+        17,
+        84,
+        9,
+        20
+      ],
+      "score": 0.365,
+      "pair_variance": 0.10291457286432161,
+      "score_se": 0.02268419856026675,
+      "elo_difference": -96.1923443342004,
+      "normal95_score": [
+        0.32053978780372183,
+        0.40946021219627815
+      ],
+      "normal95_elo": [
+        -130.5128341294155,
+        -63.614982599660976
+      ],
+      "interval_method": "pair_mean_normal_unbiased_variance",
+      "bootstrap95_score": [
+        0.32125,
+        0.41
+      ],
+      "bootstrap95_elo": [
+        -129.94668250302095,
+        -63.227261968963525
+      ],
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0.2689677208680079,
+        0.4610322791319921
+      ],
+      "hoeffding95_elo": [
+        -173.69455638151484,
+        -27.132568896429948
+      ],
+      "id": "main-sf2600",
+      "target": "Chromatique-v4",
+      "tc": "5+0.05",
+      "panel": "main",
+      "pgn_sha256": "1c4117d10a84d6c911d07cbe31012d772e13c730d537fcbe0ad5365d529fe365",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    },
+    {
+      "wdl": [
+        246,
+        44,
+        110
+      ],
+      "colors_wdl": {
+        "white": [
+          125,
+          26,
+          49
+        ],
+        "black": [
+          121,
+          18,
+          61
+        ]
+      },
+      "opponent": "Stash15.3",
+      "terminations": {
+        "normal": 398,
+        "abandoned": 2
+      },
+      "mean_game_moves": 60.985,
+      "max_game_moves": 197.0,
+      "opening_pairs": 200,
+      "games": 400,
+      "pentanomial": [
+        15,
+        12,
+        70,
+        28,
+        75
+      ],
+      "score": 0.67,
+      "pair_variance": 0.09658291457286432,
+      "score_se": 0.021975317355258414,
+      "elo_difference": 123.02434512917561,
+      "normal95_score": [
+        0.6269291694348555,
+        0.7130708305651445
+      ],
+      "normal95_elo": [
+        90.17087316854865,
+        158.14318801073642
+      ],
+      "interval_method": "pair_mean_normal_unbiased_variance",
+      "bootstrap95_score": [
+        0.62625,
+        0.7125
+      ],
+      "bootstrap95_elo": [
+        89.6666150171264,
+        157.65880786195942
+      ],
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0.573967720868008,
+        0.7660322791319921
+      ],
+      "hoeffding95_elo": [
+        51.777985398152914,
+        206.03645033341604
+      ],
+      "id": "main-stash",
+      "target": "Chromatique-v4",
+      "tc": "5+0.05",
+      "panel": "main",
+      "pgn_sha256": "68ab91b75719676396ab96d36c179eb6b87897620787873d468cd43b18c3f9e0",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    },
+    {
+      "wdl": [
+        56,
+        17,
+        127
+      ],
+      "colors_wdl": {
+        "white": [
+          28,
+          11,
+          61
+        ],
+        "black": [
+          28,
+          6,
+          66
+        ]
+      },
+      "opponent": "SF17.1-E2400",
+      "terminations": {
+        "normal": 200
+      },
+      "mean_game_moves": 68.8175,
+      "max_game_moves": 162.5,
+      "opening_pairs": 100,
+      "games": 200,
+      "pentanomial": [
+        43,
+        7,
+        36,
+        6,
+        8
+      ],
+      "score": 0.3225,
+      "pair_variance": 0.10517045454545454,
+      "score_se": 0.03242999453368047,
+      "elo_difference": -128.9518322300627,
+      "normal95_score": [
+        0.25893837869515546,
+        0.38606162130484456
+      ],
+      "normal95_elo": [
+        -182.66315914184673,
+        -80.58726110597915
+      ],
+      "interval_method": "pair_mean_normal_unbiased_variance",
+      "bootstrap95_score": [
+        0.26,
+        0.3875
+      ],
+      "bootstrap95_elo": [
+        -181.70334870406327,
+        -79.53375447769642
+      ],
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0.18668984842593805,
+        0.45831015157406196
+      ],
+      "hoeffding95_elo": [
+        -255.65419600451125,
+        -29.036487904486357
+      ],
+      "id": "bridge-sf2200-sf2400",
+      "target": "SF17.1-E2200",
+      "tc": "5+0.05",
+      "panel": "bridge",
+      "pgn_sha256": "1e00826ceb3ad625d4edf4eede5d10289704f22991fde5f018b349a7e8948c3c",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    },
+    {
+      "wdl": [
+        38,
+        23,
+        139
+      ],
+      "colors_wdl": {
+        "white": [
+          22,
+          11,
+          67
+        ],
+        "black": [
+          16,
+          12,
+          72
+        ]
+      },
+      "opponent": "SF17.1-E2600",
+      "terminations": {
+        "normal": 200
+      },
+      "mean_game_moves": 69.8675,
+      "max_game_moves": 180.5,
+      "opening_pairs": 100,
+      "games": 200,
+      "pentanomial": [
+        44,
+        17,
+        36,
+        2,
+        1
+      ],
+      "score": 0.2475,
+      "pair_variance": 0.06123106060606061,
+      "score_se": 0.024744910710297705,
+      "elo_difference": -193.17252039851735,
+      "normal95_score": [
+        0.19900086620715704,
+        0.29599913379284293
+      ],
+      "normal95_elo": [
+        -241.91083185291603,
+        -150.51310134112325
+      ],
+      "interval_method": "pair_mean_normal_unbiased_variance",
+      "bootstrap95_score": [
+        0.2,
+        0.2975
+      ],
+      "bootstrap95_elo": [
+        -240.82399653118495,
+        -149.26374340501965
+      ],
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0.11168984842593804,
+        0.38331015157406195
+      ],
+      "hoeffding95_elo": [
+        -360.2203694718214,
+        -82.60659125791697
+      ],
+      "id": "bridge-sf2400-sf2600",
+      "target": "SF17.1-E2400",
+      "tc": "5+0.05",
+      "panel": "bridge",
+      "pgn_sha256": "5b74b10c90dc9995570fdacb370149b65b0984e0370a61d8a0af684c41c620ea",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    },
+    {
+      "wdl": [
+        87,
+        14,
+        99
+      ],
+      "colors_wdl": {
+        "white": [
+          46,
+          7,
+          47
+        ],
+        "black": [
+          41,
+          7,
+          52
+        ]
+      },
+      "opponent": "SF17.1-E2400",
+      "terminations": {
+        "normal": 199,
+        "abandoned": 1
+      },
+      "mean_game_moves": 66.62,
+      "max_game_moves": 245.0,
+      "opening_pairs": 100,
+      "games": 200,
+      "pentanomial": [
+        25,
+        5,
+        44,
+        9,
+        17
+      ],
+      "score": 0.47,
+      "pair_variance": 0.11398989898989899,
+      "score_se": 0.03376239016863276,
+      "elo_difference": -20.87120466602865,
+      "normal95_score": [
+        0.4038269312374906,
+        0.5361730687625094
+      ],
+      "normal95_elo": [
+        -67.6708299339406,
+        25.17961386132782
+      ],
+      "interval_method": "pair_mean_normal_unbiased_variance",
+      "bootstrap95_score": [
+        0.405,
+        0.535
+      ],
+      "bootstrap95_elo": [
+        -66.82477700555239,
+        24.360331652509824
+      ],
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0.334189848425938,
+        0.6058101515740619
+      ],
+      "hoeffding95_elo": [
+        -119.74286367955867,
+        74.65244433662474
+      ],
+      "id": "bridge-stash-sf2400",
+      "target": "Stash15.3",
+      "tc": "5+0.05",
+      "panel": "bridge",
+      "pgn_sha256": "13b85edd882ad4084bc8cb1bcc45f140be81b792c174120828875bb17bcec7ca",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    },
+    {
+      "wdl": [
+        76,
+        4,
+        20
+      ],
+      "colors_wdl": {
+        "white": [
+          38,
+          2,
+          10
+        ],
+        "black": [
+          38,
+          2,
+          10
+        ]
+      },
+      "opponent": "SF17.1-E2400",
+      "terminations": {
+        "normal": 100
+      },
+      "mean_game_moves": 53.03,
+      "max_game_moves": 155.0,
+      "opening_pairs": 50,
+      "games": 100,
+      "pentanomial": [
+        2,
+        1,
+        15,
+        3,
+        29
+      ],
+      "score": 0.78,
+      "pair_variance": 0.08326530612244898,
+      "score_se": 0.040808162448816285,
+      "elo_difference": 219.86876874730967,
+      "normal95_score": [
+        0.7000174713250602,
+        0.8599825286749399
+      ],
+      "normal95_elo": [
+        147.20516712036365,
+        315.3229592370324
+      ],
+      "interval_method": "pair_mean_normal_unbiased_variance",
+      "bootstrap95_score": [
+        0.7,
+        0.855
+      ],
+      "bootstrap95_elo": [
+        147.19071411783773,
+        308.2392449972791
+      ],
+      "bootstrap_resamples": 20000,
+      "bootstrap_seed": 20261020,
+      "hoeffding95_score": [
+        0.5879354417360159,
+        0.9720645582639842
+      ],
+      "hoeffding95_elo": [
+        61.745751433339315,
+        616.615826314654
+      ],
+      "id": "slow-sf2400",
+      "target": "Chromatique-v4",
+      "tc": "30+0.3",
+      "panel": "slow",
+      "pgn_sha256": "febb35262b60c9938befee4ff125cfde15214839b59b459b2dd46d4336db1e2e",
+      "validation": "complete_legal_replay_and_exact_opening_pairs"
+    }
+  ]
+}

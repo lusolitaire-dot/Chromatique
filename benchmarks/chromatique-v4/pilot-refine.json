@@ -1,0 +1,41 @@
+{
+  "purpose": "Selection refinement; excluded from final estimates",
+  "matches": [
+    {
+      "id": "pilot-sf2200",
+      "panel": "pilot",
+      "pairs": 12,
+      "tc": "5+0.05",
+      "concurrency": 6,
+      "engines": [
+        {
+          "name": "Chromatique-v4",
+          "binary": "bin/chromatique-v4",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": false,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10
+          }
+        },
+        {
+          "name": "SF17.1-E2200",
+          "binary": ".benchmark-tools/Stockfish/src/stockfish-17.1",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": true,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10,
+            "UCI_Elo": 2200
+          }
+        }
+      ]
+    }
+  ]
+}

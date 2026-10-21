@@ -1,0 +1,211 @@
+{
+  "purpose": "Selection only; excluded from final strength estimates",
+  "matches": [
+    {
+      "id": "pilot-sf1600",
+      "panel": "pilot",
+      "pairs": 12,
+      "tc": "5+0.05",
+      "concurrency": 6,
+      "engines": [
+        {
+          "name": "Chromatique-v4",
+          "binary": "bin/chromatique-v4",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": false,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10
+          }
+        },
+        {
+          "name": "SF17.1-E1600",
+          "binary": ".benchmark-tools/Stockfish/src/stockfish-17.1",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": true,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10,
+            "UCI_Elo": 1600
+          }
+        }
+      ]
+    },
+    {
+      "id": "pilot-sf2000",
+      "panel": "pilot",
+      "pairs": 12,
+      "tc": "5+0.05",
+      "concurrency": 6,
+      "engines": [
+        {
+          "name": "Chromatique-v4",
+          "binary": "bin/chromatique-v4",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": false,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10
+          }
+        },
+        {
+          "name": "SF17.1-E2000",
+          "binary": ".benchmark-tools/Stockfish/src/stockfish-17.1",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": true,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10,
+            "UCI_Elo": 2000
+          }
+        }
+      ]
+    },
+    {
+      "id": "pilot-sf2400",
+      "panel": "pilot",
+      "pairs": 12,
+      "tc": "5+0.05",
+      "concurrency": 6,
+      "engines": [
+        {
+          "name": "Chromatique-v4",
+          "binary": "bin/chromatique-v4",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": false,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10
+          }
+        },
+        {
+          "name": "SF17.1-E2400",
+          "binary": ".benchmark-tools/Stockfish/src/stockfish-17.1",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": true,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10,
+            "UCI_Elo": 2400
+          }
+        }
+      ]
+    },
+    {
+      "id": "pilot-sf2800",
+      "panel": "pilot",
+      "pairs": 12,
+      "tc": "5+0.05",
+      "concurrency": 6,
+      "engines": [
+        {
+          "name": "Chromatique-v4",
+          "binary": "bin/chromatique-v4",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": false,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10
+          }
+        },
+        {
+          "name": "SF17.1-E2800",
+          "binary": ".benchmark-tools/Stockfish/src/stockfish-17.1",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": true,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10,
+            "UCI_Elo": 2800
+          }
+        }
+      ]
+    },
+    {
+      "id": "pilot-stash",
+      "panel": "pilot",
+      "pairs": 12,
+      "tc": "5+0.05",
+      "concurrency": 6,
+      "engines": [
+        {
+          "name": "Chromatique-v4",
+          "binary": "bin/chromatique-v4",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": false,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10
+          }
+        },
+        {
+          "name": "Stash15.3",
+          "binary": ".benchmark-tools/Stash/src/stash-bot",
+          "options": {
+            "Hash": 32,
+            "Ponder": false,
+            "Move Overhead": 10
+          }
+        }
+      ]
+    },
+    {
+      "id": "pilot-fruit",
+      "panel": "pilot",
+      "pairs": 12,
+      "tc": "5+0.05",
+      "concurrency": 6,
+      "engines": [
+        {
+          "name": "Chromatique-v4",
+          "binary": "bin/chromatique-v4",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": false,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10
+          }
+        },
+        {
+          "name": "Fruit2.1",
+          "binary": ".benchmark-tools/Fruit-2.1/src/fruit",
+          "options": {
+            "Hash": 32,
+            "OwnBook": false,
+            "Ponder": false
+          }
+        }
+      ]
+    }
+  ]
+}

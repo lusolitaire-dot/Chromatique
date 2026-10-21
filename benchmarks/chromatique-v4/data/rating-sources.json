@@ -1,0 +1,106 @@
+{
+  "purpose": "Paraphrased primary-source rating evidence; full source captures retained locally, not redistributed",
+  "captures": [
+    {
+      "source_url": "https://computerchess.org.uk/404/rating_list_all.html",
+      "local_capture_name": "ccrl-blitz-all.html",
+      "http_status": 200,
+      "server_http_date_utc": "2026-10-20T14:26:34+00:00",
+      "bytes": 2398391,
+      "sha256": "951db112489df56fc2849cc19d9ce2c43bd890e19fbb849f040d87877eaacb26"
+    },
+    {
+      "source_url": "https://computerchess.org.uk/4040/rating_list_all.html",
+      "local_capture_name": "ccrl-4015-all.html",
+      "http_status": 200,
+      "server_http_date_utc": "2026-10-20T14:28:31+00:00",
+      "bytes": 3883455,
+      "sha256": "4880f2e392b99d12eb8cca6b5acb927c68d0f18eba776ce945f5b89e8acd5ece"
+    },
+    {
+      "source_url": "https://computerchess.org.uk/404/about.html",
+      "local_capture_name": "ccrl-blitz-about.html",
+      "http_status": 200,
+      "server_http_date_utc": "2026-10-20T14:29:35+00:00",
+      "bytes": 6670,
+      "sha256": "908cf7f1c981112cf08c483a7881a0d8777d8fb99fb359089a065d4bc80f08a4"
+    },
+    {
+      "source_url": "https://computerchess.org.uk/404/cgi/engine_details.cgi?print=Details&each_game=1&eng=Stash%2015.3%2064-bit",
+      "local_capture_name": "ccrl-stash153-detail.html",
+      "http_status": 200,
+      "server_http_date_utc": "2026-10-20T14:31:20+00:00",
+      "bytes": 38267,
+      "sha256": "bb67ae23e4ada0ffee7c55fce4ec608cf9399ba254b1972ff711033d52964994"
+    },
+    {
+      "source_url": "https://computerchess.org.uk/404/games-by-engine/Stash_15_3_64-bit.bare.%5B982%5D.pgn.7z",
+      "local_capture_name": "ccrl-stash153.pgn.7z",
+      "http_status": 200,
+      "server_http_date_utc": "2026-10-20T14:32:46+00:00",
+      "bytes": 199108,
+      "sha256": "a6639d03114c4f4085b182c9c5abf8cef540addccdc8f00f06c4f5c02519b338"
+    }
+  ],
+  "ccrl_stash": {
+    "engine": "Stash 15.3 64-bit",
+    "list": "CCRL Blitz",
+    "list_computed_date": "2026-10-17",
+    "model": "BayesElo",
+    "rating": 2174,
+    "published95_rating_interval": [
+      2155,
+      2193
+    ],
+    "games": 982,
+    "wdl": [
+      496,
+      151,
+      335
+    ],
+    "underlying_game_dates": [
+      "2020-05-12",
+      "2020-05-29"
+    ],
+    "games_with_timecontrol_tag": 0,
+    "decompressed_pgn_sha256": "3a0e9c848bd58300ec76b327e50fd0ed0ce92ff08d576a943b83f787364ecc53",
+    "decompressed_pgn_bytes": 992755,
+    "historical_clock": "UNKNOWN",
+    "historical_hardware": "UNKNOWN",
+    "rated_binary_hash": "UNKNOWN",
+    "current_policy_only": {
+      "equivalent_tc": "120+1",
+      "reference_cpu": "Intel i7-4770K",
+      "speed_calibration_engine": "Stockfish 10",
+      "pondering": false,
+      "hash_mib": [
+        128,
+        256
+      ],
+      "tablebases_pieces": [
+        4,
+        5,
+        6
+      ],
+      "shared_generic_book_max_moves": 12
+    },
+    "local_author_source_revision": "7d17ff80eb53b9d4808fd285c7439e641f1c5a3b",
+    "transfer_limits": [
+      "same release name does not establish binary identity or equal strength with our ARM64 build",
+      "local clock is not speed-scaled to CCRL hardware",
+      "published BayesElo and local logistic match Elo are different models",
+      "match uncertainty does not include external anchor transfer error"
+    ]
+  },
+  "ccrl_4015": {
+    "list_computed_date": "2026-10-16",
+    "stash_15_3_present": false,
+    "scope": "absence in this snapshot only"
+  },
+  "retained_excerpt": {
+    "file": "ccrl-stash153-excerpt.txt",
+    "sha256": "027e325e74d6dd2c1501ff7559758385ea477cafb7c98b10d1a4ac6d0e4e1be3",
+    "source_capture_sha256": "951db112489df56fc2849cc19d9ce2c43bd890e19fbb849f040d87877eaacb26",
+    "quoted_words": 23
+  }
+}

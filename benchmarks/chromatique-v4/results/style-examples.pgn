@@ -1,0 +1,44 @@
+[Event "Analysis: common-position material offer"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Analysis"]
+[Black "Analysis"]
+[Result "*"]
+[Annotator "Stockfish17.1, 2 million nodes per search"]
+[SourceMatch "main-sf2400"]
+[SourceGame "302"]
+[SourcePly "24"]
+[ProbeIndex "27"]
+
+1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 a6 5. Ne5 dxc4 6. Nxc4 b5 7. Ne5 Bb7 8. Bg5 h6 9. Bf4 g6 10. Qb3 Rh7 11. e3 Nh5 12. Bc4 e6 { Source game history ends here. Following variations are judge analysis, not played game results. } 13. Bxe6 { Chromatique-v4 choice; offer proxy=1; 2M-node judge loss=24 cp (None means mate-valued). } ( 13. O-O { SF17.1-E2400 choice; offer proxy=2; 2M-node judge loss=43 cp (None means mate-valued). } 13... Nd7 14. Rfd1 Nxf4 15. exf4 Nf6 16. Bd3 Nd5 17. g3 Bd6 18. Ne4 Rg7 19. Nc5 Qe7 20. Rac1 Bxc5 21. dxc5 O-O-O ) 13... Qe7 14. Bh3 Nxf4 15. exf4 f6 16. Rd1 fxe5 17. dxe5 Qf7 18. e6 Qxf4 19. O-O Rg7 20. g3 Qc4 21. Qc2 c5 22. b3 Qb4 23. Qb2 c4 24. Bg2 Bxg2 25. Kxg2 Be7 26. Qc1 Ra7 27. Qf4 *
+
+[Event "Analysis: common-position material offer"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Analysis"]
+[Black "Analysis"]
+[Result "*"]
+[Annotator "Stockfish17.1, 2 million nodes per search"]
+[SourceMatch "main-sf2400"]
+[SourceGame "272"]
+[SourcePly "32"]
+[ProbeIndex "102"]
+
+1. d4 Nf6 2. Nf3 e6 3. c4 Bb4+ 4. Bd2 Qe7 5. g3 Nc6 6. Bg2 Bxd2+ 7. Qxd2 Qb4 8. Nc3 Qxc4 9. O-O Nd5 10. Ne5 Qxd4 11. Qxd4 Nxd4 12. Bxd5 exd5 13. Nxd5 Ne6 14. Rfd1 f5 15. Rac1 d6 16. Nc4 Kf8 { Source game history ends here. Following variations are judge analysis, not played game results. } 17. Nxc7 { Chromatique-v4 choice; offer proxy=2; 2M-node judge loss=-6 cp (None means mate-valued). } ( 17. Nxc7 { SF17.1-E2400 choice; offer proxy=2; 2M-node judge loss=-6 cp (None means mate-valued). } 17... Nxc7 18. Nxd6 Ne6 19. Rxc8+ Rxc8 20. Nxc8 Kf7 21. Nxa7 Rd8 22. Rxd8 Nxd8 23. Nb5 Ke6 24. Nc3 Kd6 25. f3 Kc5 26. Kf2 Nc6 27. Ke3 h6 ) 17... Nxc7 18. Nxd6 Ne6 19. Rxc8+ Rxc8 20. Nxc8 Kf7 21. Nxa7 Rd8 22. Rxd8 Nxd8 23. Nb5 Ke6 24. Nc3 Kd6 25. f3 Kc5 26. Kf2 Nc6 27. Ke3 h6 *
+
+[Event "Analysis: common-position material offer"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Analysis"]
+[Black "Analysis"]
+[Result "*"]
+[Annotator "Stockfish17.1, 2 million nodes per search"]
+[SourceMatch "main-sf2400"]
+[SourceGame "227"]
+[SourcePly "24"]
+[ProbeIndex "143"]
+
+1. e4 d5 2. exd5 Qxd5 3. Nf3 Bg4 4. d4 Bxf3 5. gxf3 Nc6 6. Be3 O-O-O 7. Nc3 Qa5 8. a3 Nf6 9. b4 Qf5 10. b5 e5 11. bxc6 exd4 12. cxb7+ Kb8 { Source game history ends here. Following variations are judge analysis, not played game results. } 13. h4 { Chromatique-v4 choice; offer proxy=3; 2M-node judge loss=428 cp (None means mate-valued). } ( 13. Ne2 { SF17.1-E2400 choice; offer proxy=2; 2M-node judge loss=231 cp (None means mate-valued). } ) 13... Bc5 14. Bd3 Qe5 15. f4 Qe7 16. Qf3 dxe3 17. fxe3 Bxe3 18. Kf1 Rhe8 19. Kg2 Bd2 20. Na2 Nd5 21. Nb4 Bxb4 22. axb4 Qxb4 23. Qf2 Nxf4+ 24. Kg3 Qd4 25. Qxd4 Rxd4 26. Ba6 Nh5+ 27. Kg2 Re6 28. Rhb1 Rxh4 *

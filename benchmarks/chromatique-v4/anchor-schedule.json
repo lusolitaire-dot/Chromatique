@@ -1,0 +1,76 @@
+{
+  "frozen_utc": "2026-10-20T14:08:10.107810+00:00",
+  "purpose": "Separate fixed-count validation of the inherited Stockfish calibration clock and externally rated Stash 15.3",
+  "games": 400,
+  "stopping_rule": "Fixed 100 opening pairs per opponent; no result-dependent extension",
+  "matches": [
+    {
+      "id": "anchor-sf2400",
+      "panel": "anchor",
+      "pairs": 100,
+      "tc": "120+1",
+      "concurrency": 6,
+      "engines": [
+        {
+          "name": "Chromatique-v4",
+          "binary": "bin/chromatique-v4",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": false,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10
+          }
+        },
+        {
+          "name": "SF17.1-E2400",
+          "binary": ".benchmark-tools/Stockfish/src/stockfish-17.1",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": true,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10,
+            "UCI_Elo": 2400
+          }
+        }
+      ]
+    },
+    {
+      "id": "anchor-stash",
+      "panel": "anchor",
+      "pairs": 100,
+      "tc": "120+1",
+      "concurrency": 6,
+      "engines": [
+        {
+          "name": "Chromatique-v4",
+          "binary": "bin/chromatique-v4",
+          "options": {
+            "Threads": 1,
+            "Hash": 32,
+            "Ponder": false,
+            "Skill Level": 20,
+            "UCI_LimitStrength": false,
+            "SyzygyProbeLimit": 0,
+            "Move Overhead": 10
+          }
+        },
+        {
+          "name": "Stash15.3",
+          "binary": ".benchmark-tools/Stash/src/stash-bot",
+          "options": {
+            "Hash": 32,
+            "Move Overhead": 10
+          }
+        }
+      ]
+    }
+  ],
+  "stash_extension_declared_utc": "2026-10-20T14:35:36.149820+00:00",
+  "stash_extension_trigger": "Newly retrieved official CCRL Blitz row for Stash 15.3; before either anchor match and before main-stash"
+}

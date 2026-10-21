@@ -1,0 +1,99 @@
+{
+  "spec": {
+    "id": "main-stash",
+    "panel": "main",
+    "pairs": 200,
+    "tc": "5+0.05",
+    "concurrency": 6,
+    "engines": [
+      {
+        "name": "Chromatique-v4",
+        "binary": "bin/chromatique-v4",
+        "options": {
+          "Threads": 1,
+          "Hash": 32,
+          "Ponder": false,
+          "Skill Level": 20,
+          "UCI_LimitStrength": false,
+          "SyzygyProbeLimit": 0,
+          "Move Overhead": 10
+        }
+      },
+      {
+        "name": "Stash15.3",
+        "binary": ".benchmark-tools/Stash/src/stash-bot",
+        "options": {
+          "Hash": 32,
+          "Move Overhead": 10
+        }
+      }
+    ]
+  },
+  "inputs_sha256": {
+    "fastchess": "0ae4989f2d086b2efd030e38715c2c8386a027095436af7dc9939f417ea840fc",
+    "opening_book": "14c6e4f2f095a155f3aec0a1413f5f2106eb96c0c4538de88f6948517c3568bb",
+    "model": "d6d70e384036e1101274268a900e42b133772470f56da3895c28ed2e7845ea56",
+    "engine_0": "ea1f52ae113e28902827e8aaf97ec18a79927f0a5e1751e95bd144c9e616d682",
+    "engine_1": "dc7feb68e18bf34188771d441939bb965541aa729981bfec34e38499d41169c1"
+  },
+  "command": [
+    "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/fastchess/fastchess",
+    "-engine",
+    "cmd=/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/bin/chromatique-v4",
+    "name=Chromatique-v4",
+    "proto=uci",
+    "option.Threads=1",
+    "option.Hash=32",
+    "option.Ponder=false",
+    "option.Skill Level=20",
+    "option.UCI_LimitStrength=false",
+    "option.SyzygyProbeLimit=0",
+    "option.Move Overhead=10",
+    "-engine",
+    "cmd=/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/Stash/src/stash-bot",
+    "name=Stash15.3",
+    "proto=uci",
+    "option.Hash=32",
+    "option.Move Overhead=10",
+    "-each",
+    "tc=5+0.05",
+    "timemargin=100",
+    "restart=on",
+    "-rounds",
+    "200",
+    "-repeat",
+    "-recover",
+    "-concurrency",
+    "6",
+    "-openings",
+    "file=/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/data/main-openings.pgn",
+    "format=pgn",
+    "order=sequential",
+    "plies=16",
+    "-maxmoves",
+    "300",
+    "-pgnout",
+    "file=/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/results/main-stash.pgn",
+    "append=false",
+    "nodes=true",
+    "timeleft=true",
+    "-event",
+    "main-stash",
+    "-site",
+    "Local Apple Silicon benchmark",
+    "-config",
+    "outname=/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/results/main-stash.state.json",
+    "-autosaveinterval",
+    "20"
+  ],
+  "started_utc": "2026-10-20T14:47:50.791920+00:00",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "logical_cpus": 15,
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "runner_pid": 26262,
+  "environment_policy": "Inherited environment, with all CHROMATIQUE_* removed",
+  "fastchess_pid": 42365,
+  "returncode": 0,
+  "finished_utc": "2026-10-20T15:02:20.755973+00:00",
+  "pgn_sha256": "68ab91b75719676396ab96d36c179eb6b87897620787873d468cd43b18c3f9e0"
+}

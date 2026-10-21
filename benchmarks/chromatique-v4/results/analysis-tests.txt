@@ -1,0 +1,13 @@
+test_degenerate_samples_do_not_report_zero_uncertainty (test_analysis.AnalysisContract.test_degenerate_samples_do_not_report_zero_uncertainty) ... ok
+test_logistic_elo_orientation_and_boundaries (test_analysis.AnalysisContract.test_logistic_elo_orientation_and_boundaries) ... ok
+test_replay_scores_target_color_and_rejects_missing_partner (test_analysis.AnalysisContract.test_replay_scores_target_color_and_rejects_missing_partner) ... ok
+test_uncertainty_uses_opening_pairs_not_independent_games (test_analysis.AnalysisContract.test_uncertainty_uses_opening_pairs_not_independent_games) ... ok
+test_selects_low_and_high_loss_candidates_and_excludes_mate (test_examples.ExampleSelection.test_selects_low_and_high_loss_candidates_and_excludes_mate) ... ok
+test_mate_scores_do_not_become_centipawn_losses (test_style.StyleAccounting.test_mate_scores_do_not_become_centipawn_losses) ... ok
+test_piece_offer_counts_net_concession_and_excludes_equal_trade (test_style.StyleAccounting.test_piece_offer_counts_net_concession_and_excludes_equal_trade) ... ok
+test_rejected_rerun_preserves_existing_evidence (test_style.StyleAccounting.test_rejected_rerun_preserves_existing_evidence) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.046s
+
+OK

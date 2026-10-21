@@ -1,0 +1,310 @@
+{
+  "files": [
+    {
+      "original": "anchor-sf2400.log",
+      "sha256": "decb741b6574267b56a029a40310afa878b041b404f92848120f19fb01c4995d",
+      "bytes": 3675982,
+      "archive": "anchor-sf2400.log.gz",
+      "archive_sha256": "4086f6f44c8f859cd8be0739d7ee9290ad3a9992f3027294f2a429dac9e26331",
+      "archive_bytes": 450851,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "anchor-sf2400.state.json",
+      "sha256": "980808fb25efb7193b5e7a3de9115ec18b99182fe9e31d5dd0402410b11ca241",
+      "bytes": 5557,
+      "archive": "anchor-sf2400.state.json.gz",
+      "archive_sha256": "3050626e443276faca7ad5eb24e42ea8faeda69c70340dddaf9be73860a13707",
+      "archive_bytes": 1158,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "anchor-stash.log",
+      "sha256": "a5a745184dd2b1e9d2f591f5440622bb3c422b36dd351fedd0c2b4dcfd138769",
+      "bytes": 28533,
+      "archive": "anchor-stash.log.gz",
+      "archive_sha256": "98e718d94cdb59e3b24ff3c9016ca64e3cea71973a4d92ea5abe10edcc6d6879",
+      "archive_bytes": 2344,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "anchor-stash.state.json",
+      "sha256": "e4b138f34c89b39df6491a60a7e65da9c664dce81483471842f85edc51c33c23",
+      "bytes": 4956,
+      "archive": "anchor-stash.state.json.gz",
+      "archive_sha256": "20550a6687024110cd835e664a84e0adfd8f30736d4c35f9f0caa6ae95c6e918",
+      "archive_bytes": 1126,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "bridge-sf2200-sf2400.log",
+      "sha256": "d27a440261a4f58d7749e31a86bcf239d41338155f4ab6a70846ed885d29ad1a",
+      "bytes": 11160598,
+      "archive": "bridge-sf2200-sf2400.log.gz",
+      "archive_sha256": "d03009dcead32c43916f18b046b64596b727d2c26bc724c7650d942b61b6755f",
+      "archive_bytes": 999717,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "bridge-sf2200-sf2400.state.json",
+      "sha256": "3d96e58ac0e6d84b59390674d176d0f9863b4775def2f9244a96aa6a52bf92e1",
+      "bytes": 5688,
+      "archive": "bridge-sf2200-sf2400.state.json.gz",
+      "archive_sha256": "b82af638055ab120093950f3aa2da20a0ecc885559e51bdc5c181623c3d6aa5a",
+      "archive_bytes": 1155,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "bridge-sf2400-sf2600.log",
+      "sha256": "7cf5d6ab0f656f2ea6c1369f8a43bfdee0f41197a287fc1e14546f15058ce7f2",
+      "bytes": 11066451,
+      "archive": "bridge-sf2400-sf2600.log.gz",
+      "archive_sha256": "d65c1c1812990c65f52fa9512eab1dded85efc7151aeaa7a3841bd0bf58bf448",
+      "archive_bytes": 973520,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "bridge-sf2400-sf2600.state.json",
+      "sha256": "f71ce8cdb03bfefe660e05d264a3865d9f2788295bae3f7373fda6ac7cea1ba2",
+      "bytes": 5689,
+      "archive": "bridge-sf2400-sf2600.state.json.gz",
+      "archive_sha256": "9a921e672def073d4287fd77b763f9f2833c0a8dbab0703b123deb4ea10a2478",
+      "archive_bytes": 1154,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "bridge-stash-sf2400.log",
+      "sha256": "65cb741ade274d7906d379cc7d003fd19f54125b545c58010d3d591a0b8f121d",
+      "bytes": 5757639,
+      "archive": "bridge-stash-sf2400.log.gz",
+      "archive_sha256": "b899583e4f10ef612cc345a2549ef5194347518311bfb0ccd2dcd75b40d207c6",
+      "archive_bytes": 505728,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "bridge-stash-sf2400.state.json",
+      "sha256": "307ca970616a6fa7a36314de59fd293d98b3b6b06bf2120abc77c80e2f6ad06a",
+      "bytes": 5086,
+      "archive": "bridge-stash-sf2400.state.json.gz",
+      "archive_sha256": "77e4950546771922529915dbbd4f41632ef528acee8755205cf2e04e37a6d5af",
+      "archive_bytes": 1162,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "main-sf2200.log",
+      "sha256": "a36d127ebeb6920797dafee43b1a81435730e56365976e708e3dd92f7c5ba900",
+      "bytes": 7916658,
+      "archive": "main-sf2200.log.gz",
+      "archive_sha256": "c9cec7e0c0e171c1e920001276c2f0b5995ec3c3a85074d20c6e0945ad9b9464",
+      "archive_bytes": 803344,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "main-sf2200.state.json",
+      "sha256": "df12c584092a237350803c53e53254b2a90096d0b589b8237fa7a5599dd94bd2",
+      "bytes": 5545,
+      "archive": "main-sf2200.state.json.gz",
+      "archive_sha256": "17b5366ceaabef5448ee08b1b44082ce8ca70147d3326d394f2da1922243cfb7",
+      "archive_bytes": 1155,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "main-sf2400.log",
+      "sha256": "37824b33ba8a16b4a6608ee238dd6d4c417db020aaac1239bfd3baecd25600aa",
+      "bytes": 9745552,
+      "archive": "main-sf2400.log.gz",
+      "archive_sha256": "a75b5fdc66a58ad024e14a7ec5008f97689f505f9e300f890e2c8ee55f706c04",
+      "archive_bytes": 937533,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "main-sf2400.state.json",
+      "sha256": "b0a1c50dac2701420bc09cf57a715e4b68019455cadb5eadce554a2242668632",
+      "bytes": 5545,
+      "archive": "main-sf2400.state.json.gz",
+      "archive_sha256": "9fc0faf8b4aacf8b39e02f10fd834a1d491525ef43535b903fbb1c22db989e10",
+      "archive_bytes": 1156,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "main-sf2600.log",
+      "sha256": "5176d3bc005fb59ef8df31b517dd53eed180e5199093993dbe3c7d70b9f563a9",
+      "bytes": 11278294,
+      "archive": "main-sf2600.log.gz",
+      "archive_sha256": "b6c8dfcae80ae40dd1ffb039d18cc22078744edf507701e9e79af21d631c0e13",
+      "archive_bytes": 1031851,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "main-sf2600.state.json",
+      "sha256": "b997d2cc438ed484691a3bb1ad2c627d9c8242cdb93e9ab3f876cb4512862032",
+      "bytes": 5545,
+      "archive": "main-sf2600.state.json.gz",
+      "archive_sha256": "06538b73472b60d8cf9daaf82e74cdd9b194571514173f1cae42f550479f4e5b",
+      "archive_bytes": 1157,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "main-stash.log",
+      "sha256": "a0ca6ef7334c6236f5a4ad88c9e3ea4190e23f25f0535599d675c183ae6caca3",
+      "bytes": 57256,
+      "archive": "main-stash.log.gz",
+      "archive_sha256": "e8aba687e07aeef98ecd1bec7d23e9950bcd17c397e6f5bd69d27adbc4b254f1",
+      "archive_bytes": 4431,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "main-stash.state.json",
+      "sha256": "c5715b939ec2a3010d4b3227a280b132f8dd05cd532e533d9c05ae2f25893d8d",
+      "bytes": 4943,
+      "archive": "main-stash.state.json.gz",
+      "archive_sha256": "0383a2d683e2a1d4d3d353362b1c6bfa8553145761cd74950150c65cc78be1a6",
+      "archive_bytes": 1131,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-fruit.log",
+      "sha256": "a15f5799422837e2b420f805bc69aaed03b46c6b5934ebc74ad229944ad7885a",
+      "bytes": 3594,
+      "archive": "pilot-fruit.log.gz",
+      "archive_sha256": "e975647dd66a4bf5ed9c65f20e37904683273f6aa7b0bef82ed88d57c743f2b6",
+      "archive_bytes": 508,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-fruit.state.json",
+      "sha256": "64ea014a0e61854f5e05a01d1c36e2045a4aef95a07b7487b5fdbd6163c7bedc",
+      "bytes": 5031,
+      "archive": "pilot-fruit.state.json.gz",
+      "archive_sha256": "2438440d8e27a63938561ede5528b2e6bc0ea9f4755fda32bee7c32f92599520",
+      "archive_bytes": 1119,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-sf1600.log",
+      "sha256": "126b4a5bfe3f24070d605d78ee14c89c30cca9b272ef119f40629e2c676c1176",
+      "bytes": 223970,
+      "archive": "pilot-sf1600.log.gz",
+      "archive_sha256": "65e8d3aee1c1af5a342231057e2b6f68f60df632066bd0483e8b9409ec778c85",
+      "archive_bytes": 29231,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-sf1600.state.json",
+      "sha256": "52a04d20ed930fe90f92415013ff7f34ff35d9c17d32746787ef1b0b283c122a",
+      "bytes": 5544,
+      "archive": "pilot-sf1600.state.json.gz",
+      "archive_sha256": "83f0fa739203316cb0737f5d7baad3f91f000823ae58b85fa6eec77c1ef7e2b1",
+      "archive_bytes": 1137,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-sf2000.log",
+      "sha256": "8cd8828ea1674e3da8b557edfbab170cd84fba9bb291a0ecc20cfb51a8e6d9b3",
+      "bytes": 458321,
+      "archive": "pilot-sf2000.log.gz",
+      "archive_sha256": "4ae0e6f550963afcb8e20f007761fde5f01451c37c6b1b5682ab1a4f4980ec8c",
+      "archive_bytes": 47043,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-sf2000.state.json",
+      "sha256": "51f87438dbc558f1607c9550f6d931d27e558e1b8c27ff5de9658476d27f26df",
+      "bytes": 5544,
+      "archive": "pilot-sf2000.state.json.gz",
+      "archive_sha256": "3d1d5aaeef1c202dc19dabb51af9bbc053fbab7594bfe071d129a3f545ea6271",
+      "archive_bytes": 1148,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-sf2200.log",
+      "sha256": "0751262faa7fa2494825c6b4dde01deadcb0ed2daa2216dd5ade65f855e8ebc2",
+      "bytes": 453793,
+      "archive": "pilot-sf2200.log.gz",
+      "archive_sha256": "a8a84b2293c755adcefed3d0dd5ddb72aee8191441eb0161e24f3ef9d31154d6",
+      "archive_bytes": 46995,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-sf2200.state.json",
+      "sha256": "f4ea6d5e57ab9fa9e1781bd0e336fc7c77b7f2a0f0b21c0315e9d401d5ea0545",
+      "bytes": 5541,
+      "archive": "pilot-sf2200.state.json.gz",
+      "archive_sha256": "743c60bb5262f63056c99694497fbec2c2971dc1c9392632a6bc94202d1ede0b",
+      "archive_bytes": 1147,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-sf2400.log",
+      "sha256": "f2abe1eb4e38c69f59e97b95d582de92a00834b56479d990a4961ff98338e81a",
+      "bytes": 536804,
+      "archive": "pilot-sf2400.log.gz",
+      "archive_sha256": "ba6c830376906e2daeb196dbe5a1a888e95ab8fdb1488dd6365b33c20a70c53e",
+      "archive_bytes": 50959,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-sf2400.state.json",
+      "sha256": "0ebd64ebd4d01ad1c90ca74e952533b52cb1a5cba85f130f02f09514e15d9095",
+      "bytes": 5543,
+      "archive": "pilot-sf2400.state.json.gz",
+      "archive_sha256": "0d94cad054412a5dab025850dcdfe7cd231b91ef4b9308b37e23437f76e52e80",
+      "archive_bytes": 1145,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-sf2800.log",
+      "sha256": "083ae632413f2528d324dc05a36a1b56c42087dfe9ab227b70246a0a7b5a8616",
+      "bytes": 530165,
+      "archive": "pilot-sf2800.log.gz",
+      "archive_sha256": "043c64ec6296769e3142e84a5aa6859cdb2b163be92ff6571cb575493687be25",
+      "archive_bytes": 46902,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-sf2800.state.json",
+      "sha256": "17c7e027d021fde828176ce3777509c51c456246e325e1d72bf1644a9da54ec4",
+      "bytes": 5545,
+      "archive": "pilot-sf2800.state.json.gz",
+      "archive_sha256": "d76df1c8fa4bb5c23d4476e34b30c4f43730cc1d9278aa0a6a1f0fdf5ad27dde",
+      "archive_bytes": 1145,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-stash.log",
+      "sha256": "949cb689e11fcc2bcbb051a19891a44b2223a42e883b7dcf871c44decd2ab99a",
+      "bytes": 4793,
+      "archive": "pilot-stash.log.gz",
+      "archive_sha256": "898322c56dc8d456e22d33dcc5791c9a60db881b64384aef52ca5f5211de924c",
+      "archive_bytes": 651,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "pilot-stash.state.json",
+      "sha256": "ac55fcd3ecd494d4b49c3f6161d2c022cb751832718128f09c05affae0f65b66",
+      "bytes": 5035,
+      "archive": "pilot-stash.state.json.gz",
+      "archive_sha256": "36008e643b2f2c517082653f0934435a79c85dd634bff95c9c2318402fc44d2a",
+      "archive_bytes": 1120,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "slow-sf2400.log",
+      "sha256": "9067daf36375a1f6511093db15cf76dce194b1f2145cc2ffc458e2e3eaf82ba5",
+      "bytes": 1743197,
+      "archive": "slow-sf2400.log.gz",
+      "archive_sha256": "83697b384f4fa9b6b9bd231b54586dd07e79db12103abc5a62a169f5432f33b0",
+      "archive_bytes": 213012,
+      "roundtrip_verified": true
+    },
+    {
+      "original": "slow-sf2400.state.json",
+      "sha256": "76855e62e233d13112ab228a328da1771317b31b1de5d680e714010bdce53e1a",
+      "bytes": 5544,
+      "archive": "slow-sf2400.state.json.gz",
+      "archive_sha256": "d279ca3434aeabfae3a5e3baa32327ab81fa287f5a1b8918ecfabe6c177ec298",
+      "archive_bytes": 1156,
+      "roundtrip_verified": true
+    }
+  ]
+}

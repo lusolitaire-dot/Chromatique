@@ -1,0 +1,51 @@
+{
+  "target_revision": "4d462c8f7883f4e08d3d0e151de0374a6150ea22",
+  "created_utc": "2026-10-20T13:44:51.522161+00:00",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.0.123.102)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "engines": {
+    "chromatique": {
+      "source_revision": "4d462c8f7883f4e08d3d0e151de0374a6150ea22",
+      "binary": "bin/chromatique-v4",
+      "binary_sha256": "ea1f52ae113e28902827e8aaf97ec18a79927f0a5e1751e95bd144c9e616d682"
+    },
+    "stockfish": {
+      "source_revision": "03e27488f3d21d8ff4dbf3065603afa21dbd0ef3",
+      "binary": ".benchmark-tools/Stockfish/src/stockfish-17.1",
+      "binary_sha256": "32d575b22286ca8523b025680ff87b42648a331f957688cf3a5a91daef12ef0a"
+    },
+    "stash": {
+      "source_revision": "7d17ff80eb53b9d4808fd285c7439e641f1c5a3b",
+      "binary": ".benchmark-tools/Stash/src/stash-bot",
+      "binary_sha256": "dc7feb68e18bf34188771d441939bb965541aa729981bfec34e38499d41169c1"
+    },
+    "fruit": {
+      "source_revision": "09627df3835f205c92ece013219c7a99ac4a023a",
+      "binary": ".benchmark-tools/Fruit-2.1/src/fruit",
+      "binary_sha256": "efab255ab55a813e0c4b88b3156fe929d0a01919efdcd0b31533713769e4b696"
+    }
+  },
+  "fastchess": {
+    "revision": "ebfd64cb7fac80d4822c50b07dca4fe934779d21",
+    "binary_sha256": "0ae4989f2d086b2efd030e38715c2c8386a027095436af7dc9939f417ea840fc"
+  },
+  "model_sha256": "d6d70e384036e1101274268a900e42b133772470f56da3895c28ed2e7845ea56",
+  "nnue_sha256": {
+    "nn-37f18f62d772.nnue": "37f18f62d772f3107e1d6aaca3898c130c3c86f2ab63e6555fbbca20635a899d",
+    "nn-1c0000000000.nnue": "1c0000000000a67d629999d932d0c373f7450ce43cd12d0562868f4eaf9ae2ad"
+  },
+  "hardware": {
+    "cpu": "Apple M5 Pro",
+    "memory_bytes": 25769803776,
+    "physical_cpus": 15,
+    "logical_cpus": 15
+  },
+  "build_commands": {
+    "target": "make JOBS=4",
+    "stockfish": "make -j4 build ARCH=apple-silicon COMP=clang EXE=stockfish-17.1",
+    "fastchess": "make -j4 CXX=clang++",
+    "stash": "make -j4 CC=clang",
+    "fruit": "make -j4 CXX=clang++ LDFLAGS=-lm"
+  }
+}

@@ -1,0 +1,5 @@
+# Versions of existing analysis dependencies; this file constrains resolution.
+# Python 3.14.7; observed UTC 2026-10-20T18:08:16.130893+00:00
+numpy==2.5.4
+python-chess==1.999
+chess==1.11.2

@@ -1,0 +1,67 @@
+{
+  "reviewed_head": "66a725f131ee1989e808e494679c4af596a07912",
+  "finding": "P2 archive-only checkout erased the retained manifest",
+  "started_utc": "2026-10-20T21:43:49.163503+00:00",
+  "commands": [
+    {
+      "argv": [
+        "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "benchmarks/chromatique-v4/scripts",
+        "-p",
+        "test_archives.py",
+        "-v"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "benchmarks/chromatique-v4/scripts",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "returncode": 0
+    },
+    {
+      "argv": [
+        "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python",
+        "benchmarks/chromatique-v4/scripts/archive_logs.py",
+        "--results-dir",
+        "benchmarks/chromatique-v4/results"
+      ],
+      "returncode": 0
+    }
+  ],
+  "benchmark_tests": 9,
+  "release_tests": 7,
+  "archive_only_regression_passed": true,
+  "all_34_original_archive_records_unchanged": true,
+  "pre_fix_failure": "archive-rerun-regression-before.txt",
+  "pre_fix_failure_sha256": "1076313e2bd0d008fe71b748eceb16b2bee7100f56e3eeff2bafe60184ba6ecd",
+  "post_fix_output": "review-verification.txt",
+  "post_fix_output_sha256": "ac4d1c026633d624d443ceebda336dd87bc0edb14739bee525ac72cf2e2f28a5",
+  "finished_utc": "2026-10-20T21:43:51.971748+00:00",
+  "changed_script_sha256": "671a993cca20b6c36d3af388d2d6f20b16291e36f303011d8b09dae67d123074",
+  "regression_test_sha256": "e5ba03254145983c509cbdfb529e2d8074fe43736f2712db7585b86b1cb33d23"
+}

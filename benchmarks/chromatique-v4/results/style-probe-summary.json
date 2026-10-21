@@ -1,0 +1,146 @@
+{
+  "positions": 200,
+  "same_choice": 58,
+  "choice_seconds": 0.25,
+  "judge_nodes_per_search": 200000,
+  "metrics": {
+    "check": {
+      "eligible_pairs": 200,
+      "counts": [
+        7,
+        5
+      ],
+      "rates": [
+        0.035,
+        0.025
+      ],
+      "target_minus_reference": 0.01,
+      "paired_bootstrap95": [
+        -0.015,
+        0.04
+      ],
+      "hoeffding95_difference": [
+        -0.18206455826398416,
+        0.20206455826398417
+      ]
+    },
+    "capture": {
+      "eligible_pairs": 200,
+      "counts": [
+        70,
+        38
+      ],
+      "rates": [
+        0.35,
+        0.19
+      ],
+      "target_minus_reference": 0.16,
+      "paired_bootstrap95": [
+        0.1,
+        0.22
+      ],
+      "hoeffding95_difference": [
+        -0.03206455826398416,
+        0.3520645582639842
+      ]
+    },
+    "quiet": {
+      "eligible_pairs": 200,
+      "counts": [
+        128,
+        161
+      ],
+      "rates": [
+        0.64,
+        0.805
+      ],
+      "target_minus_reference": -0.165,
+      "paired_bootstrap95": [
+        -0.23,
+        -0.105
+      ],
+      "hoeffding95_difference": [
+        -0.3570645582639842,
+        0.027064558263984156
+      ]
+    },
+    "material_offer_proxy": {
+      "eligible_pairs": 200,
+      "counts": [
+        22,
+        18
+      ],
+      "rates": [
+        0.11,
+        0.09
+      ],
+      "target_minus_reference": 0.02,
+      "paired_bootstrap95": [
+        -0.015,
+        0.055
+      ],
+      "hoeffding95_difference": [
+        -0.17206455826398417,
+        0.21206455826398415
+      ]
+    },
+    "low_loss_offer_proxy": {
+      "eligible_pairs": 199,
+      "counts": [
+        13,
+        9
+      ],
+      "rates": [
+        0.06532663316582915,
+        0.04522613065326633
+      ],
+      "target_minus_reference": 0.020100502512562814,
+      "paired_bootstrap95": [
+        -0.010050251256281407,
+        0.05025125628140704
+      ],
+      "hoeffding95_difference": [
+        -0.17244602528780875,
+        0.2126470303129344
+      ]
+    },
+    "loss_ge100cp": {
+      "eligible_pairs": 199,
+      "counts": [
+        23,
+        30
+      ],
+      "rates": [
+        0.11557788944723618,
+        0.1507537688442211
+      ],
+      "target_minus_reference": -0.035175879396984924,
+      "paired_bootstrap95": [
+        -0.09547738693467336,
+        0.02512562814070352
+      ],
+      "hoeffding95_difference": [
+        -0.22772240719735648,
+        0.15737064840338666
+      ]
+    }
+  },
+  "mate_transitions": [
+    {
+      "index": 142,
+      "baseline_mate": 3,
+      "selected_mates": [
+        3,
+        3
+      ]
+    }
+  ],
+  "median_nonnegative_judge_loss_cp": [
+    9,
+    16
+  ],
+  "nonmate_loss_positions_per_engine": [
+    199,
+    199
+  ]
+}

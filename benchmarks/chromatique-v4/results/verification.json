@@ -1,0 +1,91 @@
+{
+  "verified_utc": "2026-10-20T21:34:29.819509+00:00",
+  "checked_head": "7d8c7dcf751a74ac451072443602c6645119a374",
+  "completed_commands": [
+    [
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/analyze.py",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/pilot.json",
+      "--output",
+      "/private/tmp/chromatique-final-verification-l3vcq05e/pilot-summary.json"
+    ],
+    [
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/analyze.py",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/pilot-refine.json",
+      "--output",
+      "/private/tmp/chromatique-final-verification-l3vcq05e/pilot-refine-summary.json"
+    ],
+    [
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/analyze.py",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/schedule.json",
+      "--output",
+      "/private/tmp/chromatique-final-verification-l3vcq05e/summary.json"
+    ],
+    [
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/analyze.py",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/anchor-schedule.json",
+      "--output",
+      "/private/tmp/chromatique-final-verification-l3vcq05e/anchor-summary.json"
+    ],
+    [
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/run_matches.py",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/schedule.json"
+    ],
+    [
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/run_matches.py",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/anchor-schedule.json"
+    ],
+    [
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/venv/bin/python",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/scripts/style.py",
+      "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/schedule.json",
+      "--central-match",
+      "main-sf2400",
+      "--summarize-only"
+    ]
+  ],
+  "replayed_match_groups": 17,
+  "replayed_games": 2868,
+  "fixed_schedule_games": 2700,
+  "excluded_pilot_games": 168,
+  "unchanged_completed_fixed_run_guards": 10,
+  "pilot_guard_limit": "Seven historical pilot commands precede restart=on; the Stash pilot also retained an unsupported Ponder warning. All seven replayed and their inputs verified; they are intentionally not current-command skip successes.",
+  "descriptive_csv_rows_regenerated": 3200,
+  "style_summary_recomputed_identically": true,
+  "style_positions_checked": 200,
+  "legal_choices_checked": 400,
+  "logical_judge_pv_records_checked": 600,
+  "below_limit_mate_records": [
+    {
+      "record": "142:Chromatique-v4",
+      "nodes": 21917,
+      "mate": 3,
+      "node_limit": 200000
+    },
+    {
+      "record": "142:SF17.1-E2400",
+      "nodes": 21917,
+      "mate": 3,
+      "node_limit": 200000
+    }
+  ],
+  "node_audit_correction": "An initial audit incorrectly required at least the node-limit count. Probe142 shared a mate-in3 choice search ending at21917 nodes; the two logical records are retained. Budget limits are not minimum work.",
+  "rejudged_examples_checked": 3,
+  "all_17_measured_input_sets_unchanged": true,
+  "published_raw_artifacts_matching_working_bytes": 38,
+  "verified_lossless_match_archives": 34,
+  "fresh_setup_tests": {
+    "release": 7,
+    "benchmark": 8,
+    "returncode": 0
+  },
+  "target_source_unchanged": true,
+  "output_file": "verification-output.txt",
+  "output_sha256": "5da7b4fae5481f7521034dbfec0ddedd368093e923ae0320120ef53723ecf5fc",
+  "finished_utc": "2026-10-20T21:34:32.166534+00:00"
+}

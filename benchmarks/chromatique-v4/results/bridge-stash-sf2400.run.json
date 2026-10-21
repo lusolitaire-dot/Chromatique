@@ -1,0 +1,101 @@
+{
+  "spec": {
+    "id": "bridge-stash-sf2400",
+    "panel": "bridge",
+    "pairs": 100,
+    "tc": "5+0.05",
+    "concurrency": 6,
+    "engines": [
+      {
+        "name": "Stash15.3",
+        "binary": ".benchmark-tools/Stash/src/stash-bot",
+        "options": {
+          "Hash": 32,
+          "Move Overhead": 10
+        }
+      },
+      {
+        "name": "SF17.1-E2400",
+        "binary": ".benchmark-tools/Stockfish/src/stockfish-17.1",
+        "options": {
+          "Threads": 1,
+          "Hash": 32,
+          "Ponder": false,
+          "Skill Level": 20,
+          "UCI_LimitStrength": true,
+          "SyzygyProbeLimit": 0,
+          "Move Overhead": 10,
+          "UCI_Elo": 2400
+        }
+      }
+    ]
+  },
+  "inputs_sha256": {
+    "fastchess": "0ae4989f2d086b2efd030e38715c2c8386a027095436af7dc9939f417ea840fc",
+    "opening_book": "902c02d45ab1f103008cd6a783a1f4b8e08e803f6159d4adb29eb71db586a7ed",
+    "model": "d6d70e384036e1101274268a900e42b133772470f56da3895c28ed2e7845ea56",
+    "engine_0": "dc7feb68e18bf34188771d441939bb965541aa729981bfec34e38499d41169c1",
+    "engine_1": "32d575b22286ca8523b025680ff87b42648a331f957688cf3a5a91daef12ef0a"
+  },
+  "command": [
+    "/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/fastchess/fastchess",
+    "-engine",
+    "cmd=/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/Stash/src/stash-bot",
+    "name=Stash15.3",
+    "proto=uci",
+    "option.Hash=32",
+    "option.Move Overhead=10",
+    "-engine",
+    "cmd=/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/.benchmark-tools/Stockfish/src/stockfish-17.1",
+    "name=SF17.1-E2400",
+    "proto=uci",
+    "option.Threads=1",
+    "option.Hash=32",
+    "option.Ponder=false",
+    "option.Skill Level=20",
+    "option.UCI_LimitStrength=true",
+    "option.SyzygyProbeLimit=0",
+    "option.Move Overhead=10",
+    "option.UCI_Elo=2400",
+    "-each",
+    "tc=5+0.05",
+    "timemargin=100",
+    "restart=on",
+    "-rounds",
+    "100",
+    "-repeat",
+    "-recover",
+    "-concurrency",
+    "6",
+    "-openings",
+    "file=/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/data/bridge-openings.pgn",
+    "format=pgn",
+    "order=sequential",
+    "plies=16",
+    "-maxmoves",
+    "300",
+    "-pgnout",
+    "file=/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/results/bridge-stash-sf2400.pgn",
+    "append=false",
+    "nodes=true",
+    "timeleft=true",
+    "-event",
+    "bridge-stash-sf2400",
+    "-site",
+    "Local Apple Silicon benchmark",
+    "-config",
+    "outname=/Users/anon5376/Documents/Codex/2026-10-20/benchmark-https-github-com-lusolitaire-dot/Chromatique/benchmarks/chromatique-v4/results/bridge-stash-sf2400.state.json",
+    "-autosaveinterval",
+    "20"
+  ],
+  "started_utc": "2026-10-20T15:20:40.078589+00:00",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "logical_cpus": 15,
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "runner_pid": 26262,
+  "environment_policy": "Inherited environment, with all CHROMATIQUE_* removed",
+  "fastchess_pid": 50263,
+  "returncode": 0,
+  "finished_utc": "2026-10-20T15:28:29.354782+00:00",
+  "pgn_sha256": "13b85edd882ad4084bc8cb1bcc45f140be81b792c174120828875bb17bcec7ca"
+}

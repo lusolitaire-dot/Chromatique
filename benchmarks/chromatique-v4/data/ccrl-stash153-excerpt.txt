@@ -1,0 +1,16 @@
+Source URL: https://computerchess.org.uk/404/rating_list_all.html
+Full response SHA-256: 951db112489df56fc2849cc19d9ce2c43bd890e19fbb849f040d87877eaacb26
+Server HTTP Date (UTC): 2026-10-20T14:26:34+00:00
+HTML entities are decoded and whitespace collapsed. Row cells retain publisher order, separated by tabs; the blank rank cell is omitted.
+
+Date excerpt:
+Computed on October 17, 2026
+
+Model excerpt:
+Bayeselo
+
+Row excerpt:
+Stash 15.3 64-bit	2174	+19	−19	58.2%	−72.2	15.4%	982
+
+Interval-definition excerpt:
+"+" and "−" — 95% confidence intervals.

@@ -6,6 +6,9 @@ __pycache__/
 *.pyc
 .DS_Store
 .venv/
+.benchmark-tools/
+benchmarks/chromatique-v4/results/*.log
+benchmarks/chromatique-v4/results/*.state.json
 bin/*
 !bin/.gitkeep
 src/.build_*

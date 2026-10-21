@@ -1,0 +1,9 @@
+id name Stash v15.3
+id author Morgan Houppin (@mhouppin)
+option name Hash type spin default 16 min 1 max 131072
+option name Clear Hash type button
+option name MultiPV type spin default 1 min 1 max 16
+option name Minimum Thinking Time type spin default 20 min 0 max 30000
+option name Move Overhead type spin default 20 min 0 max 1000
+option name UCI_Chess960 type check default false
+uciok
