@@ -166,3 +166,6 @@ review artifacts. PGNs remain ordinary, uncompressed `.pgn` files. An archive-on
 published checkout has no raw inputs; the script rejects that case before
 writing a manifest, preserving the retained provenance. Omitting `--results-dir`
 is appropriate only when archiving raw runs in the original `results/` directory.
+When only some raw inputs are present, retained archive records are validated
+and preserved while new records are added. Corrupt or changed retained evidence
+is rejected, and the manifest is replaced atomically after validation succeeds.

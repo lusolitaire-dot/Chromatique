@@ -22,3 +22,4 @@ jobs:
       - run: make -j2
       - run: python -m pip install -r requirements-dev.txt
       - run: python -m unittest discover -s tests -v
+      - run: python -m unittest discover -s benchmarks/chromatique-v4/scripts -p 'test_*.py' -v
