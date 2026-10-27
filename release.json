@@ -1,5 +1,5 @@
 {
-  "version": "v4",
+  "version": "v4-pilot-20261025",
   "name": "Chromatique",
   "architecture": [
     820,
@@ -10,10 +10,12 @@
   "evaluation_kind": "fully_neural",
   "fixed_material": false,
   "classical_evaluation": false,
-  "network_unchanged": true,
+  "network_unchanged": false,
   "weights": {
-    "chromatique-v4.json.gz": "da4a36a30451488d1cbd3230d8fe9367ad7b9bd2edee2567d0ab1515ffda0d5b",
-    "chromatique-v4.native": "d6d70e384036e1101274268a900e42b133772470f56da3895c28ed2e7845ea56"
+    "chromatique-v4.json.gz": "308ffbf7b68198a628d28bb90ff9cfbf994dac5d2c1d2dfd4526a8b1ebd1c8f9",
+    "chromatique-v4.native": "ffcffd32b3995fca5b01dc4c620f609af607ec21c4e1abcb7c1c4d5a9dd43b82",
+    "pure-v4.json.gz": "da4a36a30451488d1cbd3230d8fe9367ad7b9bd2edee2567d0ab1515ffda0d5b",
+    "pure-v4.native": "d6d70e384036e1101274268a900e42b133772470f56da3895c28ed2e7845ea56"
   },
   "upstream": {
     "repository": "https://github.com/official-stockfish/Stockfish",
@@ -39,7 +41,19 @@
     "src/uci.cpp",
     "src/uci.h"
   ],
-  "packaging_changes": "Executable-relative model discovery and v4 identity only; search, features, inference and weights preserved.",
-  "source_json_sha256": "2918f7fa577714659e7a88a2184d2d4d7f98459f226b2dfba74debfa8de0bc50",
-  "source_encoding": "gzip-compressed original JSON; decompresses byte-for-byte to the original v4 JSON"
+  "packaging_changes": "Default bundled model updated to retained v4 outcome-learning pilot; original pure-v4 model retained separately. C++ search, inference, features and executable packaging unchanged.",
+  "source_json_sha256": "3bdabef568d69b7445273234375c0244d66b4a76fc722ded41e958282a15649b",
+  "source_encoding": "gzip-compressed full editable JSON; lossless float32 runtime export",
+  "model_status": "experimental continuation of pure v4",
+  "architecture_preserved": true,
+  "search_unchanged": true,
+  "default_model": "chromatique-v4.native",
+  "baseline_model": "pure-v4.native",
+  "source_checkpoint_sha256": "b86379b18968835b516c5c6122e78bd78fbf426e9ff4828a44486f3e003c9559",
+  "baseline_source_json_sha256": "2918f7fa577714659e7a88a2184d2d4d7f98459f226b2dfba74debfa8de0bc50",
+  "evidence": {
+    "comparison": "docs/v4-pilot/pilot-vs-pure-v4.json",
+    "games": "docs/v4-pilot/pilot-vs-pure-v4.pgn",
+    "interpretation": "Small observed development-match edge; not an established Elo or universal strength improvement."
+  }
 }

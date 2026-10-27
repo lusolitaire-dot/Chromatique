@@ -1,5 +1,11 @@
 # Reproducing the benchmark
 
+This historical benchmark targets `weights/pure-v4.native`, not the current
+default pilot. The match/style runners explicitly select the preserved model
+and record its checksum. Existing receipts, commands and archived logs retain
+their original paths and provenance; changed reproduction runs must use a new
+results directory rather than overwrite those records.
+
 Run commands from the repository root. Use Python 3.14.7 with the existing
 `requirements-dev.txt` pins and [package constraints](data/python-constraints.txt)
 to reproduce the recorded analysis environment. The constraints also fix the

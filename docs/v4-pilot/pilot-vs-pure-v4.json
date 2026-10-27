@@ -1,0 +1,287 @@
+{
+  "scope": "Retained v4 pilot vs released pure v4, recovered from existing development gate games; no new matches",
+  "candidate": "Retained result-learning v4 epoch1",
+  "candidate_native": "weights/chromatique-v4.native",
+  "candidate_sha256": "ffcffd32b3995fca5b01dc4c620f609af607ec21c4e1abcb7c1c4d5a9dd43b82",
+  "opponent": "weights/pure-v4.native",
+  "opponent_sha256": "d6d70e384036e1101274268a900e42b133772470f56da3895c28ed2e7845ea56",
+  "games": 60,
+  "opening_pairs": 30,
+  "wins": 25,
+  "draws": 14,
+  "losses": 21,
+  "score": 0.5333333333333333,
+  "opening_block_bootstrap95_score_interval": [
+    0.4166666666666667,
+    0.65
+  ],
+  "nodes_per_move_each": 20000,
+  "threads_each": 1,
+  "hash_mib_each": 32,
+  "exploration": false,
+  "censored": 0,
+  "all_histories_and_results_reverified": true,
+  "all_requested_search_budgets_verified": true,
+  "caveats": [
+    "Existing development-opening games, not a newly sealed independent match.",
+    "The score interval includes 50%; this does not establish a strength advantage.",
+    "The earlier 21W8D3L pilot SF19 result compared to the preceding jointly fine-tuned v4, not to pure v4.",
+    "No broad strongest-checkpoint ranking or external Elo is established."
+  ],
+  "by_colour": {
+    "white": {
+      "games": 30,
+      "wins": 15,
+      "draws": 6,
+      "losses": 9
+    },
+    "black": {
+      "games": 30,
+      "wins": 10,
+      "draws": 8,
+      "losses": 12
+    }
+  },
+  "evidence": [
+    {
+      "file": "research/data/v4_large_20261025/gen01/gate_matches/g1_gate_matches_0004_0_parent.json.gz",
+      "sha256": "094e8a43a44be7f82c00799d069eb61324e61ce3dc04503d7750a8ef0154db37"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen01/gate_matches/g1_gate_matches_0004_1_parent.json.gz",
+      "sha256": "65edecf57543f5e06f552b5d005976072466e2fdbe8e536f3e4bb3058af377b8"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen01/gate_matches/g1_gate_matches_0014_0_parent.json.gz",
+      "sha256": "10de0ed4f4530f61e5f7e5d8c6f822b1e0c24dbdc3d8ed5e3dc5f4573cd1793b"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen01/gate_matches/g1_gate_matches_0014_1_parent.json.gz",
+      "sha256": "c301cab26d6f273757392ebb1bdb72813004923375ee4b5ec43dce2a47406a02"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen01/gate_matches/g1_gate_matches_0024_0_parent.json.gz",
+      "sha256": "384563187bb294f41c7c8e5a4fdbff54c219568585b495bc509d30fedcff6d42"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen01/gate_matches/g1_gate_matches_0024_1_parent.json.gz",
+      "sha256": "0b7ba3619ca6f423f10e2fba8d73593876cd43b7a8d708f7ba3040bc6f1c6d89"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen01/gate_matches/g1_gate_matches_0034_0_parent.json.gz",
+      "sha256": "1408df230a579c1772a039cdca6133e85203592b90c81b7747d6cb142d545a23"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen01/gate_matches/g1_gate_matches_0034_1_parent.json.gz",
+      "sha256": "ac450bf5d74cdd9a86dcd6d4418813f9a988ed74f70a8c26572730c61fedd4c8"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen01/gate_matches/g1_gate_matches_0044_0_parent.json.gz",
+      "sha256": "c7d0d3e2b0931f518be7f2af5664086e6507ad6b7f56589f5ba255a01d6a2904"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen01/gate_matches/g1_gate_matches_0044_1_parent.json.gz",
+      "sha256": "7b4d6f5caf11d3c800158afdca11d75d9ca655128caaad096b9071308513138b"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen01/gate_matches/g1_gate_matches_0054_0_parent.json.gz",
+      "sha256": "2af5bde1c61395333eeaa4f1388393fb35f14638f35bd09b7c53827f1b2d61ed"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen01/gate_matches/g1_gate_matches_0054_1_parent.json.gz",
+      "sha256": "8244611bf06294e9392279d7667ce90cc645184431de7d488ed085cbe9b4df2c"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen02/gate_matches/g2_gate_matches_0004_0_parent.json.gz",
+      "sha256": "ddedaa6f4c0ad8e7d15940cb79f0497b257947d2cabcaa5efc26caa6a6f71901"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen02/gate_matches/g2_gate_matches_0004_1_parent.json.gz",
+      "sha256": "c3696562bf8e108c694624cfd4c77d86f7788e9c515a2845293ab3b806a8c3bf"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen02/gate_matches/g2_gate_matches_0014_0_parent.json.gz",
+      "sha256": "c30d6ae2629372072f277673745af8f681dea16ea34afc39ef31dfe2b0e2d6a3"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen02/gate_matches/g2_gate_matches_0014_1_parent.json.gz",
+      "sha256": "afaea04b50041a91c33a8885d9cb1e7c5ecdd68cfde7423b79cb7e1d6b19f824"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen02/gate_matches/g2_gate_matches_0024_0_parent.json.gz",
+      "sha256": "aee379be5c8520f57e84b795717496ca152133853a6255af5a87956214905f0e"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen02/gate_matches/g2_gate_matches_0024_1_parent.json.gz",
+      "sha256": "e634f23a4291200013cd2a07d89dba412097a9f46ef42175296d538c344ea380"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen02/gate_matches/g2_gate_matches_0034_0_parent.json.gz",
+      "sha256": "5367ef5765deb097ac9ee72345062b778ce568271621936b280cd72e59e7c854"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen02/gate_matches/g2_gate_matches_0034_1_parent.json.gz",
+      "sha256": "427b437fdaa71b60c21fcd2e170ee689014f8128fcc4035ce43d1a94eaa44ee3"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen02/gate_matches/g2_gate_matches_0044_0_parent.json.gz",
+      "sha256": "a52aaa470289d278b863b540130d9a5e571af33054fe956986a4c41f485439c2"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen02/gate_matches/g2_gate_matches_0044_1_parent.json.gz",
+      "sha256": "f038f0016ad05d3c0f4f68dc68c140742c57c9b0596253ff6ad0523386ea6beb"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen02/gate_matches/g2_gate_matches_0054_0_parent.json.gz",
+      "sha256": "b9d86055477f656c9e4eda23753570fa351da2a43887960e9336b0cab7b1d305"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen02/gate_matches/g2_gate_matches_0054_1_parent.json.gz",
+      "sha256": "7453b7b4e44385af8cfd46ebb4920a04c45714192c2ae4e5ce1346562edda7d7"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen03/gate_matches/g3_gate_matches_0004_0_parent.json.gz",
+      "sha256": "2eb848bb109c12b4dc4c54028c384e2dde9ebe4474d5d8b171d0a0ebffe20e32"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen03/gate_matches/g3_gate_matches_0004_1_parent.json.gz",
+      "sha256": "8d004054a9098887c27473237c5a8efdbf92835b508e09819a19040825261319"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen03/gate_matches/g3_gate_matches_0014_0_parent.json.gz",
+      "sha256": "477b9136fec2121e09eafa0984b431b26391971c531790ac3962048a990b6ff4"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen03/gate_matches/g3_gate_matches_0014_1_parent.json.gz",
+      "sha256": "eaff8bba68c4c58d1bce176e2276019bd568326e5703bd24a21d7f0d47430ae0"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen03/gate_matches/g3_gate_matches_0024_0_parent.json.gz",
+      "sha256": "40352fe656f29b1ebea7cb5814788b30488bc1e31ed544aa23347f1703935b50"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen03/gate_matches/g3_gate_matches_0024_1_parent.json.gz",
+      "sha256": "d10a7059db360babc53e3065a162f36c8eeafc61fe3e3b0d8043eab083cdbf1d"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen03/gate_matches/g3_gate_matches_0034_0_parent.json.gz",
+      "sha256": "073d4f46c632c41508388bc2c5dc4b9d2f6f7759df2aa4695878e72b8a04ded9"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen03/gate_matches/g3_gate_matches_0034_1_parent.json.gz",
+      "sha256": "4bb611fe90b87ae3b142be6b24881a44949f1c48f61597b804374129ce117e03"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen03/gate_matches/g3_gate_matches_0044_0_parent.json.gz",
+      "sha256": "40ffa176e20e714b603921c085305f9bceaadcfd912b3116658db39e56df8ccf"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen03/gate_matches/g3_gate_matches_0044_1_parent.json.gz",
+      "sha256": "9b30a86d90eec7d9197dc20339b97a186f6575e97e152888175fdc96df8304bc"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen03/gate_matches/g3_gate_matches_0054_0_parent.json.gz",
+      "sha256": "1faae4dd4bedb3fa91c4bca547c5893540bdccd4715d9fd8377310127643e4a6"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen03/gate_matches/g3_gate_matches_0054_1_parent.json.gz",
+      "sha256": "37c22313e9c49ddda24dea40ecf59d19f967999ee0a59f616bce84bd35d40f33"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen04/gate_matches/g4_gate_matches_0004_0_parent.json.gz",
+      "sha256": "2c8e62c1bbaacceb1f2458fa2ccdee1cc388feec26eeb4651de42a9f95af8f0e"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen04/gate_matches/g4_gate_matches_0004_1_parent.json.gz",
+      "sha256": "624747d750898925a8cd449d3b41a075d51a8c6f53ccc82872125fa6d2ef4b62"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen04/gate_matches/g4_gate_matches_0014_0_parent.json.gz",
+      "sha256": "2aaf0b37af1e632e6efbde07ca88a58a9bac56c469b5258e4f59d91f304955cf"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen04/gate_matches/g4_gate_matches_0014_1_parent.json.gz",
+      "sha256": "fd0ea9ef66d898e301b6371ebb7ae0a8495971eb82697fcb76f7022052a8e8c3"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen04/gate_matches/g4_gate_matches_0024_0_parent.json.gz",
+      "sha256": "1fae77039cc126f467fd5d826a2e18174cb9f6b6761ac4f6fda28a492e3d6998"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen04/gate_matches/g4_gate_matches_0024_1_parent.json.gz",
+      "sha256": "ac37185ad77d9b50f9aeb0d23205d075a3ec1ce27eab1963379f50a3b5541080"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen04/gate_matches/g4_gate_matches_0034_0_parent.json.gz",
+      "sha256": "ae83a167e25da8202958b12f2b1c95796a3b0907a49b791f31010a4657811d91"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen04/gate_matches/g4_gate_matches_0034_1_parent.json.gz",
+      "sha256": "99919d93be94e93564f83813d91ac3fe3fdecf85713fdbb25820ae140794f506"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen04/gate_matches/g4_gate_matches_0044_0_parent.json.gz",
+      "sha256": "6cbe163252aa603a1b220dd1b627e86bde1225212eb9c01daadc40520dca1d13"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen04/gate_matches/g4_gate_matches_0044_1_parent.json.gz",
+      "sha256": "ac9bf36748a374c662446b513569bcd5b4bac9d583f0364b4dc155b1907e3b21"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen04/gate_matches/g4_gate_matches_0054_0_parent.json.gz",
+      "sha256": "c817118512b66531feb3e088590886a809a2d6318538b8c757805b04bbad4d66"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen04/gate_matches/g4_gate_matches_0054_1_parent.json.gz",
+      "sha256": "c7850c4a3a01964780f022efd64add23155284102925277cd43f15adac7bea95"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen05/gate_matches/g5_gate_matches_0004_0_parent.json.gz",
+      "sha256": "a223e4ad6b84c44427c7ba3b314b4d88d325308f6bd13514e419f759456f3b05"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen05/gate_matches/g5_gate_matches_0004_1_parent.json.gz",
+      "sha256": "3adc7e6c4be202f7db60cc647418bee24703dadb731f0cc19dbced9c5504d2f7"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen05/gate_matches/g5_gate_matches_0014_0_parent.json.gz",
+      "sha256": "85afd6ff4c7c89d9bae6da679d64b6472bf27d7bef46b01bc7a34c4126475a3f"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen05/gate_matches/g5_gate_matches_0014_1_parent.json.gz",
+      "sha256": "7d03c31ca02ffc67d4d9ed60b39c1ffbb788ed409f2889364902590a8e7de0a2"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen05/gate_matches/g5_gate_matches_0024_0_parent.json.gz",
+      "sha256": "8c4dd5b8b84165f6cc4c368ceb7b0eca1c130d3b7862429bf08329de3d5d08cd"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen05/gate_matches/g5_gate_matches_0024_1_parent.json.gz",
+      "sha256": "563cd49943cdcdbf624e1ca6f2c56dd3e034fb44c5717bcf6b4d82c4cc563964"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen05/gate_matches/g5_gate_matches_0034_0_parent.json.gz",
+      "sha256": "ae718c6dfa6349c2aa130d9af50c2cbe69247ffd60d7dcac9f8dcf3edb35f2a3"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen05/gate_matches/g5_gate_matches_0034_1_parent.json.gz",
+      "sha256": "a4a915b837da49ca4040d382baa63be3f7f507b1ab24fa3966aa88cd0ccaba18"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen05/gate_matches/g5_gate_matches_0044_0_parent.json.gz",
+      "sha256": "0b18ddf2303592d6835930f65605556d2dea5e06032e680e48e2adddccaf9a18"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen05/gate_matches/g5_gate_matches_0044_1_parent.json.gz",
+      "sha256": "e0c629cdc9363e642932cedc69abcda87e1f4feaa21ae05454ea76136fabf547"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen05/gate_matches/g5_gate_matches_0054_0_parent.json.gz",
+      "sha256": "fff9be725af59ccdefa4cccd4b69400fb77756328d8b05ec5ea23a74e6a63f11"
+    },
+    {
+      "file": "research/data/v4_large_20261025/gen05/gate_matches/g5_gate_matches_0054_1_parent.json.gz",
+      "sha256": "6fdceeddbffe33cbcb3b217b7a76f2647ede60021f75f0a9905e5588df11e14d"
+    }
+  ]
+}

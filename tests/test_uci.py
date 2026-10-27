@@ -102,32 +102,37 @@ class UCIRelease(unittest.TestCase):
         manifest=json.loads((ROOT/'release.json').read_text())
         for name,h in manifest['weights'].items():
             self.assertEqual(hashlib.sha256((ROOT/'weights'/name).read_bytes()).hexdigest(),h)
-        with tempfile.TemporaryDirectory() as tmp:
-            target=Path(tmp)/'model.native'
-            subprocess.run([sys.executable,str(ROOT/'tools/export_native.py'),
-                            str(ROOT/'weights/chromatique-v4.json.gz'),str(target)],check=True,
-                           stdout=subprocess.DEVNULL)
-            self.assertEqual(WEIGHTS.read_bytes(),target.read_bytes())
+        for stem in ('chromatique-v4','pure-v4'):
+            with self.subTest(model=stem), tempfile.TemporaryDirectory() as tmp:
+                target=Path(tmp)/'model.native'
+                subprocess.run([sys.executable,str(ROOT/'tools/export_native.py'),
+                                str(ROOT/'weights'/f'{stem}.json.gz'),str(target)],check=True,
+                               stdout=subprocess.DEVNULL)
+                self.assertEqual((ROOT/'weights'/f'{stem}.native').read_bytes(),target.read_bytes())
 
     def test_02_native_reference_parity_120_positions(self):
-        p=json.loads(gzip.decompress((ROOT/'weights/chromatique-v4.json.gz').read_bytes()))
-        def layer(d):
-            return np.asarray(d['weight'],np.float32).reshape(d['output'],d['input']),np.asarray(d['bias'],np.float32)
-        w1,b1=layer(p['layers'][0]);w2,b2=layer(p['layers'][1]);wv,bv=layer(p['value_head'])
-        wl,bl=layer(p['linear_head']);wp,bp=layer(p['policy_head'])
-        with tempfile.TemporaryDirectory() as cwd, Probe(cwd=cwd) as probe:
-            self.assertIn('id name Chromatique v4',probe.handshake)
-            for board in parity_cases():
-                actual=probe.evaluate(board);x=encode(board)
-                np.testing.assert_array_equal(np.asarray(actual['features'],np.float32),x)
-                first=np.maximum(w1@x+b1,0);hidden=np.maximum(w2@first+b2,0)
-                cp=float(np.clip(600*(wv@hidden+bv+wl@x+bl)[0],-10000,10000))
-                self.assertAlmostEqual(actual['cp'],cp,delta=.02)
-                logits=(wp@first+bp)/p['policy_temperature']
-                self.assertEqual({s['move'] for s in actual['policy']},{m.uci() for m in board.legal_moves})
-                for item in actual['policy']:
-                    index=move_index(chess.Move.from_uci(item['move']),board.turn)
-                    self.assertAlmostEqual(item['logit'],float(logits[index]),delta=.0001)
+        for stem in ('chromatique-v4','pure-v4'):
+            p=json.loads(gzip.decompress((ROOT/'weights'/f'{stem}.json.gz').read_bytes()))
+            def layer(d):
+                return np.asarray(d['weight'],np.float32).reshape(d['output'],d['input']),np.asarray(d['bias'],np.float32)
+            w1,b1=layer(p['layers'][0]);w2,b2=layer(p['layers'][1]);wv,bv=layer(p['value_head'])
+            wl,bl=layer(p['linear_head']);wp,bp=layer(p['policy_head'])
+            with tempfile.TemporaryDirectory() as cwd, Probe(cwd=cwd) as probe:
+                self.assertIn('id name Chromatique v4',probe.handshake)
+                if stem == 'pure-v4':
+                    probe.send('setoption name ChromatiqueModel value '+str(ROOT/'weights/pure-v4.native'))
+                    probe.send('isready');probe.until(lambda line:line=='readyok')
+                for board in parity_cases():
+                    actual=probe.evaluate(board);x=encode(board)
+                    np.testing.assert_array_equal(np.asarray(actual['features'],np.float32),x)
+                    first=np.maximum(w1@x+b1,0);hidden=np.maximum(w2@first+b2,0)
+                    cp=float(np.clip(600*(wv@hidden+bv+wl@x+bl)[0],-10000,10000))
+                    self.assertAlmostEqual(actual['cp'],cp,delta=.02)
+                    logits=(wp@first+bp)/p['policy_temperature']
+                    self.assertEqual({s['move'] for s in actual['policy']},{m.uci() for m in board.legal_moves})
+                    for item in actual['policy']:
+                        index=move_index(chess.Move.from_uci(item['move']),board.turn)
+                        self.assertAlmostEqual(item['logit'],float(logits[index]),delta=.0001)
 
     def test_03_uci_search_mate_stalemate_and_history(self):
         with tempfile.TemporaryDirectory() as cwd, chess.engine.SimpleEngine.popen_uci(

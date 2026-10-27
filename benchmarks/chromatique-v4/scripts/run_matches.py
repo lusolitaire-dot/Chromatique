@@ -13,6 +13,14 @@ import sys
 ROOT = Path(__file__).resolve().parents[3]
 BASE = ROOT / "benchmarks/chromatique-v4"
 FASTCHESS = ROOT / ".benchmark-tools/fastchess/fastchess"
+BASELINE_MODEL = ROOT / "weights/pure-v4.native"
+
+
+def benchmark_environment():
+    """Historical v4 experiments must retain the original, now optional model."""
+    env = {k:v for k,v in os.environ.items() if not k.startswith("CHROMATIQUE_")}
+    env["CHROMATIQUE_NATIVE_MODEL"] = str(BASELINE_MODEL)
+    return env
 
 
 def sha(path):
@@ -30,9 +38,9 @@ def run(spec, results_dir):
     log = prefix.with_suffix(".log")
     book = BASE / "data" / (spec["panel"] + "-openings.pgn")
     inputs = {"fastchess": sha(FASTCHESS), "opening_book": sha(book),
-              "model": sha(ROOT / "weights/chromatique-v4.native")}
+              "model": sha(BASELINE_MODEL)}
     cmd = [str(FASTCHESS)]
-    env = {k: v for k, v in os.environ.items() if not k.startswith("CHROMATIQUE_")}
+    env = benchmark_environment()
     for index, engine in enumerate(spec["engines"]):
         binary = ROOT / engine["binary"]
         inputs[f"engine_{index}"] = sha(binary)
@@ -63,7 +71,7 @@ def run(spec, results_dir):
     info = {"spec": spec, "inputs_sha256": inputs, "command": cmd, "started_utc": now(),
             "platform": platform.platform(), "logical_cpus": os.cpu_count(),
             "python": sys.version, "runner_pid": os.getpid(),
-            "environment_policy": "Inherited environment, with all CHROMATIQUE_* removed"}
+            "environment_policy": "Inherited environment, CHROMATIQUE_* cleared, then original pure-v4 model explicitly selected"}
     receipt.write_text(json.dumps(info, indent=2) + "\n")
     print(f"Starting {spec['id']}: {2 * spec['pairs']} games, {spec['tc']}", flush=True)
     with log.open("x") as output:

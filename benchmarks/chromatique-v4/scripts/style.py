@@ -159,7 +159,7 @@ def common_position_probe(spec, results_dir):
     judge_binary = ROOT / ".benchmark-tools/Stockfish/src/stockfish-17.1"
     judge_options = {"Threads": 1, "Hash": 32, "UCI_LimitStrength": False, "Skill Level": 20, "SyzygyProbeLimit": 0}
     paths = {"source_pgn": results_dir / (spec["id"] + ".pgn"),
-             "model": ROOT / "weights/chromatique-v4.native", "judge_binary": judge_binary,
+             "model": ROOT / "weights/pure-v4.native", "judge_binary": judge_binary,
              "script": Path(__file__)}
     paths.update({f"engine_{i}": ROOT / entry["binary"] for i, entry in enumerate(spec["engines"])})
     manifest.write_text(json.dumps(
@@ -170,6 +170,7 @@ def common_position_probe(spec, results_dir):
          "selection": "one hash-selected game and eligible preselected ply per opening pair",
          "positions": positions, "excluded": excluded}, indent=2) + "\n")
     env = {k: v for k, v in os.environ.items() if not k.startswith("CHROMATIQUE_")}
+    env["CHROMATIQUE_NATIVE_MODEL"] = str(ROOT / "weights/pure-v4.native")
     engines = []
     try:
         for entry in spec["engines"]:

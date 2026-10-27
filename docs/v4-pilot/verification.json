@@ -1,0 +1,20 @@
+{
+  "status": "passed locally on macOS arm64",
+  "published_model_native_sha256": "ffcffd32b3995fca5b01dc4c620f609af607ec21c4e1abcb7c1c4d5a9dd43b82",
+  "preserved_model_native_sha256": "d6d70e384036e1101274268a900e42b133772470f56da3895c28ed2e7845ea56",
+  "release_tests": 7,
+  "benchmark_tests": 13,
+  "native_parity_positions_per_model": 120,
+  "models_checked": 2,
+  "byte_identical_export_both_models": true,
+  "model_selection_and_relocation": true,
+  "missing_model_aborts": true,
+  "perft_start_depth4": 197281,
+  "perft_kiwipete_depth3": 97862,
+  "historical_benchmark_explicitly_uses_pure_v4": true,
+  "comparison_pgn_games_replayed": 60,
+  "comparison_pgn_sha256": "41315dd2a5a086fd397a1eedba4f0c8d211294930ec4d0ab8b89fb4834c95e40",
+  "cpp_sources_modified": false,
+  "linux_build": "Covered by repository CI; not run locally",
+  "no_claim_of_elo_improvement": true
+}

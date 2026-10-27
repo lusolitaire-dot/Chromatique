@@ -1,5 +1,10 @@
 # Chromatique v4: playing strength and style
 
+These results describe the **original pure-v4 model**, preserved at
+`weights/pure-v4.native`. They do not measure the repository's newer default
+v4 pilot. The benchmark and style runners explicitly select the preserved model
+when generating new evidence; existing receipts and results remain unchanged.
+
 **All 2,700 fixed-schedule games and the 200-position style panel are complete.
 All 2,868 match games, including 168 excluded selection games, passed independent
 legal replay.** PGNs, probe records and run receipts are retained in

@@ -18,7 +18,12 @@ complete diff against the pinned upstream is in docs/stockfish-changes.patch.
 The complete corresponding engine source, build system, model in editable JSON
 and native format, and original copyright/license notices are distributed here.
 The stock Stockfish NNUE network and any external game/puzzle datasets are not
-included. The bundled model is Chromatique's own pure-v4 network.
+included. The default bundled model is Chromatique's retained v4 outcome-learning
+pilot; the original pure-v4 model is retained separately. Both are Chromatique's
+own fully learned networks and are distributed under the same license.
+
+The 2026-10-27 model update changes trained policy/value parameters only. It does
+not modify the C++ search, feature definitions, neural inference, or architecture.
 
 The src/incbin helper retains its upstream UNLICENCE.
 This work is provided without warranty; see LICENSE.
