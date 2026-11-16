@@ -1,4 +1,3 @@
-#include "chromatique_eval.h" // Standalone release packaging, 2026-10-19.
 /*
   Stockfish, a UCI chess playing engine derived from Glaurung 2.1
   Copyright (C) 2004-2026 The Stockfish developers (see AUTHORS file)
@@ -17,6 +16,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "chromatique_eval.h" // Standalone release packaging, 2026-11-16.
 #include <iostream>
 #include <memory>
 #include <utility>

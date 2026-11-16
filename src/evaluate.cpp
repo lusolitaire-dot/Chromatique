@@ -29,22 +29,15 @@
 #include <sstream>
 
 #include "misc.h"
-#include "nnue/network.h"
-#include "nnue/nnue_misc.h"
 #include "position.h"
 #include "types.h"
 #include "uci.h"
-#include "nnue/nnue_accumulator.h"
 
 namespace Stockfish {
 
 // Evaluate is the evaluator for the outer world. It returns a static evaluation
 // of the position from the point of view of the side to move.
-Value Eval::evaluate(const Eval::NNUE::Network&     network,
-                     const Position&                pos,
-                     Eval::NNUE::AccumulatorStack&  accumulators,
-                     Eval::NNUE::AccumulatorCaches& caches,
-                     int                            optimism) {
+Value Eval::evaluate(const Position& pos, int optimism) {
     return Chromatique::evaluate(pos);
 }
 
@@ -52,7 +45,7 @@ Value Eval::evaluate(const Eval::NNUE::Network&     network,
 // a string (suitable for outputting to stdout) that contains the detailed
 // descriptions and values of each evaluation term. Useful for debugging.
 // Trace scores are from white's point of view
-std::string Eval::trace(Position& pos, const Eval::NNUE::Network& network) {
+std::string Eval::trace(Position& pos) {
     return Chromatique::trace(pos);
 }
 

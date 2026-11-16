@@ -20,17 +20,19 @@
  	$(CLANG-FORMAT) -i $(SRCS) $(OTHER_SRCS) $(HEADERS) -style=file
 --- a/src/chromatique_eval.cpp
 +++ b/src/chromatique_eval.cpp
-@@ -0,0 +1,98 @@
+@@ -0,0 +1,349 @@
++#include <time.h>
 +// Chromatique's fully learned evaluator for the isolated Stockfish-19 fork.
 +// GPL-3.0-or-later. Stockfish NNUE evaluation is never called.
 +#include "chromatique_eval.h"
 +#include "misc.h"
++#include "uci.h"
 +#ifdef __APPLE__
 +#include <mach-o/dyld.h>
 +#endif
-+#include "uci.h"
 +#include "movegen.h"
 +#include <algorithm>
++#include <atomic>
 +#include <cmath>
 +#include <cstdlib>
 +#include <cstring>
@@ -42,19 +44,19 @@
 +namespace Stockfish::Chromatique {
 +namespace {
 +constexpr int N=820,H=512,K=32,P=1968;
-+struct Model {std::vector<float> data;std::unordered_map<std::string,int> moves;std::string sha,path;unsigned generation=0;};
++struct Model {std::array<float,H*K> w2t{};std::vector<float> data,policyEncoder;std::unordered_map<std::string,int> moves;std::string sha,path;unsigned generation=0;};
 +Model net;
 +std::filesystem::path executable_directory;
 +[[noreturn]] void fail(const std::string& message){std::cerr<<"Chromatique model error: "<<message<<std::endl;std::exit(1);}
 +constexpr int O_B1=N*H,O_W2=O_B1+H,O_B2=O_W2+H*K,O_VALUE=O_B2+K,O_VBIAS=O_VALUE+K,O_LINEAR=O_VBIAS+1,O_LBIAS=O_LINEAR+N,O_POLICY=O_LBIAS+1,O_PBIAS=O_POLICY+H*P,O_TEMP=O_PBIAS+P,COUNT=O_TEMP+1;
-+void first_layer(const std::array<float,N>& x,std::array<float,H>& h,float& direct){
++void first_layer_reference(const std::array<float,N>& x,std::array<float,H>& h,float& direct){
 +    const float* w=net.data.data();for(int j=0;j<H;++j)h[j]=w[O_B1+j];direct=w[O_LBIAS];
 +    for(int i=0;i<N;++i)if(x[i]!=0){float v=x[i];direct+=w[O_LINEAR+i]*v;const float* column=w+i*H;for(int j=0;j<H;++j)h[j]+=column[j]*v;}
 +    for(float& v:h)v=std::max(0.0f,v);
 +}
 +float dot(const float* w,const float* h){float a=0,b=0,c=0,d=0;for(int i=0;i<H;i+=4){a+=w[i]*h[i];b+=w[i+1]*h[i+1];c+=w[i+2]*h[i+2];d+=w[i+3]*h[i+3];}return (a+b)+(c+d);}
 +}
-+// Standalone packaging, 2026-10-19: locate the unchanged model independently of GUI working directory.
++// Standalone packaging, 2026-11-16: locate the bundled model independently of GUI working directory.
 +void initialize_executable_path(const std::filesystem::path& input){
 +    namespace fs=std::filesystem;fs::path executable=input;std::error_code error;
 +#ifdef __APPLE__
@@ -70,8 +72,8 @@
 +}
 +std::string default_path(){
 +    if(const char* p=std::getenv("CHROMATIQUE_NATIVE_MODEL");p&&*p)return p;
-+    auto model=executable_directory.parent_path()/"weights"/"chromatique-v4.native";
-+    auto adjacent=executable_directory/"weights"/"chromatique-v4.native";
++    auto model=executable_directory.parent_path()/"weights"/"chromatique-v4.1.0.native";
++    auto adjacent=executable_directory/"weights"/"chromatique-v4.1.0.native";
 +    if(std::filesystem::is_regular_file(adjacent))model=adjacent;
 +    auto utf8=model.u8string();return std::string(utf8.begin(),utf8.end());
 +}
@@ -79,20 +81,26 @@
 +    std::ifstream f(path,std::ios::binary);if(!f)fail("cannot open "+path.string());
 +    char magic[8],sha[64];std::uint32_t dims[4];std::uint64_t expected;
 +    f.read(magic,8);f.read(reinterpret_cast<char*>(dims),16);f.read(sha,64);f.read(reinterpret_cast<char*>(&expected),8);
-+    if(!f||std::memcmp(magic,"CHROMA3\0",8)||dims[0]!=N||dims[1]!=H||dims[2]!=K||dims[3]!=P)fail("incompatible header");
++    bool separate=bool(f)&&!std::memcmp(magic,"CHROMA4\0",8);
++    if(!f||(!separate&&std::memcmp(magic,"CHROMA3\0",8))||dims[0]!=N||dims[1]!=H||dims[2]!=K||dims[3]!=P)fail("incompatible header");
 +    std::vector<unsigned char> bytes((std::istreambuf_iterator<char>(f)),{});
-+    if(bytes.size()!=COUNT*sizeof(float)+P*6)fail("truncated/trailing model data");
++    const int extra=separate?N*H+H:0;
++    if(bytes.size()!=(COUNT+extra)*sizeof(float)+P*6)fail("truncated/trailing model data");
 +    std::uint64_t checksum=14695981039346656037ull;for(auto b:bytes)checksum=(checksum^b)*1099511628211ull;
 +    if(checksum!=expected)fail("checksum mismatch");
 +    net.data.resize(COUNT);std::memcpy(net.data.data(),bytes.data(),COUNT*sizeof(float));
 +    for(float v:net.data)if(!std::isfinite(v))fail("non-finite parameter");
++    net.policyEncoder.resize(extra);
++    if(extra)std::memcpy(net.policyEncoder.data(),bytes.data()+COUNT*sizeof(float),extra*sizeof(float));
++    for(float v:net.policyEncoder)if(!std::isfinite(v))fail("non-finite policy encoder parameter");
 +    if(net.data[O_TEMP]<=0)fail("invalid policy temperature");
-+    net.moves.clear();const char* names=reinterpret_cast<const char*>(bytes.data()+COUNT*sizeof(float));
++    net.moves.clear();const char* names=reinterpret_cast<const char*>(bytes.data()+(COUNT+extra)*sizeof(float));
 +    for(int i=0;i<P;++i){std::string name(names+i*6,strnlen(names+i*6,6));if(name.size()<4||name.size()>5||!net.moves.emplace(name,i).second)fail("invalid vocabulary");}
++    for(int i=0;i<H;++i)for(int j=0;j<K;++j)net.w2t[i*K+j]=net.data[O_W2+j*H+i];
 +    net.sha=std::string(sha,64);net.path=path.string();net.generation++;
 +}
 +void ensure_loaded(){if(net.data.size()!=COUNT)fail("no trained model loaded; Stockfish fallback forbidden");}
-+std::array<float,N> features(const Position& pos){
++std::array<float,N> features_reference(const Position& pos){
 +    std::array<float,N> x{};Color us=pos.side_to_move();int kings[2]={-1,-1},count[12]={},sumOwn[12]={},sumEnemy[12]={};
 +    for(int s=0;s<64;++s){Piece p=pos.piece_on(Square(s));if(p==NO_PIECE)continue;int plane=int(type_of(p))-1+(color_of(p)==us?0:6),sq=us==WHITE?s:s^56;x[plane*64+sq]=1;count[plane]++;if(type_of(p)==KING)kings[color_of(p)==us?0:1]=sq;}
 +    if(kings[0]<0||kings[1]<0)fail("missing king");
@@ -103,25 +111,268 @@
 +    int occupied=0;for(int p=0;p<12;++p){occupied+=count[p];for(int s=0;s<64;++s)if(x[p*64+s]){sumOwn[p]+=std::max(std::abs(s%8-af),std::abs(s/8-ar));sumEnemy[p]+=std::max(std::abs(s%8-bf),std::abs(s/8-br));}x[784+p]=float(count[p]/8.0);if(count[p]){x[796+p]=float(double(sumOwn[p])/count[p]/7.0);x[808+p]=float(double(sumEnemy[p])/count[p]/7.0);}}
 +    x[783]=float(occupied/32.0);return x;
 +}
++
++std::array<float,N> features_fast(const Position& pos){
++    std::array<float,N> x{};Color us=pos.side_to_move();
++    int own=int(pos.square<KING>(us))^(us==WHITE?0:56),enemy=int(pos.square<KING>(~us))^(us==WHITE?0:56);
++    int af=own%8,ar=own/8,bf=enemy%8,br=enemy/8,occupied=0;
++    for(int plane=0;plane<12;++plane){
++        Color color=plane<6?us:~us;Bitboard bb=pos.pieces(color,PieceType(plane%6+1));
++        if(us==BLACK)bb=__builtin_bswap64(bb);
++        int count=0,nearOwn=0,nearEnemy=0;
++        while(bb){int s=int(pop_lsb(bb));x[plane*64+s]=1;++count;
++            nearOwn+=std::max(std::abs(s%8-af),std::abs(s/8-ar));
++            nearEnemy+=std::max(std::abs(s%8-bf),std::abs(s/8-br));}
++        occupied+=count;x[784+plane]=float(count/8.0);
++        if(count){x[796+plane]=float(double(nearOwn)/count/7.0);x[808+plane]=float(double(nearEnemy)/count/7.0);}
++    }
++    x[768]=1;x[769]=bool(pos.can_castle(us==WHITE?WHITE_OO:BLACK_OO));x[770]=bool(pos.can_castle(us==WHITE?WHITE_OOO:BLACK_OOO));
++    x[771]=bool(pos.can_castle(us==WHITE?BLACK_OO:WHITE_OO));x[772]=bool(pos.can_castle(us==WHITE?BLACK_OOO:WHITE_OOO));
++    Square ep=pos.state()->chromatiqueEp;x[773]=ep==SQ_NONE?-1.0f:float((int(file_of(ep))+1)/8.0);
++    x[774]=float(std::min(100,pos.rule50_count())/100.0);x[775]=pos.state()->repetition!=0;
++    x[776]=float(af/7.0);x[777]=float(ar/7.0);x[778]=float(bf/7.0);x[779]=float(br/7.0);
++    x[780]=float(std::max(std::abs(af-bf),std::abs(ar-br))/7.0);
++    x[781]=float(std::min({af,7-af,ar,7-ar})/3.0);x[782]=float(std::min({bf,7-bf,br,7-br})/3.0);x[783]=float(occupied/32.0);
++    return x;
++}
++bool reference_eval(){static bool reference=std::getenv("CHROMATIQUE_EVAL_REFERENCE")!=nullptr;return reference;}
++std::array<float,N> features(const Position& pos){return reference_eval()?features_reference(pos):features_fast(pos);}
++
++void first_layer_previous(const Position& pos,const std::array<float,N>& x,std::array<float,H>& h,float& direct){
++    const float* w=net.data.data();for(int j=0;j<H;++j)h[j]=w[O_B1+j];direct=w[O_LBIAS];
++    Color us=pos.side_to_move();
++    // Exactly the same ascending feature order and floating arithmetic as the
++    // reference, but skip known-zero piece-square slots without scanning768.
++    for(int plane=0;plane<12;++plane){
++        Bitboard bb=pos.pieces(plane<6?us:~us,PieceType(plane%6+1));if(us==BLACK)bb=__builtin_bswap64(bb);
++        while(bb){int i=plane*64+int(pop_lsb(bb));direct+=w[O_LINEAR+i];const float* column=w+i*H;
++            for(int j=0;j<H;++j)h[j]+=column[j];}
++    }
++    for(int i=768;i<N;++i)if(x[i]!=0){float v=x[i];direct+=w[O_LINEAR+i]*v;const float* column=w+i*H;for(int j=0;j<H;++j)h[j]+=column[j]*v;}
++    for(float& v:h)v=std::max(0.0f,v);
++}
++
++void first_layer_full(const Position& pos,const std::array<float,N>& x,std::array<float,H>& h,float& direct){
++    static const bool reference=std::getenv("CHROMATIQUE_FIRST_LAYER_REFERENCE")!=nullptr;
++    if(reference){first_layer_previous(pos,x,h,direct);return;}
++    const float* w=net.data.data();direct=w[O_LBIAS];
++    std::array<int,64> pieceIndices;int pieces=0;
++    std::array<int,N-768> tailIndices;int tails=0;
++    // Retain the reference's ascending feature order, including the learned
++    // direct path. Piece activations are exactly one; state features use FMA.
++    Color us=pos.side_to_move();
++    for(int plane=0;plane<12;++plane){
++        Bitboard bb=pos.pieces(plane<6?us:~us,PieceType(plane%6+1));
++        if(us==BLACK)bb=__builtin_bswap64(bb);
++        while(bb){int i=plane*64+int(pop_lsb(bb));pieceIndices[pieces++]=i;direct+=w[O_LINEAR+i];}
++    }
++    for(int i=768;i<N;++i)if(x[i]!=0){tailIndices[tails++]=i;direct+=w[O_LINEAR+i]*x[i];}
++    // A tile stays local across all active input columns, reducing repeated
++    // loads/stores of the full hidden activation vector. No sum reassociation.
++    for(int base=0;base<H;base+=64){
++        alignas(16) float acc[64];
++        for(int j=0;j<64;++j)acc[j]=w[O_B1+base+j];
++        for(int k=0;k<pieces;++k){
++            const float* column=w+pieceIndices[k]*H+base;
++            for(int j=0;j<64;++j)acc[j]+=column[j];
++        }
++        for(int k=0;k<tails;++k){
++            int i=tailIndices[k];float v=x[i];const float* column=w+i*H+base;
++            for(int j=0;j<64;++j)acc[j]+=column[j]*v;
++        }
++        for(int j=0;j<64;++j)h[base+j]=std::max(0.0f,acc[j]);
++    }
++}
++
++
++bool incremental_verify(){static const bool verify=std::getenv("CHROMATIQUE_INCREMENTAL_VERIFY")!=nullptr;return verify;}
++struct IncrementalMetrics {
++    std::atomic<unsigned long long> hits{0},updates{0},refreshes{0},checks{0};
++    std::atomic<unsigned long long> tailColumns{0},fullTailColumns{0};
++    std::atomic<double> maximumError{0};
++};
++IncrementalMetrics incrementalMetrics;
++struct PieceAccumulator {
++    Key key=0;unsigned generation=0;Color color=WHITE;unsigned refreshDistance=0;
++    std::array<float,H> value{};
++    std::array<float,N-768> tail{};
++};
++// Thread-owned; roots/history states remain read-only during evaluation.
++thread_local std::array<PieceAccumulator,256> pieceAccumulators;
++
++
++
++void first_layer_fast(const Position& pos,const std::array<float,N>& x,std::array<float,H>& h,float& direct){
++    static const bool reference=std::getenv("CHROMATIQUE_INCREMENTAL_REFERENCE")!=nullptr;
++    if(reference){first_layer_full(pos,x,h,direct);return;}
++    const float* w=net.data.data();Color us=pos.side_to_move();direct=w[O_LBIAS];
++    std::array<int,64> pieces;int count=0;std::array<int,N-768> tails;int tailCount=0;
++    for(int plane=0;plane<12;++plane){
++        Bitboard bb=pos.pieces(plane<6?us:~us,PieceType(plane%6+1));if(us==BLACK)bb=__builtin_bswap64(bb);
++        while(bb){int i=plane*64+int(pop_lsb(bb));pieces[count++]=i;direct+=w[O_LINEAR+i];}
++    }
++    // The learned direct path retains canonical feature order and arithmetic.
++    for(int i=768;i<N;++i)if(x[i]!=0){tails[tailCount++]=i;direct+=w[O_LINEAR+i]*x[i];}
++    const StateInfo* current=pos.state();auto& target=pieceAccumulators[current->key&255];
++    auto matches=[&](const PieceAccumulator& a,Key key){return a.key==key&&a.generation==net.generation&&a.color==us;};
++    bool boardHit=matches(target,current->key);const PieceAccumulator* ancestor=boardHit?&target:nullptr;
++    unsigned distance=boardHit?target.refreshDistance:0;
++    std::array<int,16> columns;int columnsCount=0;
++    if(!boardHit){
++        const StateInfo* path[4];int length=0;const StateInfo* state=current;
++        while(length<4&&state->previous){
++            path[length++]=state;state=state->previous;
++            const auto& cached=pieceAccumulators[state->key&255];
++            if(matches(cached,state->key)&&cached.refreshDistance+unsigned(length)<=8){ancestor=&cached;break;}
++        }
++        if(ancestor){
++            distance=ancestor->refreshDistance+unsigned(length);
++            for(int step=length-1;step>=0;--step)for(int n=0;n<path[step]->chromaDeltaCount;++n){
++                int delta=path[step]->chromaPieceDelta[n];int code=std::abs(delta)-1;
++                Piece piece=Piece(code/64);int square=code%64;
++                int plane=int(type_of(piece))-1+(color_of(piece)==us?0:6);
++                int i=plane*64+(us==WHITE?square:square^56);
++                columns[columnsCount++]=(delta>0?1:-1)*(i+1);
++            }
++        }
++    }
++    // Cache the full pre-ReLU affine vector and its52 dynamic input values.
++    // A board-key hit can have different clock/repetition/raw-EP state; compare
++    // every dynamic feature, rather than treating that board key as a full hit.
++    std::array<int,N-768> changed;std::array<float,N-768> differences;int changedCount=0;
++    if(ancestor)for(int i=768;i<N;++i){
++        float delta=x[i]-ancestor->tail[i-768];
++        if(delta!=0.0f){changed[changedCount]=i;differences[changedCount++]=delta;}
++    }
++    bool fullHit=boardHit&&changedCount==0;
++    if(boardHit&&changedCount){
++        // Repeated same-board state changes also consume the drift budget.
++        if(distance>=8){ancestor=nullptr;distance=0;}
++        else ++distance;
++    }
++    if(incremental_verify()){
++        if(fullHit)incrementalMetrics.hits.fetch_add(1,std::memory_order_relaxed);
++        else if(ancestor)incrementalMetrics.updates.fetch_add(1,std::memory_order_relaxed);
++        else incrementalMetrics.refreshes.fetch_add(1,std::memory_order_relaxed);
++        incrementalMetrics.tailColumns.fetch_add(ancestor?changedCount:tailCount,std::memory_order_relaxed);
++        incrementalMetrics.fullTailColumns.fetch_add(tailCount,std::memory_order_relaxed);
++    }
++    for(int base=0;base<H;base+=64){
++        alignas(16) float acc[64];
++        for(int j=0;j<64;++j)acc[j]=ancestor?ancestor->value[base+j]:w[O_B1+base+j];
++        if(ancestor){
++            for(int k=0;k<columnsCount;++k){
++                int delta=columns[k];const float* column=w+(std::abs(delta)-1)*H+base;
++                if(delta>0){for(int j=0;j<64;++j)acc[j]+=column[j];}
++                else{for(int j=0;j<64;++j)acc[j]-=column[j];}
++            }
++            for(int k=0;k<changedCount;++k){
++                float delta=differences[k];const float* column=w+changed[k]*H+base;
++                for(int j=0;j<64;++j)acc[j]+=column[j]*delta;
++            }
++        }else{
++            // Canonical refresh is identical to the frozen full-reference path.
++            for(int k=0;k<count;++k){const float* column=w+pieces[k]*H+base;for(int j=0;j<64;++j)acc[j]+=column[j];}
++            for(int k=0;k<tailCount;++k){int i=tails[k];float v=x[i];const float* column=w+i*H+base;for(int j=0;j<64;++j)acc[j]+=column[j]*v;}
++        }
++        // Read an ancestor tile before writing, including same-slot collisions.
++        if(!fullHit)for(int j=0;j<64;++j)target.value[base+j]=acc[j];
++        for(int j=0;j<64;++j)h[base+j]=std::max(0.0f,acc[j]);
++    }
++    if(!fullHit){
++        for(int i=768;i<N;++i)target.tail[i-768]=x[i];
++        target.key=current->key;target.generation=net.generation;target.color=us;target.refreshDistance=distance;
++    }
++}
++
++void first_layer(const Position& pos,const std::array<float,N>& x,std::array<float,H>& h,float& direct){
++    if(reference_eval())first_layer_reference(x,h,direct);else first_layer_fast(pos,x,h,direct);
++}
++
++float value_layer_tiled(const std::array<float,H>& h,const float* w,float direct){
++    static const bool reference=std::getenv("CHROMATIQUE_VALUE_KERNEL_REFERENCE")!=nullptr;
++    float value=w[O_VBIAS]+direct;
++    if(reference){
++        for(int j=0;j<K;++j){float z=w[O_B2+j]+dot(w+O_W2+j*H,h.data());value+=w[O_VALUE+j]*std::max(0.0f,z);}
++        return value;
++    }
++    std::array<float,K> z;
++    // Preserve all four original dot-product streams and their final grouping.
++    // Tile across eight output neurons so SIMD can exploit independent streams
++    // without reassociating floating-point additions within a neuron.
++    for(int base=0;base<K;base+=8){
++        alignas(16) float a[8]{},b[8]{},c[8]{},d[8]{};
++        for(int i=0;i<H;i+=4){
++#pragma clang fp contract(off)
++            const float* column=net.w2t.data()+i*K+base;
++            for(int j=0;j<8;++j){
++                a[j]+=column[j]*h[i];b[j]+=column[K+j]*h[i+1];
++                c[j]+=column[2*K+j]*h[i+2];d[j]+=column[3*K+j]*h[i+3];
++            }
++        }
++        for(int j=0;j<8;++j)z[base+j]=w[O_B2+base+j]+((a[j]+b[j])+(c[j]+d[j]));
++    }
++    for(int j=0;j<K;++j)value+=w[O_VALUE+j]*std::max(0.0f,z[j]);
++    return value;
++}
++
++double raw_centipawns(const Position& pos){
++    auto x=features(pos);std::array<float,H> h;float direct;first_layer(pos,x,h,direct);const float* w=net.data.data();float value=value_layer_tiled(h,w,direct);
++    if(incremental_verify()){
++        std::array<float,H> referenceH;float referenceDirect;first_layer_full(pos,x,referenceH,referenceDirect);
++        float referenceValue=value_layer_tiled(referenceH,w,referenceDirect);
++        double error=600.0*std::abs(double(value)-double(referenceValue));
++        if(!std::isfinite(error)||error>0.02)fail("incremental float32 shadow error exceeds0.02cp: "+std::to_string(error));
++        incrementalMetrics.checks.fetch_add(1,std::memory_order_relaxed);
++        double old=incrementalMetrics.maximumError.load(std::memory_order_relaxed);
++        while(error>old&&!incrementalMetrics.maximumError.compare_exchange_weak(old,error,std::memory_order_relaxed)){}
++    }
++    return std::clamp(600.0*value,-10000.0,10000.0);
++}
++std::string benchmark(const Position& pos,int iterations){
++    ensure_loaded();iterations=std::clamp(iterations,1,1000000);double sum=0;
++    timespec start,end;clock_gettime(CLOCK_THREAD_CPUTIME_ID,&start);
++    for(int i=0;i<iterations;++i)sum+=raw_centipawns(pos);
++    clock_gettime(CLOCK_THREAD_CPUTIME_ID,&end);double seconds=end.tv_sec-start.tv_sec+(end.tv_nsec-start.tv_nsec)*1e-9;
++    std::ostringstream out;out<<std::setprecision(17)<<"chromabench {\"iterations\":"<<iterations<<",\"cpu_seconds\":"<<seconds<<",\"checksum\":"<<sum<<"}";return out.str();
++}
++
 +double centipawns(const Position& pos){
 +    ensure_loaded();struct Entry {Key key=0;double cp=0;unsigned generation=0;};static thread_local std::array<Entry,16384> cache;
 +    Key key=pos.key();auto& entry=cache[key&16383];if(entry.generation==net.generation&&entry.key==key)return entry.cp;
-+    auto x=features(pos);std::array<float,H> h;float direct;first_layer(x,h,direct);const float* w=net.data.data();float value=w[O_VBIAS]+direct;
-+    for(int j=0;j<K;++j){float z=w[O_B2+j]+dot(w+O_W2+j*H,h.data());value+=w[O_VALUE+j]*std::max(0.0f,z);}
-+    double cp=std::clamp(600.0*value,-10000.0,10000.0);entry={key,cp,net.generation};return cp;
++    double cp=raw_centipawns(pos);entry={key,cp,net.generation};return cp;
 +}
 +Value evaluate(const Position& pos){return UCIEngine::from_cp(centipawns(pos),pos);}
 +bool policy_enabled(){const char* p=std::getenv("CHROMATIQUE_POLICY");return !p||std::strcmp(p,"0");}
++void independent_policy_first_layer(const std::array<float,N>& x,std::array<float,H>& h){
++    // Policy weights never read value accumulators or value-encoder columns.
++    const float* w=net.policyEncoder.data();
++    for(int j=0;j<H;++j)h[j]=w[N*H+j];
++    for(int i=0;i<N;++i)if(x[i]!=0){
++        float v=x[i];const float* column=w+i*H;
++        for(int j=0;j<H;++j)h[j]+=column[j]*v;
++    }
++    for(float& v:h)v=std::max(0.0f,v);
++}
 +std::vector<double> policy(const Position& pos,const std::vector<Move>& moves){
-+    ensure_loaded();auto x=features(pos);std::array<float,H> h;float direct;first_layer(x,h,direct);std::vector<double> scores;const float* w=net.data.data();
++    ensure_loaded();auto x=features(pos);std::array<float,H> h;float direct;if(net.policyEncoder.empty())first_layer(pos,x,h,direct);else independent_policy_first_layer(x,h);std::vector<double> scores;const float* w=net.data.data();
 +    for(Move move:moves){std::string name=UCIEngine::move(move,pos.is_chess960());if(pos.side_to_move()==BLACK){name[1]=char('9'-name[1]+'0');name[3]=char('9'-name[3]+'0');}auto found=net.moves.find(name);if(found==net.moves.end())fail("move outside vocabulary: "+name);int k=found->second;float z=w[O_PBIAS+k]+dot(w+O_POLICY+k*H,h.data());scores.push_back(z/w[O_TEMP]);}return scores;
 +}
-+std::string metadata(){ensure_loaded();std::ostringstream s;s<<"{\"name\":\"Chromatique v4\",\"model_sha256\":\""<<net.sha<<"\",\"search_kind\":\"stockfish19_native\",\"evaluation_kind\":\"fully_neural\",\"classical_evaluation\":false,\"fixed_material\":false,\"architecture\":[820,512,32],\"policy_enabled\":"<<(policy_enabled()?"true":"false")<<"}";return s.str();}
++
++std::string incremental_stats(){
++    std::ostringstream s;s<<std::setprecision(17)<<"chroma_incremental {\"hits\":"<<incrementalMetrics.hits.load()
++     <<",\"updates\":"<<incrementalMetrics.updates.load()<<",\"refreshes\":"<<incrementalMetrics.refreshes.load()
++     <<",\"tail_columns\":"<<incrementalMetrics.tailColumns.load()<<",\"full_tail_columns\":"<<incrementalMetrics.fullTailColumns.load()
++     <<",\"shadow_checks\":"<<incrementalMetrics.checks.load()<<",\"max_cp_error\":"<<incrementalMetrics.maximumError.load()<<"}";
++    return s.str();
++}
++
++std::string metadata(){ensure_loaded();std::ostringstream s;s<<"{\"name\":\"Chromatique v4.1.0\",\"model_sha256\":\""<<net.sha<<"\",\"search_kind\":\"stockfish19_native\",\"evaluation_kind\":\"fully_neural\",\"classical_evaluation\":false,\"fixed_material\":false,\"architecture\":[820,512,32],\"policy_enabled\":"<<(policy_enabled()?"true":"false")<<",\"policy_encoder\":\""<<(net.policyEncoder.empty()?"shared":"independent")<<"\"}";return s.str();}
 +std::string trace(const Position& pos){ensure_loaded();auto x=features(pos);std::ostringstream s;s<<std::setprecision(17)<<"chromatique {\"cp\":"<<centipawns(pos)<<",\"features\":[";for(int i=0;i<N;++i){if(i)s<<',';s<<x[i];}s<<"],\"internal\":"<<evaluate(pos)<<",\"roundtrip_cp\":"<<UCIEngine::to_cp(evaluate(pos),pos)<<",\"model_sha256\":\""<<net.sha<<"\",\"policy\":[";std::vector<Move> moves;for(Move m:MoveList<LEGAL>(pos))moves.push_back(m);auto logits=policy(pos,moves);for(usize i=0;i<moves.size();++i){if(i)s<<',';s<<"{\"move\":\""<<UCIEngine::move(moves[i],pos.is_chess960())<<"\",\"logit\":"<<logits[i]<<"}";}s<<"]}";return s.str();}
 +}
 --- a/src/chromatique_eval.h
 +++ b/src/chromatique_eval.h
-@@ -0,0 +1,20 @@
+@@ -0,0 +1,22 @@
 +// Chromatique native evaluator integration. GPL-3.0-or-later.
 +#pragma once
 +#include <array>
@@ -130,34 +381,59 @@
 +#include <vector>
 +#include "position.h"
 +namespace Stockfish::Chromatique {
-+void initialize_executable_path(const std::filesystem::path&);
 +std::string default_path();
++void initialize_executable_path(const std::filesystem::path&);
 +void load(const std::filesystem::path&);
 +void ensure_loaded();
 +std::array<float,820> features(const Position&);
 +double centipawns(const Position&);
 +Value evaluate(const Position&);
++std::string benchmark(const Position&,int);
 +std::string trace(const Position&);
 +std::string metadata();
++std::string incremental_stats();
 +bool policy_enabled();
 +std::vector<double> policy(const Position&,const std::vector<Move>&);
 +}
 --- a/src/engine.cpp
 +++ b/src/engine.cpp
-@@ -1,3 +1,4 @@
+@@ -1,3 +1,5 @@
++#include <ctime>
 +#include "chromatique_eval.h"
  /*
    Stockfish, a UCI chess playing engine derived from Glaurung 2.1
    Copyright (C) 2004-2026 The Stockfish developers (see AUTHORS file)
-@@ -64,6 +65,7 @@
-     networkFile{std::nullopt, ""},
-     network(numaContext, get_default_network()) {
+@@ -32,7 +34,6 @@
  
+ #include "evaluate.h"
+ #include "misc.h"
+-#include "nnue/network.h"
+ #include "nnue/nnue_common.h"
+ #include "numa.h"
+ #include "perft.h"
+@@ -46,7 +47,6 @@
+ 
+ namespace Stockfish {
+ 
+-namespace NN = Eval::NNUE;
+ 
+ int MaxThreads = std::max(1024, 4 * int(get_hardware_concurrency()));
+ 
+@@ -60,10 +60,9 @@
+     binaryDirectory(path ? CommandLine::get_binary_directory(*path) : std::filesystem::path{}),
+     numaContext(NumaConfig::from_system(DefaultNumaPolicy)),
+     states(new std::deque<StateInfo>(1)),
+-    threads(),
+-    networkFile{std::nullopt, ""},
+-    network(numaContext, get_default_network()) {
+-
++    threads() {
++
 +    Chromatique::load(path_from_utf8(Chromatique::default_path()));
      pos.set(StartFEN, false, &states->back());
  
      options.add(  //
-@@ -133,7 +135,7 @@
+@@ -133,13 +132,12 @@
      options.add("SyzygyProbeLimit", Option(7, 0, 7));
  
      options.add(  //
@@ -166,7 +442,33 @@
            load_network(path_from_utf8(std::string(o)));
            return std::nullopt;
        }));
-@@ -264,71 +266,28 @@
+ 
+     threads.clear();
+-    threads.ensure_network_replicated();
+     resize_threads();
+ }
+ 
+@@ -240,18 +238,16 @@
+ 
+     // Force reallocation of threads in case affinities need to change.
+     resize_threads();
+-    threads.ensure_network_replicated();
+     return true;
+ }
+ 
+ void Engine::resize_threads() {
+     threads.wait_for_search_finished();
+-    threads.set(numaContext.get_numa_config(), {options, threads, tt, sharedHists, network},
++    threads.set(numaContext.get_numa_config(), {options, threads, tt, sharedHists},
+                 updateContext);
+ 
+     // Reallocate the hash with the new threadpool size
+     set_tt_size(options["Hash"]);
+-    threads.ensure_network_replicated();
+ }
+ 
+ void Engine::set_tt_size(usize mb) {
+@@ -264,71 +260,25 @@
  // network related
  
  void Engine::verify_network() const {
@@ -202,17 +504,16 @@
 -
 -        onVerifyNetwork(message);
 -    }
-+    Chromatique::ensure_loaded();
- }
- 
- std::unique_ptr<Eval::NNUE::Network> Engine::get_default_network() {
+-}
+-
+-std::unique_ptr<Eval::NNUE::Network> Engine::get_default_network() {
 -
 -    auto network_ = std::make_unique<NN::Network>();
 -
 -    network_->load(binaryDirectory, std::filesystem::path{}, networkFile);
 -
 -    return network_;
-+    return std::make_unique<NN::Network>(); // Zero stub; Stockfish evaluation is forbidden.
++    Chromatique::ensure_loaded();
  }
  
  void Engine::load_network(const std::filesystem::path& file) {
@@ -220,6 +521,7 @@
 -      [this, &file](NN::Network& network_) { network_.load(binaryDirectory, file, networkFile); });
 +    wait_for_search_finished();
 +    Chromatique::load(file);
++    if (!std::getenv("CHROMATIQUE_RETAIN_TT_ON_MODEL_CHANGE")) tt.clear(threads);
      threads.clear();
 -    threads.ensure_network_replicated();
  }
@@ -245,6 +547,49 @@
  }
  
  const OptionsMap& Engine::get_options() const { return options; }
+@@ -403,3 +353,6 @@
+     return ss.str();
+ }
+ }
++
++void Stockfish::Engine::chroma_bench(int n) const { sync_cout << Chromatique::benchmark(pos,n) << sync_endl; }
++void Stockfish::Engine::chroma_stats() const { sync_cout << "chroma_hashfull " << get_hashfull(255) << "\nchroma_cpu " << std::to_string(double(std::clock())/CLOCKS_PER_SEC) << "\n" << Chromatique::incremental_stats() << sync_endl; }
+--- a/src/engine.h
++++ b/src/engine.h
+@@ -32,8 +32,6 @@
+ 
+ #include "misc.h"
+ #include "history.h"
+-#include "nnue/network.h"
+-#include "nnue/nnue_misc.h"
+ #include "numa.h"
+ #include "position.h"
+ #include "search.h"
+@@ -95,13 +93,14 @@
+     // network related
+ 
+     void                                 verify_network() const;
+-    std::unique_ptr<Eval::NNUE::Network> get_default_network();
+     void                                 load_network(const std::filesystem::path& file);
+     void save_network(const std::optional<std::filesystem::path>& file);
+ 
+     // utility functions
+ 
+     void trace_eval() const;
++    void chroma_bench(int) const;
++    void chroma_stats() const;
+ 
+     const OptionsMap& get_options() const;
+     OptionsMap&       get_options();
+@@ -128,8 +127,6 @@
+     OptionsMap                                        options;
+     ThreadPool                                        threads;
+     TranspositionTable                                tt;
+-    Eval::NNUE::EvalFile                              networkFile;
+-    LazyNumaReplicatedSystemWide<Eval::NNUE::Network> network;
+ 
+     Search::SearchManager::UpdateContext  updateContext;
+     std::function<void(std::string_view)> onVerifyNetwork;
 --- a/src/evaluate.cpp
 +++ b/src/evaluate.cpp
 @@ -1,3 +1,4 @@
@@ -252,10 +597,26 @@
  /*
    Stockfish, a UCI chess playing engine derived from Glaurung 2.1
    Copyright (C) 2004-2026 The Stockfish developers (see AUTHORS file)
-@@ -44,28 +45,7 @@
-                      Eval::NNUE::AccumulatorStack&  accumulators,
-                      Eval::NNUE::AccumulatorCaches& caches,
-                      int                            optimism) {
+@@ -28,78 +29,24 @@
+ #include <sstream>
+ 
+ #include "misc.h"
+-#include "nnue/network.h"
+-#include "nnue/nnue_misc.h"
+ #include "position.h"
+ #include "types.h"
+ #include "uci.h"
+-#include "nnue/nnue_accumulator.h"
+ 
+ namespace Stockfish {
+ 
+ // Evaluate is the evaluator for the outer world. It returns a static evaluation
+ // of the position from the point of view of the side to move.
+-Value Eval::evaluate(const Eval::NNUE::Network&     network,
+-                     const Position&                pos,
+-                     Eval::NNUE::AccumulatorStack&  accumulators,
+-                     Eval::NNUE::AccumulatorCaches& caches,
+-                     int                            optimism) {
 -
 -    assert(!pos.checkers());
 -
@@ -278,14 +639,15 @@
 -    v = std::clamp(v, VALUE_TB_LOSS_IN_MAX_PLY + 1, VALUE_TB_WIN_IN_MAX_PLY - 1);
 -
 -    return v;
++Value Eval::evaluate(const Position& pos, int optimism) {
 +    return Chromatique::evaluate(pos);
  }
  
  // Like evaluate(), but instead of returning a value, it returns
-@@ -73,33 +53,7 @@
+ // a string (suitable for outputting to stdout) that contains the detailed
  // descriptions and values of each evaluation term. Useful for debugging.
  // Trace scores are from white's point of view
- std::string Eval::trace(Position& pos, const Eval::NNUE::Network& network) {
+-std::string Eval::trace(Position& pos, const Eval::NNUE::Network& network) {
 -
 -    if (pos.checkers())
 -        return "Final evaluation: none (in check)";
@@ -313,17 +675,45 @@
 -    ss << " [with scaled NNUE, ...]\n";
 -
 -    return ss.str();
++std::string Eval::trace(Position& pos) {
 +    return Chromatique::trace(pos);
  }
  
  }  // namespace Stockfish
+--- a/src/evaluate.h
++++ b/src/evaluate.h
+@@ -35,19 +35,8 @@
+ // in the Makefile/Fishtest.
+ #define EvalFileDefaultName "nn-1a298aa575a0.nnue"
+ 
+-namespace NNUE {
+-class Network;
+-struct AccumulatorCaches;
+-class AccumulatorStack;
+-}
+-
+-std::string trace(Position& pos, const Eval::NNUE::Network& network);
+-
+-Value evaluate(const NNUE::Network&           network,
+-               const Position&                pos,
+-               Eval::NNUE::AccumulatorStack&  accumulators,
+-               Eval::NNUE::AccumulatorCaches& caches,
+-               int                            optimism);
++std::string trace(Position& pos);
++Value evaluate(const Position& pos, int optimism);
+ }  // namespace Eval
+ 
+ }  // namespace Stockfish
 --- a/src/main.cpp
 +++ b/src/main.cpp
-@@ -1,3 +1,4 @@
-+#include "chromatique_eval.h" // Standalone release packaging, 2026-10-19.
- /*
-   Stockfish, a UCI chess playing engine derived from Glaurung 2.1
-   Copyright (C) 2004-2026 The Stockfish developers (see AUTHORS file)
+@@ -16,6 +16,7 @@
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+ 
++#include "chromatique_eval.h" // Standalone release packaging, 2026-11-16.
+ #include <iostream>
+ #include <memory>
+ #include <utility>
 @@ -43,6 +44,7 @@
      Position::init();
  
@@ -340,7 +730,7 @@
  std::string engine_info(bool to_uci) {
 -    return engine_version_info() + (to_uci ? "\nid author " : " by ")
 -         + "the Stockfish developers (see AUTHORS file)";
-+    return std::string("Chromatique v4") + (to_uci ? "\nid author " : " by ")
++    return std::string("Chromatique v4.1.0") + (to_uci ? "\nid author " : " by ")
 +         + "Chromatique contributors and the Stockfish developers (GPL-3.0-or-later)";
  }
  
@@ -378,7 +768,12 @@
  
 --- a/src/position.cpp
 +++ b/src/position.cpp
-@@ -209,6 +209,7 @@
+@@ -1,3 +1,4 @@
++#include <cstdlib>
+ /*
+   Stockfish, a UCI chess playing engine derived from Glaurung 2.1
+   Copyright (C) 2004-2026 The Stockfish developers (see AUTHORS file)
+@@ -209,6 +210,7 @@
      std::memset(reinterpret_cast<char*>(this), 0, sizeof(Position));
      std::memset(si, 0, sizeof(StateInfo));
      st = si;
@@ -386,7 +781,7 @@
  
      ss >> std::noskipws;
  
-@@ -393,6 +394,7 @@
+@@ -393,6 +395,7 @@
          if ((col >= 'a' && col <= 'h') && (row == (sideToMove == WHITE ? '6' : '3')))
          {
              st->epSquare = make_square(File(col - 'a'), Rank(row - '1'));
@@ -394,7 +789,17 @@
  
              Bitboard pawns = attacks_bb<PAWN>(st->epSquare, ~sideToMove) & pieces(sideToMove, PAWN);
              Bitboard target = (pieces(~sideToMove, PAWN) & (st->epSquare + pawn_push(~sideToMove)));
-@@ -852,6 +854,7 @@
+@@ -840,7 +843,8 @@
+     ++st->pliesFromNull;
+ 
+     auto& dpps = dirties.dirtyPawnPairs;
+-    auto& dts  = dirties.dirtyThreats;
++    static const bool recordNNUE = std::getenv("CHROMATIQUE_NNUE_BOOKKEEPING") != nullptr;
++    DirtyThreats* dts = recordNNUE ? &dirties.dirtyThreats : nullptr;
+     auto& dp   = dirties.dirtyPiece;
+ 
+     dpps.before[WHITE] = pieces(WHITE, PAWN);
+@@ -852,6 +856,7 @@
      Square to       = m.to_sq();
      Piece  pc       = piece_on(from);
      Piece  captured = m.type_of() == EN_PASSANT ? make_piece(them, PAWN) : piece_on(to);
@@ -402,7 +807,85 @@
  
      dp.pc     = pc;
      dp.from   = from;
-@@ -1360,6 +1363,7 @@
+@@ -868,7 +873,7 @@
+         assert(captured == make_piece(us, ROOK));
+ 
+         Square rfrom, rto;
+-        do_castling<true>(us, from, to, rfrom, rto, &dts, &dp);
++        do_castling<true>(us, from, to, rfrom, rto, dts, &dp);
+ 
+         k ^= Zobrist::psq[captured][rfrom] ^ Zobrist::psq[captured][rto];
+         st->nonPawnKey[us] ^= Zobrist::psq[captured][rfrom] ^ Zobrist::psq[captured][rto];
+@@ -893,7 +898,7 @@
+                 assert(piece_on(capsq) == make_piece(them, PAWN));
+ 
+                 // Update board and piece lists in ep case, normal captures are updated later
+-                remove_piece(capsq, &dts);
++                remove_piece(capsq, dts);
+             }
+ 
+             st->pawnKey ^= Zobrist::psq[captured][capsq];
+@@ -1004,8 +1009,7 @@
+             st->minorPieceKey ^= Zobrist::psq[pc][from] ^ Zobrist::psq[pc][to];
+     }
+ 
+-    if (tt)
+-        prefetch(tt->first_entry(adjust_key50(k)));
++
+     // Update the key with the final value
+     st->key = k;
+ 
+@@ -1027,15 +1031,15 @@
+ 
+         if (captured && m.type_of() != EN_PASSANT)
+         {
+-            remove_piece(from, &dts);
+-            swap_piece(to, toPc, &dts);
++            remove_piece(from, dts);
++            swap_piece(to, toPc, dts);
+         }
+         else if (pc == toPc)
+-            move_piece(from, to, &dts);
++            move_piece(from, to, dts);
+         else
+         {
+-            remove_piece(from, &dts);
+-            put_piece(toPc, to, &dts);
++            remove_piece(from, dts);
++            put_piece(toPc, to, dts);
+         }
+     }
+ 
+@@ -1071,8 +1075,20 @@
+ 
+     assert(pos_is_ok());
+ 
++    if (tt) prefetch(tt->first_entry(key()));
++
+     dpps.after[WHITE] = pieces(WHITE, PAWN);
+     dpps.after[BLACK] = pieces(BLACK, PAWN);
++
++    st->chromaDeltaCount=0;
++    auto recordChromaDelta=[&](Piece piece,Square square,int sign){
++        assert(st->chromaDeltaCount<4);
++        st->chromaPieceDelta[st->chromaDeltaCount++]=std::int16_t(sign*(int(piece)*64+int(square)+1));
++    };
++    recordChromaDelta(dp.pc,dp.from,-1);
++    if(dp.to!=SQ_NONE)recordChromaDelta(dp.pc,dp.to,1);
++    if(dp.remove_sq!=SQ_NONE)recordChromaDelta(dp.remove_pc,dp.remove_sq,-1);
++    if(dp.add_sq!=SQ_NONE)recordChromaDelta(dp.add_pc,dp.add_sq,1);
+ 
+     assert(dp.pc != NO_PIECE);
+     assert(!(bool(captured) || m.type_of() == CASTLING) ^ (dp.remove_sq != SQ_NONE));
+@@ -1350,6 +1366,7 @@
+ 
+     newSt.previous = st;
+     st             = &newSt;
++    st->chromaDeltaCount=0;
+ 
+     if (st->epSquare != SQ_NONE)
+     {
+@@ -1360,6 +1377,7 @@
      st->key ^= Zobrist::side;
  
      st->pliesFromNull = 0;
@@ -420,7 +903,16 @@
  
      // Not copied when making a move (will be recomputed anyhow)
      Key        key;
-@@ -316,7 +317,7 @@
+@@ -64,6 +65,8 @@
+     Bitboard   checkSquares[PIECE_TYPE_NB];
+     Piece      capturedPiece;
+     int        repetition;
++    std::int16_t chromaPieceDelta[4];
++    unsigned char chromaDeltaCount;
+ };
+ 
+ 
+@@ -316,7 +319,7 @@
  
  inline Bitboard Position::check_squares(PieceType pt) const { return st->checkSquares[pt]; }
  
@@ -429,6 +921,194 @@
  
  template<bool AfterMove>
  inline Key Position::adjust_key50(Key k) const {
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -1,3 +1,4 @@
++#include <cstdlib>
+ /*
+   Stockfish, a UCI chess playing engine derived from Glaurung 2.1
+   Copyright (C) 2004-2026 The Stockfish developers (see AUTHORS file)
+@@ -39,8 +40,6 @@
+ #include "misc.h"
+ #include "movegen.h"
+ #include "movepick.h"
+-#include "nnue/network.h"
+-#include "nnue/nnue_accumulator.h"
+ #include "position.h"
+ #include "syzygy/tbprobe.h"
+ #include "thread.h"
+@@ -51,6 +50,15 @@
+ #include "ucioption.h"
+ 
+ namespace Stockfish {
++
++
++
++// Fixed-node searches retain their original polling and tree exactly. Only
++// wall-clock searches need the more responsive polling, including quiescence.
++static bool responsive_clock(const Search::LimitsType& limits) {
++    static const bool legacy=std::getenv("CHROMATIQUE_LEGACY_CLOCK")!=nullptr;
++    return !legacy && !limits.nodes && (limits.use_time_management() || limits.movetime);
++}
+ 
+ static constexpr std::array<int, 16> lmrDivisor = {3637, 2787, 2761, 2939, 3171, 3347, 3147, 2762,
+                                                    2772, 3106, 3107, 3060, 3112, 2991, 3090, 3542};
+@@ -177,20 +185,12 @@
+     manager(std::move(sm)),
+     options(sharedState.options),
+     threads(sharedState.threads),
+-    tt(sharedState.tt),
+-    network(sharedState.network),
+-    refreshTable(network[token]) {
++    tt(sharedState.tt) {
+     clear();
+ }
+ 
+-void Search::Worker::ensure_network_replicated() {
+-    // Access once to force lazy initialization, avoiding initialization during search
+-    (void) (network[numaAccessToken]);
+-}
+-
+ void Search::Worker::start_searching() {
+ 
+-    accumulatorStack.reset();
+ 
+     // Non-main threads go directly to iterative_deepening()
+     if (!is_mainthread())
+@@ -642,7 +642,7 @@
+     // prefetch_key() does not model castling, en passant or promotion exactly.
+     // The correction-history prefetches also approximate castling and promotion.
+     // For these rare moves the prefetches land on unused lines.
+-    prefetch(tt.first_entry(pos.prefetch_key(move)));
++    // Position::do_move prefetches the exact history-aware child key.
+ 
+     bool capture = pos.capture_stage(move);
+ 
+@@ -657,7 +657,7 @@
+ 
+     ++nodes;
+ 
+-    Dirties& dirties = accumulatorStack.push();
++    Dirties dirties; // DirtyPiece is still required by continuation histories.
+     pos.do_move(move, st, givesCheck, dirties, &tt, &sharedHistory);
+ 
+     if (ss != nullptr)
+@@ -680,7 +680,6 @@
+ 
+ void Search::Worker::undo_move(Position& pos, const Move move) {
+     pos.undo_move(move);
+-    accumulatorStack.pop();
+ }
+ 
+ void Search::Worker::undo_null_move(Position& pos) { pos.undo_null_move(); }
+@@ -712,7 +711,6 @@
+     for (usize i = 1; i < reductions.size(); ++i)
+         reductions[i] = int(2872 / 128.0 * std::log(i));
+ 
+-    refreshTable.clear(network[numaAccessToken]);
+ }
+ 
+ 
+@@ -1658,6 +1656,14 @@
+     assert(alpha >= -VALUE_INFINITE && alpha < beta && beta <= VALUE_INFINITE);
+     assert(PvNode || (alpha == beta - 1));
+ 
++    if (responsive_clock(limits))
++    {
++        if (is_mainthread())
++            main_manager()->check_time(*this);
++        if (threads.stop.load(std::memory_order_relaxed))
++            return VALUE_ZERO;
++    }
++
+     // Check if we have an upcoming move that draws by repetition
+     if (alpha < VALUE_DRAW && pos.upcoming_repetition(ss->ply))
+     {
+@@ -1826,6 +1832,11 @@
+         value = -qsearch<nodeType>(pos, ss + 1, -beta, -alpha);
+         undo_move(pos, move);
+ 
++        // An interrupted child is not a score: do not update this node's PV
++        // or transposition entry from its placeholder return value.
++        if (responsive_clock(limits) && threads.stop.load(std::memory_order_relaxed))
++            return VALUE_ZERO;
++
+         assert(value > -VALUE_INFINITE && value < VALUE_INFINITE);
+ 
+         // Step 8. Check for a new best move
+@@ -1899,8 +1910,7 @@
+ // Evaluate the current position of the game tree, from the point of view of
+ // the side to move.
+ Value Search::Worker::evaluate(const Position& pos) {
+-    return Eval::evaluate(network[numaAccessToken], pos, accumulatorStack, refreshTable,
+-                          optimism[pos.side_to_move()]);
++    return Eval::evaluate(pos, optimism[pos.side_to_move()]);
+ }
+ 
+ namespace {
+@@ -2106,7 +2116,8 @@
+         return;
+ 
+     // When using nodes, ensure checking rate is not lower than 0.1% of nodes
+-    callsCnt = worker.limits.nodes ? std::min(512, int(worker.limits.nodes / 1024)) : 512;
++    callsCnt = worker.limits.nodes ? std::min(512, int(worker.limits.nodes / 1024))
++                                  : (responsive_clock(worker.limits) ? 32 : 512);
+ 
+     static TimePoint lastInfoTime = now();
+ 
+--- a/src/search.h
++++ b/src/search.h
+@@ -33,7 +33,6 @@
+ 
+ #include "history.h"
+ #include "misc.h"
+-#include "nnue/nnue_accumulator.h"
+ #include "numa.h"
+ #include "position.h"
+ #include "score.h"
+@@ -195,19 +194,16 @@
+     SharedState(const OptionsMap&                                        optionsMap,
+                 ThreadPool&                                              threadPool,
+                 TranspositionTable&                                      transpositionTable,
+-                std::map<NumaIndex, SharedHistories>&                    sharedHists,
+-                const LazyNumaReplicatedSystemWide<Eval::NNUE::Network>& net) :
++                std::map<NumaIndex, SharedHistories>&                    sharedHists) :
+         options(optionsMap),
+         threads(threadPool),
+         tt(transpositionTable),
+-        sharedHistories(sharedHists),
+-        network(net) {}
++        sharedHistories(sharedHists) {}
+ 
+     const OptionsMap&                                        options;
+     ThreadPool&                                              threads;
+     TranspositionTable&                                      tt;
+     std::map<NumaIndex, SharedHistories>&                    sharedHistories;
+-    const LazyNumaReplicatedSystemWide<Eval::NNUE::Network>& network;
+ };
+ 
+ class Worker;
+@@ -342,7 +338,6 @@
+ 
+     bool is_mainthread() const { return threadIdx == 0; }
+ 
+-    void ensure_network_replicated();
+ 
+     // Public because they need to be updatable by the stats
+     ButterflyHistory mainHistory;
+@@ -416,11 +411,7 @@
+     const OptionsMap&                                        options;
+     ThreadPool&                                              threads;
+     TranspositionTable&                                      tt;
+-    const LazyNumaReplicatedSystemWide<Eval::NNUE::Network>& network;
+-
+-    // Used by NNUE
+-    Eval::NNUE::AccumulatorStack  accumulatorStack;
+-    Eval::NNUE::AccumulatorCaches refreshTable;
++
+ 
+     friend class Stockfish::ThreadPool;
+     friend class SearchManager;
 --- a/src/thread.cpp
 +++ b/src/thread.cpp
 @@ -1,3 +1,4 @@
@@ -436,7 +1116,15 @@
  /*
    Stockfish, a UCI chess playing engine derived from Glaurung 2.1
    Copyright (C) 2004-2026 The Stockfish developers (see AUTHORS file)
-@@ -320,6 +321,15 @@
+@@ -121,7 +122,6 @@
+     cv.notify_one();
+ }
+ 
+-void Thread::ensure_network_replicated() { worker->ensure_network_replicated(); }
+ 
+ // Thread gets parked here, blocked on the condition variable
+ // when the thread has no work to do.
+@@ -320,6 +320,15 @@
          for (const auto& m : MoveList<LEGAL>(pos))
              rootMoves.emplace_back(m);
  
@@ -452,6 +1140,34 @@
      Tablebases::Config tbConfig = Tablebases::rank_root_moves(options, pos, rootMoves);
  
      // After ownership transfer 'states' becomes empty, so if we stop the search
+@@ -456,9 +465,5 @@
+     return std::max(seen.size(), usize(1));
+ }
+ 
+-void ThreadPool::ensure_network_replicated() {
+-    for (auto&& th : threads)
+-        th->ensure_network_replicated();
+-}
+ 
+ }  // namespace Stockfish
+--- a/src/thread.h
++++ b/src/thread.h
+@@ -85,7 +85,6 @@
+     void clear_worker();
+     void run_custom_job(std::function<void()> f);
+ 
+-    void ensure_network_replicated();
+ 
+     // Thread has been slightly altered to allow running custom jobs, so
+     // this name is no longer correct. However, this class (and ThreadPool)
+@@ -152,7 +151,6 @@
+     std::vector<usize> get_bound_thread_count_by_numa_node() const;
+     usize              numa_nodes() const;
+ 
+-    void ensure_network_replicated();
+ 
+     std::atomic_bool stop, increaseDepth;
+ 
 --- a/src/uci.cpp
 +++ b/src/uci.cpp
 @@ -1,3 +1,4 @@
@@ -464,14 +1180,23 @@
          else if (token == "uci")
          {
 -            sync_cout << "id name " << engine_info(true) << "\n"
-+            sync_cout << "id name Chromatique v4\nid author Chromatique and Stockfish developers (GPL-3.0-or-later)\n"
++            sync_cout << "id name Chromatique v4.1.0\nid author Chromatique contributors and Stockfish developers (GPL-3.0-or-later)\n"
                        << engine.get_options() << sync_endl;
  
 +            sync_cout << "info string chromatique " << Chromatique::metadata() << sync_endl;
              sync_cout << "uciok" << sync_endl;
          }
  
-@@ -593,6 +595,11 @@
+@@ -158,6 +160,8 @@
+             benchmark(is);
+         else if (token == "d")
+             sync_cout << engine.visualize() << sync_endl;
++        else if (token == "chromabench") { int n=1;is>>n;engine.chroma_bench(n); }
++        else if (token == "chromastats") engine.chroma_stats();
+         else if (token == "eval")
+             engine.trace_eval();
+         else if (token == "compiler")
+@@ -593,6 +597,11 @@
      return int(std::round(100 * int(v) / a));
  }
  

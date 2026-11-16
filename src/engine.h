@@ -32,8 +32,6 @@
 
 #include "misc.h"
 #include "history.h"
-#include "nnue/network.h"
-#include "nnue/nnue_misc.h"
 #include "numa.h"
 #include "position.h"
 #include "search.h"
@@ -95,13 +93,14 @@ class Engine {
     // network related
 
     void                                 verify_network() const;
-    std::unique_ptr<Eval::NNUE::Network> get_default_network();
     void                                 load_network(const std::filesystem::path& file);
     void save_network(const std::optional<std::filesystem::path>& file);
 
     // utility functions
 
     void trace_eval() const;
+    void chroma_bench(int) const;
+    void chroma_stats() const;
 
     const OptionsMap& get_options() const;
     OptionsMap&       get_options();
@@ -128,8 +127,6 @@ class Engine {
     OptionsMap                                        options;
     ThreadPool                                        threads;
     TranspositionTable                                tt;
-    Eval::NNUE::EvalFile                              networkFile;
-    LazyNumaReplicatedSystemWide<Eval::NNUE::Network> network;
 
     Search::SearchManager::UpdateContext  updateContext;
     std::function<void(std::string_view)> onVerifyNetwork;

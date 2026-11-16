@@ -175,7 +175,7 @@ std::string engine_version_info() {
 }
 
 std::string engine_info(bool to_uci) {
-    return std::string("Chromatique v4") + (to_uci ? "\nid author " : " by ")
+    return std::string("Chromatique v4.1.0") + (to_uci ? "\nid author " : " by ")
          + "Chromatique contributors and the Stockfish developers (GPL-3.0-or-later)";
 }
 

@@ -65,6 +65,8 @@ struct StateInfo {
     Bitboard   checkSquares[PIECE_TYPE_NB];
     Piece      capturedPiece;
     int        repetition;
+    std::int16_t chromaPieceDelta[4];
+    unsigned char chromaDeltaCount;
 };
 
 

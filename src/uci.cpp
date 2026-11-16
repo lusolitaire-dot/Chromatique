@@ -123,7 +123,7 @@ void UCIEngine::loop() {
 
         else if (token == "uci")
         {
-            sync_cout << "id name Chromatique v4\nid author Chromatique and Stockfish developers (GPL-3.0-or-later)\n"
+            sync_cout << "id name Chromatique v4.1.0\nid author Chromatique contributors and Stockfish developers (GPL-3.0-or-later)\n"
                       << engine.get_options() << sync_endl;
 
             sync_cout << "info string chromatique " << Chromatique::metadata() << sync_endl;
@@ -160,6 +160,8 @@ void UCIEngine::loop() {
             benchmark(is);
         else if (token == "d")
             sync_cout << engine.visualize() << sync_endl;
+        else if (token == "chromabench") { int n=1;is>>n;engine.chroma_bench(n); }
+        else if (token == "chromastats") engine.chroma_stats();
         else if (token == "eval")
             engine.trace_eval();
         else if (token == "compiler")

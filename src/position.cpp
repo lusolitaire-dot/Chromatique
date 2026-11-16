@@ -1,3 +1,4 @@
+#include <cstdlib>
 /*
   Stockfish, a UCI chess playing engine derived from Glaurung 2.1
   Copyright (C) 2004-2026 The Stockfish developers (see AUTHORS file)
@@ -842,7 +843,8 @@ void Position::do_move(Move                      m,
     ++st->pliesFromNull;
 
     auto& dpps = dirties.dirtyPawnPairs;
-    auto& dts  = dirties.dirtyThreats;
+    static const bool recordNNUE = std::getenv("CHROMATIQUE_NNUE_BOOKKEEPING") != nullptr;
+    DirtyThreats* dts = recordNNUE ? &dirties.dirtyThreats : nullptr;
     auto& dp   = dirties.dirtyPiece;
 
     dpps.before[WHITE] = pieces(WHITE, PAWN);
@@ -871,7 +873,7 @@ void Position::do_move(Move                      m,
         assert(captured == make_piece(us, ROOK));
 
         Square rfrom, rto;
-        do_castling<true>(us, from, to, rfrom, rto, &dts, &dp);
+        do_castling<true>(us, from, to, rfrom, rto, dts, &dp);
 
         k ^= Zobrist::psq[captured][rfrom] ^ Zobrist::psq[captured][rto];
         st->nonPawnKey[us] ^= Zobrist::psq[captured][rfrom] ^ Zobrist::psq[captured][rto];
@@ -896,7 +898,7 @@ void Position::do_move(Move                      m,
                 assert(piece_on(capsq) == make_piece(them, PAWN));
 
                 // Update board and piece lists in ep case, normal captures are updated later
-                remove_piece(capsq, &dts);
+                remove_piece(capsq, dts);
             }
 
             st->pawnKey ^= Zobrist::psq[captured][capsq];
@@ -1007,8 +1009,7 @@ void Position::do_move(Move                      m,
             st->minorPieceKey ^= Zobrist::psq[pc][from] ^ Zobrist::psq[pc][to];
     }
 
-    if (tt)
-        prefetch(tt->first_entry(adjust_key50(k)));
+
     // Update the key with the final value
     st->key = k;
 
@@ -1030,15 +1031,15 @@ void Position::do_move(Move                      m,
 
         if (captured && m.type_of() != EN_PASSANT)
         {
-            remove_piece(from, &dts);
-            swap_piece(to, toPc, &dts);
+            remove_piece(from, dts);
+            swap_piece(to, toPc, dts);
         }
         else if (pc == toPc)
-            move_piece(from, to, &dts);
+            move_piece(from, to, dts);
         else
         {
-            remove_piece(from, &dts);
-            put_piece(toPc, to, &dts);
+            remove_piece(from, dts);
+            put_piece(toPc, to, dts);
         }
     }
 
@@ -1074,8 +1075,20 @@ void Position::do_move(Move                      m,
 
     assert(pos_is_ok());
 
+    if (tt) prefetch(tt->first_entry(key()));
+
     dpps.after[WHITE] = pieces(WHITE, PAWN);
     dpps.after[BLACK] = pieces(BLACK, PAWN);
+
+    st->chromaDeltaCount=0;
+    auto recordChromaDelta=[&](Piece piece,Square square,int sign){
+        assert(st->chromaDeltaCount<4);
+        st->chromaPieceDelta[st->chromaDeltaCount++]=std::int16_t(sign*(int(piece)*64+int(square)+1));
+    };
+    recordChromaDelta(dp.pc,dp.from,-1);
+    if(dp.to!=SQ_NONE)recordChromaDelta(dp.pc,dp.to,1);
+    if(dp.remove_sq!=SQ_NONE)recordChromaDelta(dp.remove_pc,dp.remove_sq,-1);
+    if(dp.add_sq!=SQ_NONE)recordChromaDelta(dp.add_pc,dp.add_sq,1);
 
     assert(dp.pc != NO_PIECE);
     assert(!(bool(captured) || m.type_of() == CASTLING) ^ (dp.remove_sq != SQ_NONE));
@@ -1353,6 +1366,7 @@ void Position::do_null_move(StateInfo& newSt) {
 
     newSt.previous = st;
     st             = &newSt;
+    st->chromaDeltaCount=0;
 
     if (st->epSquare != SQ_NONE)
     {

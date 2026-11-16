@@ -21,8 +21,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'python'))
 from pure_features import encode, move_index
 
-BINARY = ROOT / 'bin/chromatique-v4'
-WEIGHTS = ROOT / 'weights/chromatique-v4.native'
+BINARY = ROOT / 'bin/chromatique-v4.1.0'
+WEIGHTS = ROOT / 'weights/chromatique-v4.1.0.native'
 
 
 def environment():
@@ -105,25 +105,25 @@ class UCIRelease(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             target=Path(tmp)/'model.native'
             subprocess.run([sys.executable,str(ROOT/'tools/export_native.py'),
-                            str(ROOT/'weights/chromatique-v4.json.gz'),str(target)],check=True,
+                            str(ROOT/'weights/chromatique-v4.1.0.json.gz'),str(target)],check=True,
                            stdout=subprocess.DEVNULL)
             self.assertEqual(WEIGHTS.read_bytes(),target.read_bytes())
 
     def test_02_native_reference_parity_120_positions(self):
-        p=json.loads(gzip.decompress((ROOT/'weights/chromatique-v4.json.gz').read_bytes()))
+        p=json.loads(gzip.decompress((ROOT/'weights/chromatique-v4.1.0.json.gz').read_bytes()))
         def layer(d):
             return np.asarray(d['weight'],np.float32).reshape(d['output'],d['input']),np.asarray(d['bias'],np.float32)
         w1,b1=layer(p['layers'][0]);w2,b2=layer(p['layers'][1]);wv,bv=layer(p['value_head'])
-        wl,bl=layer(p['linear_head']);wp,bp=layer(p['policy_head'])
+        wl,bl=layer(p['linear_head']);wp,bp=layer(p['policy_head']);we,be=layer(p['policy_encoder'])
         with tempfile.TemporaryDirectory() as cwd, Probe(cwd=cwd) as probe:
-            self.assertIn('id name Chromatique v4',probe.handshake)
+            self.assertIn('id name Chromatique v4.1.0',probe.handshake)
             for board in parity_cases():
                 actual=probe.evaluate(board);x=encode(board)
                 np.testing.assert_array_equal(np.asarray(actual['features'],np.float32),x)
                 first=np.maximum(w1@x+b1,0);hidden=np.maximum(w2@first+b2,0)
                 cp=float(np.clip(600*(wv@hidden+bv+wl@x+bl)[0],-10000,10000))
                 self.assertAlmostEqual(actual['cp'],cp,delta=.02)
-                logits=(wp@first+bp)/p['policy_temperature']
+                policy_first=np.maximum(we@x+be,0);logits=(wp@policy_first+bp)/p['policy_temperature']
                 self.assertEqual({s['move'] for s in actual['policy']},{m.uci() for m in board.legal_moves})
                 for item in actual['policy']:
                     index=move_index(chess.Move.from_uci(item['move']),board.turn)
@@ -132,7 +132,7 @@ class UCIRelease(unittest.TestCase):
     def test_03_uci_search_mate_stalemate_and_history(self):
         with tempfile.TemporaryDirectory() as cwd, chess.engine.SimpleEngine.popen_uci(
                 str(BINARY),cwd=cwd,env=environment()) as e:
-            self.assertEqual(e.id['name'],'Chromatique v4')
+            self.assertEqual(e.id['name'],'Chromatique v4.1.0')
             e.configure({'Threads':1,'Hash':1,'SyzygyProbeLimit':0})
             board=chess.Board()
             for u in ['e2e4','e7e5','g1f3','b8c6']:board.push_uci(u)
@@ -162,10 +162,10 @@ class UCIRelease(unittest.TestCase):
     def test_06_relocated_package_with_spaces(self):
         with tempfile.TemporaryDirectory(prefix='Chromatique release ') as tmp:
             root=Path(tmp);(root/'bin').mkdir();(root/'weights').mkdir()
-            binary=root/'bin/chromatique-v4';shutil.copy2(BINARY,binary)
-            shutil.copy2(WEIGHTS,root/'weights/chromatique-v4.native')
+            binary=root/'bin/chromatique-v4.1.0';shutil.copy2(BINARY,binary)
+            shutil.copy2(WEIGHTS,root/'weights/chromatique-v4.1.0.native')
             with Probe(binary=binary,cwd=Path.home()) as p:
-                self.assertIn('id name Chromatique v4',p.handshake)
+                self.assertIn('id name Chromatique v4.1.0',p.handshake)
 
     def test_07_missing_model_fails_without_fallback(self):
         with tempfile.TemporaryDirectory() as tmp:

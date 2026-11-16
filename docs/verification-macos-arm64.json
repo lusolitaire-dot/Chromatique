@@ -1,11 +1,12 @@
 {
   "status": "passed",
-  "date": "2026-10-19",
+  "date": "2026-11-16",
   "platform": {
     "system": "Darwin",
     "machine": "arm64"
   },
   "compiler": "Apple clang version 21.0.0 (clang-2100.3.33.1)",
+  "python": "3.14.7",
   "tests_passed": 7,
   "feature_value_policy_parity_positions": 120,
   "features_exact": true,
@@ -21,12 +22,12 @@
   "missing_weights_aborts": true,
   "credential_and_local_path_scan": "no hits",
   "binary": {
-    "path": "bin/chromatique-v4",
-    "sha256": "55bddee865d40c5f45849ebab60d942e41fbda733fb01f6aeecc859e17caf024"
+    "path": "bin/chromatique-v4.1.0",
+    "sha256": "a226c83e66a74addb178de6aa6c40048506c741ffdb8dc5a0f9c4d10d40c8dcd"
   },
   "weights": {
-    "chromatique-v4.json.gz": "da4a36a30451488d1cbd3230d8fe9367ad7b9bd2edee2567d0ab1515ffda0d5b",
-    "chromatique-v4.native": "d6d70e384036e1101274268a900e42b133772470f56da3895c28ed2e7845ea56"
+    "chromatique-v4.1.0.json.gz": "d85d15e318da766c66af44df94ef194d92a9c1c3b949b79ee2b68d1c9ec8a5e2",
+    "chromatique-v4.1.0.native": "f056b01ad4c9a457cca6f45b6fa2c86838e9ff84163ba3d9e0c479cccfc3f103"
   },
   "compressed_source_regeneration_byte_identical": true
 }

@@ -35,19 +35,8 @@ namespace Eval {
 // in the Makefile/Fishtest.
 #define EvalFileDefaultName "nn-1a298aa575a0.nnue"
 
-namespace NNUE {
-class Network;
-struct AccumulatorCaches;
-class AccumulatorStack;
-}
-
-std::string trace(Position& pos, const Eval::NNUE::Network& network);
-
-Value evaluate(const NNUE::Network&           network,
-               const Position&                pos,
-               Eval::NNUE::AccumulatorStack&  accumulators,
-               Eval::NNUE::AccumulatorCaches& caches,
-               int                            optimism);
+std::string trace(Position& pos);
+Value evaluate(const Position& pos, int optimism);
 }  // namespace Eval
 
 }  // namespace Stockfish

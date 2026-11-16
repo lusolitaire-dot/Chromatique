@@ -1,4 +1,4 @@
-Chromatique v4
+Chromatique v4.1.0
 Copyright (C) 2026 Chromatique contributors
 SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -7,18 +7,19 @@ Stockfish copyright (C) 2004-2026 The Stockfish developers (see AUTHORS).
 Upstream: https://github.com/official-stockfish/Stockfish
 Pinned commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d (sf_19).
 
-Chromatique modifications, made in October 2026, replace static evaluation with
-the project's own trained network, add a learned move-ordering policy, preserve
+Chromatique modifications, made in October and November 2026, replace static evaluation with
+the project's own trained network, add learned move-ordering policy, preserve
 the raw en-passant/repetition feature contract, and prohibit Stockfish NNUE
-evaluation. Standalone release packaging on 2026-10-19 adds v4 identification
-and executable-relative model discovery. Search and evaluation mathematics are
-unchanged by that packaging. Modified files are listed in release.json and the
-complete diff against the pinned upstream is in docs/stockfish-changes.patch.
+evaluation. v4.1.0 uses independently learned value and policy first-layer encoders,
+while retaining the project's fully neural evaluation and policy contract.
+Standalone release packaging adds version identification and executable-relative model discovery.
+Search and evaluation mathematics are unchanged by that packaging.
+Modified files are listed in release.json and the complete diff against the pinned upstream is in docs/stockfish-changes.patch.
 
 The complete corresponding engine source, build system, model in editable JSON
 and native format, and original copyright/license notices are distributed here.
 The stock Stockfish NNUE network and any external game/puzzle datasets are not
-included. The bundled model is Chromatique's own pure-v4 network.
+included. The bundled model is Chromatique's own network.
 
 The src/incbin helper retains its upstream UNLICENCE.
 This work is provided without warranty; see LICENSE.

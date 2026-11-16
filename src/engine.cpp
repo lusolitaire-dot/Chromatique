@@ -1,3 +1,4 @@
+#include <ctime>
 #include "chromatique_eval.h"
 /*
   Stockfish, a UCI chess playing engine derived from Glaurung 2.1
@@ -33,7 +34,6 @@
 
 #include "evaluate.h"
 #include "misc.h"
-#include "nnue/network.h"
 #include "nnue/nnue_common.h"
 #include "numa.h"
 #include "perft.h"
@@ -47,7 +47,6 @@
 
 namespace Stockfish {
 
-namespace NN = Eval::NNUE;
 
 int MaxThreads = std::max(1024, 4 * int(get_hardware_concurrency()));
 
@@ -61,9 +60,7 @@ Engine::Engine(std::optional<std::filesystem::path> path) :
     binaryDirectory(path ? CommandLine::get_binary_directory(*path) : std::filesystem::path{}),
     numaContext(NumaConfig::from_system(DefaultNumaPolicy)),
     states(new std::deque<StateInfo>(1)),
-    threads(),
-    networkFile{std::nullopt, ""},
-    network(numaContext, get_default_network()) {
+    threads() {
 
     Chromatique::load(path_from_utf8(Chromatique::default_path()));
     pos.set(StartFEN, false, &states->back());
@@ -141,7 +138,6 @@ Engine::Engine(std::optional<std::filesystem::path> path) :
       }));
 
     threads.clear();
-    threads.ensure_network_replicated();
     resize_threads();
 }
 
@@ -242,18 +238,16 @@ bool Engine::set_numa_config_from_option(const std::string& o) {
 
     // Force reallocation of threads in case affinities need to change.
     resize_threads();
-    threads.ensure_network_replicated();
     return true;
 }
 
 void Engine::resize_threads() {
     threads.wait_for_search_finished();
-    threads.set(numaContext.get_numa_config(), {options, threads, tt, sharedHists, network},
+    threads.set(numaContext.get_numa_config(), {options, threads, tt, sharedHists},
                 updateContext);
 
     // Reallocate the hash with the new threadpool size
     set_tt_size(options["Hash"]);
-    threads.ensure_network_replicated();
 }
 
 void Engine::set_tt_size(usize mb) {
@@ -269,13 +263,10 @@ void Engine::verify_network() const {
     Chromatique::ensure_loaded();
 }
 
-std::unique_ptr<Eval::NNUE::Network> Engine::get_default_network() {
-    return std::make_unique<NN::Network>(); // Zero stub; Stockfish evaluation is forbidden.
-}
-
 void Engine::load_network(const std::filesystem::path& file) {
     wait_for_search_finished();
     Chromatique::load(file);
+    if (!std::getenv("CHROMATIQUE_RETAIN_TT_ON_MODEL_CHANGE")) tt.clear(threads);
     threads.clear();
 }
 
@@ -362,3 +353,6 @@ std::string Engine::thread_allocation_information_as_string() const {
     return ss.str();
 }
 }
+
+void Stockfish::Engine::chroma_bench(int n) const { sync_cout << Chromatique::benchmark(pos,n) << sync_endl; }
+void Stockfish::Engine::chroma_stats() const { sync_cout << "chroma_hashfull " << get_hashfull(255) << "\nchroma_cpu " << std::to_string(double(std::clock())/CLOCKS_PER_SEC) << "\n" << Chromatique::incremental_stats() << sync_endl; }

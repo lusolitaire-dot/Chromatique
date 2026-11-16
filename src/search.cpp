@@ -1,3 +1,4 @@
+#include <cstdlib>
 /*
   Stockfish, a UCI chess playing engine derived from Glaurung 2.1
   Copyright (C) 2004-2026 The Stockfish developers (see AUTHORS file)
@@ -39,8 +40,6 @@
 #include "misc.h"
 #include "movegen.h"
 #include "movepick.h"
-#include "nnue/network.h"
-#include "nnue/nnue_accumulator.h"
 #include "position.h"
 #include "syzygy/tbprobe.h"
 #include "thread.h"
@@ -51,6 +50,15 @@
 #include "ucioption.h"
 
 namespace Stockfish {
+
+
+
+// Fixed-node searches retain their original polling and tree exactly. Only
+// wall-clock searches need the more responsive polling, including quiescence.
+static bool responsive_clock(const Search::LimitsType& limits) {
+    static const bool legacy=std::getenv("CHROMATIQUE_LEGACY_CLOCK")!=nullptr;
+    return !legacy && !limits.nodes && (limits.use_time_management() || limits.movetime);
+}
 
 static constexpr std::array<int, 16> lmrDivisor = {3637, 2787, 2761, 2939, 3171, 3347, 3147, 2762,
                                                    2772, 3106, 3107, 3060, 3112, 2991, 3090, 3542};
@@ -177,20 +185,12 @@ Search::Worker::Worker(SharedState&                    sharedState,
     manager(std::move(sm)),
     options(sharedState.options),
     threads(sharedState.threads),
-    tt(sharedState.tt),
-    network(sharedState.network),
-    refreshTable(network[token]) {
+    tt(sharedState.tt) {
     clear();
-}
-
-void Search::Worker::ensure_network_replicated() {
-    // Access once to force lazy initialization, avoiding initialization during search
-    (void) (network[numaAccessToken]);
 }
 
 void Search::Worker::start_searching() {
 
-    accumulatorStack.reset();
 
     // Non-main threads go directly to iterative_deepening()
     if (!is_mainthread())
@@ -642,7 +642,7 @@ void Search::Worker::do_move(
     // prefetch_key() does not model castling, en passant or promotion exactly.
     // The correction-history prefetches also approximate castling and promotion.
     // For these rare moves the prefetches land on unused lines.
-    prefetch(tt.first_entry(pos.prefetch_key(move)));
+    // Position::do_move prefetches the exact history-aware child key.
 
     bool capture = pos.capture_stage(move);
 
@@ -657,7 +657,7 @@ void Search::Worker::do_move(
 
     ++nodes;
 
-    Dirties& dirties = accumulatorStack.push();
+    Dirties dirties; // DirtyPiece is still required by continuation histories.
     pos.do_move(move, st, givesCheck, dirties, &tt, &sharedHistory);
 
     if (ss != nullptr)
@@ -680,7 +680,6 @@ void Search::Worker::do_null_move(Position& pos, StateInfo& st, Stack* const ss)
 
 void Search::Worker::undo_move(Position& pos, const Move move) {
     pos.undo_move(move);
-    accumulatorStack.pop();
 }
 
 void Search::Worker::undo_null_move(Position& pos) { pos.undo_null_move(); }
@@ -712,7 +711,6 @@ void Search::Worker::clear() {
     for (usize i = 1; i < reductions.size(); ++i)
         reductions[i] = int(2872 / 128.0 * std::log(i));
 
-    refreshTable.clear(network[numaAccessToken]);
 }
 
 
@@ -1658,6 +1656,14 @@ Value Search::Worker::qsearch(Position& pos, Stack* ss, Value alpha, Value beta)
     assert(alpha >= -VALUE_INFINITE && alpha < beta && beta <= VALUE_INFINITE);
     assert(PvNode || (alpha == beta - 1));
 
+    if (responsive_clock(limits))
+    {
+        if (is_mainthread())
+            main_manager()->check_time(*this);
+        if (threads.stop.load(std::memory_order_relaxed))
+            return VALUE_ZERO;
+    }
+
     // Check if we have an upcoming move that draws by repetition
     if (alpha < VALUE_DRAW && pos.upcoming_repetition(ss->ply))
     {
@@ -1826,6 +1832,11 @@ Value Search::Worker::qsearch(Position& pos, Stack* ss, Value alpha, Value beta)
         value = -qsearch<nodeType>(pos, ss + 1, -beta, -alpha);
         undo_move(pos, move);
 
+        // An interrupted child is not a score: do not update this node's PV
+        // or transposition entry from its placeholder return value.
+        if (responsive_clock(limits) && threads.stop.load(std::memory_order_relaxed))
+            return VALUE_ZERO;
+
         assert(value > -VALUE_INFINITE && value < VALUE_INFINITE);
 
         // Step 8. Check for a new best move
@@ -1899,8 +1910,7 @@ TimePoint Search::Worker::elapsed() const {
 // Evaluate the current position of the game tree, from the point of view of
 // the side to move.
 Value Search::Worker::evaluate(const Position& pos) {
-    return Eval::evaluate(network[numaAccessToken], pos, accumulatorStack, refreshTable,
-                          optimism[pos.side_to_move()]);
+    return Eval::evaluate(pos, optimism[pos.side_to_move()]);
 }
 
 namespace {
@@ -2106,7 +2116,8 @@ void SearchManager::check_time(Search::Worker& worker) {
         return;
 
     // When using nodes, ensure checking rate is not lower than 0.1% of nodes
-    callsCnt = worker.limits.nodes ? std::min(512, int(worker.limits.nodes / 1024)) : 512;
+    callsCnt = worker.limits.nodes ? std::min(512, int(worker.limits.nodes / 1024))
+                                  : (responsive_clock(worker.limits) ? 32 : 512);
 
     static TimePoint lastInfoTime = now();
 
